@@ -1,0 +1,152 @@
+/* Reset de márgenes y paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  body {
+    background-color: #f7f7f7;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #333;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .logo {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  .logo-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .logo-link:hover {
+    color: #ff9800;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #444;
+    padding: 8px 12px;
+    border-radius: 25px;
+    max-width: 400px;
+    flex-grow: 1;
+    margin: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 25px;
+    width: 100%;
+    background-color: #f3f3f3;
+  }
+  
+  .search-btn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-btn:hover {
+    background-color: #ff5722;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .navbar li {
+    margin: 0 25px;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    color: #ff9800;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .cart {
+    margin-right: 20px;
+  }
+  
+  .cart-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  .cart-link:hover {
+    color: #ff9800;
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+  }
+  
+  .user-link {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .user-link:hover {
+    color: #ff9800;
+  }
+  
+  

@@ -1,0 +1,21 @@
+<!-- src/app/components/pedidos/pedidos.component.html -->
+<table *ngIf="pedidos.length > 0; else sinPedidos">
+  <thead>
+    <tr>
+      <th>ID Pedido</th>
+      <th>Total</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pedido of pedidos">
+      <td>{{ pedido.user_id }}</td>
+      <td>{{ pedido.total | currency:'EUR' }}</td>
+      <td>{{ pedido.estado }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #sinPedidos>
+  <p>No hay pedidos disponibles.</p>
+</ng-template>

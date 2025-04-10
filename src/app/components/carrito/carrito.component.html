@@ -1,0 +1,36 @@
+<div class="carrito-container" *ngIf="carrito.length > 0; else vacio">
+    <h2>Tu Carrito</h2>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of carrito">
+          <td>{{ item.nombre }}</td>
+          <td>
+            <input type="number" [(ngModel)]="item.cantidad" min="1" (change)="actualizarTotal()" />
+          </td>
+          <td>{{ item.precio | currency:'EUR' }}</td>
+          <td>{{ item.precio * item.cantidad | currency:'EUR' }}</td>
+          <td><button (click)="eliminar(item)">❌</button></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="carrito-total">
+      <p><strong>Total:</strong> {{ total | currency:'EUR' }}</p>
+      <button (click)="finalizarPedido()">Finalizar Pedido</button>
+    </div>
+  </div>
+  
+  <ng-template #vacio>
+    <p>Tu carrito está vacío 🛒</p>
+  </ng-template>
+  
