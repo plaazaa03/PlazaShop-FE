@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/productos.service';
 import { Producto } from '../../model/producto.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'],
-  standalone: true
+  standalone: true,
+  imports: [CommonModule]
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];

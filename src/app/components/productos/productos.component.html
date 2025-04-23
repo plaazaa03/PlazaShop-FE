@@ -1,9 +1,15 @@
 <div class="productos">
   <h2>Lista de productos</h2>
-  <!--<ul>
-    <li *ngFor="let p of productos">
-      <strong>{{ p.nombre }}</strong> - {{ p.precio }}
-      <p>{{ p.descripcion }}</p>
-    </li>
-  </ul>-->
+  <div class="producto-grid">
+    <div class="producto-card" *ngFor="let p of productos">
+      <img [src]="p.imagen" alt="{{ p.nombre }}" class="producto-img" />
+      <div class="producto-info">
+        <h3>{{ p.nombre }}</h3>
+        <p class="descripcion">{{ p.descripcion }}</p>
+        <p class="precio">{{ p.precio | currency:'EUR' }}</p>
+        <p class="stock">Stock: {{ p.stock }}</p>
+        <p class="envio">🚚 Envío gratis</p>
+      </div>
+    </div>
+  </div>
 </div>
