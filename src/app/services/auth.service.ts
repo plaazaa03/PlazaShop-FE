@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../src/enviroments'; // Asegúrate de que la ruta sea correcta
 
 @Injectable({
@@ -12,32 +12,38 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // Método para iniciar sesión
   login(email: string, password: string): Observable<any> {
-    return this.http.post(this.apiUrl, { email, password });
+    return this.http.post(this.apiUrl, { email, password }).pipe(
+      catchError((error) => {
+        console.error('Login failed', error);
+        return throwError(() => new Error('Login failed, please check your credentials.'));
+      })
+    );
   }
 
-  // Método para registrar un nuevo usuario
   register(name: string, email: string, password: string, password_confirmation: string): Observable<any> {
-    return this.http.post(this.registerUrl, { name, email, password, password_confirmation });
+    return this.http
+      .post(this.registerUrl, { name, email, password, password_confirmation })
+      .pipe(
+        catchError((error) => {
+          console.error('Registration failed', error);
+          return throwError(() => new Error('Registration failed, please try again.'));
+        })
+      );
   }
 
-  // Método para guardar el token en el localStorage
   saveToken(token: string): void {
     localStorage.setItem('auth_token', token);
   }
 
-  // Método para obtener el token desde el localStorage
   getToken(): string | null {
     return localStorage.getItem('auth_token');
   }
 
-  // Método para eliminar el token (cuando el usuario cierre sesión)
   logout(): void {
     localStorage.removeItem('auth_token');
   }
 
-  // Método para comprobar si el usuario está autenticado
   isAuthenticated(): boolean {
     return this.getToken() !== null;
   }
