@@ -8,7 +8,7 @@ import { environment } from '../../../src/enviroments'; // Asegúrate de que la 
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/login`;
-  private registerUrl = `${environment.apiUrl}/register`;
+  private registerUrl = `${environment.apiUrl}/registro`;
 
   constructor(private http: HttpClient) {}
 
@@ -21,16 +21,18 @@ export class AuthService {
     );
   }
 
-  register(name: string, email: string, password: string, password_confirmation: string): Observable<any> {
-    return this.http
-      .post(this.registerUrl, { name, email, password, password_confirmation })
-      .pipe(
-        catchError((error) => {
-          console.error('Registration failed', error);
-          return throwError(() => new Error('Registration failed, please try again.'));
-        })
-      );
+  registro(data: {
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+    telefono: string,
+    direccion: string,
+    rol: string
+  }): Observable<any> {
+    return this.http.post(this.registerUrl, data);
   }
+  
 
   saveToken(token: string): void {
     localStorage.setItem('auth_token', token);

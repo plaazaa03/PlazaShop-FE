@@ -16,18 +16,32 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
   password_confirmation: string = '';
+  telefono = '';
+  direccion = '';
+  rol = 'cliente';
+
+  errorMessage = "";
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  onRegister() {
-    this.authService.register(this.name, this.email, this.password, this.password_confirmation).subscribe(
-      (response) => {
-        // Si el registro es exitoso, redirige al login
+  onRegister(): void {
+    this.authService.registro({
+      name: this.name,
+      email: this.email,
+      password: this.password,
+      password_confirmation: this.password_confirmation,
+      telefono: this.telefono,
+      direccion: this.direccion,
+      rol: this.rol
+    }).subscribe({
+      next: (response) => {
+        console.log('Registro exitoso', response);
         this.router.navigate(['/login']);
       },
-      (error) => {
-        console.error('Error de registro', error);
+      error: (error) => {
+        this.errorMessage = 'No se pudo registrar. Revisa los datos.';
+        console.error('Error en el registro', error);
       }
-    );
+    });
   }
 }
