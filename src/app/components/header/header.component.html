@@ -1,7 +1,5 @@
-<!-- Header Mejorado -->
 <header class="header">
   <div class="container">
-    
     <!-- Logo -->
     <div class="logo">
       <a href="/" class="logo-link">🖥️ PlazaShop</a>
@@ -25,15 +23,28 @@
 
     <!-- Íconos de acciones del usuario -->
     <div class="header-right">
-      <!-- Botón de Registro/Login -->
-      <a href="/login" class="user-link" title="Iniciar sesión o registrarse">👤</a>
+      <!-- Si el usuario está logueado, mostrar su perfil y botón de cerrar sesión -->
+      <div *ngIf="isLoggedIn(); else loginLink" class="user-actions">
+        <a href="/perfil" class="user-link" title="Mi perfil">
+          <i class="fas fa-user-circle"></i> Mi perfil
+        </a>
+        <a href="#" class="logout-link" (click)="logout()" title="Cerrar sesión">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </a>
+      </div>
+
+      <!-- Si el usuario no está logueado, mostrar enlace de login -->
+      <ng-template #loginLink>
+        <a href="/login" class="user-link" title="Iniciar sesión o registrarse">
+          <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+        </a>
+      </ng-template>
 
       <!-- Carrito de compras -->
-      <a href="/cart" class="cart-link" title="Carrito de compras">
-        🛒
+      <a href="/carrito" class="carrito-link" title="Carrito de compras">
+        <i class="fas fa-shopping-cart"></i>
         <span class="cart-count">3</span>
       </a>
     </div>
-
   </div>
 </header>

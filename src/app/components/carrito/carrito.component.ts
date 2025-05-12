@@ -1,33 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CarritoService } from '../../services/carrito.service';
+import { Producto } from '../../model/producto.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.component.html',
-  styleUrls: ['./carrito.component.css']
+  styleUrls: ['./carrito.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
-export class CarritoComponent {
-  carrito: any[] = [
-    // ejemplo, luego esto lo pasas desde productos o un carritoService
-    // { nombre: 'PC Gamer', precio: 999, cantidad: 1 }
-  ];
-
+export class CarritoComponent implements OnInit {
+  carrito: { producto_id: number; cantidad: number; producto: Producto }[] = [];
   total: number = 0;
 
-  constructor() {
-    this.actualizarTotal();
+  constructor(private carritoService: CarritoService) {}
+
+  ngOnInit(): void {
+    this.carritoService.obtenerCarrito().subscribe({
+      next: (data) => {
+        this.carrito = data;
+        this.actualizarTotal();
+      },
+      error: (err) => {
+        console.error('Error al obtener carrito:', err);
+      }
+    });
+  }
+
+  eliminar(itemId: number) {
+    this.carritoService.eliminarDelCarrito(itemId).subscribe(() => {
+      this.carrito = this.carrito.filter(item => item.producto_id !== itemId);
+      this.actualizarTotal();
+    });
   }
 
   actualizarTotal() {
-    this.total = this.carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  }
-
-  eliminar(item: any) {
-    this.carrito = this.carrito.filter(p => p !== item);
-    this.actualizarTotal();
+    this.total = this.carrito.reduce((acc, item) => {
+      return acc + item.producto.precio * item.cantidad;
+    }, 0);
   }
 
   finalizarPedido() {
-    console.log("Finalizando pedido...", this.carrito);
-    // Aquí puedes hacer un POST a Laravel con los datos del pedido
+    console.log('Pedido Finalizado:', this.carrito);
+    // Aquí puedes hacer POST a otra ruta para procesar el pedido
   }
 }

@@ -20,17 +20,21 @@ export class LoginComponent {
   
   constructor(private authService: AuthService, private router: Router) {}
 
-  login() {
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        console.log('Login successful', response);
-        localStorage.setItem('token', response.token); // Guardar token
-        this.router.navigate(['/']); // Redirigir a la página de inicio
-      },
-      error: (error) => {
-        this.errorMessage = 'Invalid credentials!';
-        console.error('Login failed', error);
-      },
-    });
-  }
+login() {
+  this.authService.login(this.email, this.password).subscribe({
+    next: (response) => {
+      console.log('Respuesta del backend:', response);  // Verifica lo que devuelve el backend
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('user_rol', response.rol);
+      alert('¡Inicio de sesión exitoso!');
+      this.router.navigate(['/']);
+    },
+    error: (error) => {
+      console.error('Login fallido', error);
+      this.errorMessage = 'Credenciales incorrectas. Intenta de nuevo.';
+    }
+  });
+}
+
+
 }

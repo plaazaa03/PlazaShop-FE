@@ -8,6 +8,11 @@
         <p class="precio">{{ p.precio | currency:'EUR' }}</p>
         <p class="stock">Stock: {{ p.stock }}</p>
         <p class="envio">🚚 Envío gratis</p>
+
+        <div class="carrito-control">
+          <input type="number" min="1" [max]="p.stock" [(ngModel)]="p.cantidadSeleccionada" placeholder="Cantidad" />
+          <button (click)="agregarAlCarrito(p)">Añadir al carrito</button>
+        </div>
       </div>
     </div>
   </div>
