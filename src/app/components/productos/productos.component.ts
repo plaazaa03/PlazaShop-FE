@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms'; // Importa FormsModule
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
+  isAuthenticated = !!localStorage.getItem('token');
+
 
   constructor(
     private productoService: ProductoService,

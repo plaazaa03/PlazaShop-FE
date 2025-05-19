@@ -1,44 +1,40 @@
-<div class="carrito-container" *ngIf="carrito.length > 0; else vacio">
-  <table>
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio</th>
-        <th>Total</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of carrito">
-        <!-- Mostrar nombre del producto -->
-        <td>{{ item.producto.nombre }}</td>
+<!-- Mostrar el carrito solo si el usuario está autenticado -->
+<div *ngIf="isAuthenticated; else noSesion">
+  <div class="carrito-container" *ngIf="carrito.length > 0; else vacio">
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of carrito">
+          <td>{{ item.producto.nombre }}</td>
+          <td>
+            <input type="number" [(ngModel)]="item.cantidad" min="1" (change)="actualizarTotal()" />
+          </td>
+          <td>{{ item.producto.precio | currency:'EUR' }}</td>
+          <td>{{ item.producto.precio * item.cantidad | currency:'EUR' }}</td>
+          <td><button (click)="eliminar(item.producto_id)">❌</button></td>
+        </tr>
+      </tbody>
+    </table>
 
-        <!-- Campo para actualizar la cantidad -->
-        <td>
-          <input type="number" [(ngModel)]="item.cantidad" min="1" (change)="actualizarTotal()" />
-        </td>
+    <p><strong>Total:</strong> {{ total | currency:'EUR' }}</p>
+    <button (click)="finalizarPedido()">Finalizar Pedido</button>
+  </div>
 
-        <!-- Mostrar precio del producto -->
-        <td>{{ item.producto.precio | currency:'EUR' }}</td>
-
-        <!-- Mostrar total por producto -->
-        <td>{{ item.producto.precio * item.cantidad | currency:'EUR' }}</td>
-
-        <!-- Botón para eliminar producto -->
-        <td><button (click)="eliminar(item.producto_id)">❌</button></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Mostrar el total del carrito -->
-  <p><strong>Total:</strong> {{ total | currency:'EUR' }}</p>
-
-  <!-- Botón para finalizar el pedido -->
-  <button (click)="finalizarPedido()">Finalizar Pedido</button>
+  <!-- Carrito vacío -->
+  <ng-template #vacio>
+    <p>El carrito está vacío</p>
+  </ng-template>
 </div>
 
-<!-- Mensaje cuando el carrito está vacío -->
-<ng-template #vacio>
-  <p>El carrito está vacío</p>
+<!-- Si el usuario NO está autenticado -->
+<ng-template #noSesion>
+  <p style="text-align: center; margin-top: 2rem;">Debes iniciar sesión para ver tu carrito.</p>
 </ng-template>

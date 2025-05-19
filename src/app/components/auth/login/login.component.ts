@@ -23,11 +23,18 @@ export class LoginComponent {
 login() {
   this.authService.login(this.email, this.password).subscribe({
     next: (response) => {
-      console.log('Respuesta del backend:', response);  // Verifica lo que devuelve el backend
+      console.log('Respuesta del backend:', response);
+
       localStorage.setItem('auth_token', response.token);
       localStorage.setItem('user_rol', response.rol);
       alert('¡Inicio de sesión exitoso!');
-      this.router.navigate(['/']);
+
+      // Redirigir según rol
+      if (response.rol === 'admin') {
+        this.router.navigate(['/admin-productos']);
+      } else {
+        this.router.navigate(['/productos']);
+      }
     },
     error: (error) => {
       console.error('Login fallido', error);
@@ -35,6 +42,7 @@ login() {
     }
   });
 }
+
 
 
 }

@@ -1,0 +1,247 @@
+/* Estilos generales del contenedor de administración */
+.admin-productos-container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif; /* O la fuente que estés usando */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-productos-container h2,
+.admin-productos-container h3 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.admin-productos-container h3 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.divider {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
+
+/* Estilo base para tarjetas y formularios */
+.card-style {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+}
+
+/* Formulario de Agregar Producto */
+.form-agregar-producto h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #d32f2f; /* Un color distintivo para el título del formulario */
+  text-align: left;
+  border-bottom: none;
+}
+
+.form-grid, .form-grid-edit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive */
+  gap: 15px;
+  align-items: center; /* Centra verticalmente los elementos si tienen alturas diferentes */
+}
+
+.form-grid input,
+.form-grid-edit input,
+.form-grid-edit textarea {
+  width: 100%; /* Hace que los inputs ocupen todo el ancho de su celda de grid */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Incluye padding y border en el width/height total */
+}
+.form-grid-edit textarea {
+  resize: vertical; /* Permite redimensionar solo verticalmente */
+}
+
+.form-grid input[type="number"] {
+  /* Estilos específicos si son necesarios */
+}
+
+/* Botones generales */
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px; /* Más redondeado como en tu ejemplo de cliente */
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+.btn:active {
+  transform: scale(1);
+}
+
+.btn-primary {
+  background-color: #d32f2f; /* Rojo de tu tienda */
+  color: white;
+  grid-column: 1 / -1; /* Hace que el botón ocupe todo el ancho en el grid */
+  margin-top: 10px; /* Espacio arriba del botón */
+}
+.btn-primary:hover {
+  background-color: #b71c1c;
+}
+
+
+/* Grid para las tarjetas de productos de admin */
+.productos-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Tarjetas un poco más anchas para admin */
+  gap: 25px;
+}
+
+/* Estilo de la tarjeta de producto en admin */
+.producto-card-admin {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  overflow: hidden; /* Para que la imagen no se salga si tiene bordes */
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto-card-admin:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.producto-img-admin {
+  width: 100%;
+  height: 200px; /* Altura fija para consistencia */
+  object-fit: cover; /* Cubre el espacio sin distorsionar, puede recortar */
+  /* object-fit: contain; */ /* Muestra toda la imagen, puede dejar espacios vacíos */
+  border-bottom: 1px solid #eee;
+}
+
+.producto-info-admin {
+  padding: 15px;
+  flex-grow: 1; /* Para que esta sección ocupe el espacio disponible */
+}
+
+.producto-info-admin h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.producto-info-admin .descripcion {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 10px;
+  min-height: 40px; /* Para alinear tarjetas si las descripciones varían mucho */
+}
+
+.producto-info-admin .precio {
+  font-size: 1.1rem;
+  color: #d32f2f;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.producto-info-admin .stock {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Estilos para el modo edición dentro de la tarjeta */
+.producto-edit-mode {
+  /* Los inputs y textareas dentro de form-grid-edit ya están estilizados */
+  /* Puedes añadir padding específico si es necesario */
+  padding: 10px; /* Un poco de espacio interno cuando está en modo edición */
+}
+.producto-edit-mode .form-grid-edit {
+  padding: 5px 10px; /* Ajusta el padding del grid de inputs */
+}
+
+
+/* Acciones en la tarjeta de admin */
+.producto-acciones-admin {
+  display: flex;
+  justify-content: space-around; /* Espacia los botones */
+  padding: 15px;
+  border-top: 1px solid #eee; /* Separador visual */
+  background-color: #f9f9f9; /* Un fondo ligero para la sección de acciones */
+}
+
+.producto-acciones-admin .btn {
+  flex-grow: 1; /* Hace que los botones intenten ocupar el espacio */
+  margin: 0 5px; /* Pequeño margen entre botones */
+}
+
+.btn-editar {
+  background-color: #1976d2; /* Azul para editar */
+  color: white;
+}
+.btn-editar:hover {
+  background-color: #1565c0;
+}
+
+.btn-eliminar {
+  background-color: #c62828; /* Rojo más oscuro para eliminar */
+  color: white;
+}
+.btn-eliminar:hover {
+  background-color: #ad1414;
+}
+
+.btn-guardar {
+  background-color: #2e7d32; /* Verde para guardar */
+  color: white;
+}
+.btn-guardar:hover {
+  background-color: #1b5e20;
+}
+
+.btn-cancelar {
+  background-color: #757575; /* Gris para cancelar */
+  color: white;
+}
+.btn-cancelar:hover {
+  background-color: #616161;
+}
+
+/* Mensaje cuando no hay productos */
+.no-productos {
+  text-align: center;
+  padding: 40px;
+  color: #777;
+  font-size: 1.2rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+/* Placeholder para imagen no encontrada (opcional, por si quieres usar tu propio placeholder) */
+img[alt]:after {
+  content: attr(alt);
+  font-size: 16px;
+  color: rgb(100, 100, 100);
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}

@@ -1,0 +1,64 @@
+<div class="admin-productos-container">
+    <h2>Gestión de Productos</h2>
+
+    <!-- Formulario agregar producto -->
+    <div class="form-agregar-producto card-style">
+        <h3>Agregar Nuevo Producto</h3>
+        <div class="form-grid">
+            <input [(ngModel)]="nuevoProducto.nombre" placeholder="Nombre del Producto" />
+            <input [(ngModel)]="nuevoProducto.descripcion" placeholder="Descripción" />
+            <input [(ngModel)]="nuevoProducto.precio" type="number" placeholder="Precio (€)" />
+            <input [(ngModel)]="nuevoProducto.stock" type="number" placeholder="Stock Disponible" />
+            <input [(ngModel)]="nuevoProducto.imagen" placeholder="Nombre archivo imagen (ej: mi_imagen.jpg)" />
+            <button (click)="agregarProducto()" class="btn btn-primary">Agregar Producto</button>
+        </div>
+    </div>
+
+    <hr class="divider" />
+
+    <h3>Listado de Productos</h3>
+    <div class="productos-admin-grid">
+        <div class="producto-card-admin" *ngFor="let producto of productos">
+            <!-- VISTA NORMAL DEL PRODUCTO -->
+            <ng-container *ngIf="editandoProducto?.id !== producto.id; else editarProductoTemplate">
+                <img [src]="producto.imagen | imageUrl" alt="{{ producto.nombre }}" class="producto-img-admin" />
+                <div class="producto-info-admin">
+                    <h4>{{ producto.nombre }}</h4>
+                    <p class="descripcion">{{ producto.descripcion }}</p>
+                    <p class="precio">{{ producto.precio | currency:'EUR' }}</p>
+                    <p class="stock">Stock: {{ producto.stock }}</p>
+                </div>
+                <div class="producto-acciones-admin">
+                    <button (click)="iniciarEdicion(producto)" class="btn btn-editar">✏️ Editar</button>
+                    <button (click)="eliminarProducto(producto.id)" class="btn btn-eliminar">🗑 Eliminar</button>
+                </div>
+            </ng-container>
+            <!-- PLANTILLA PARA EDITAR PRODUCTO -->
+            <ng-template #editarProductoTemplate>
+                <div *ngIf="editandoProducto" class="producto-edit-mode">
+                    <img [src]="editandoProducto.imagen | imageUrl" alt="{{ editandoProducto.nombre }}"
+                        class="producto-img-admin" />
+                    <div class="producto-info-admin form-grid-edit">
+                        <input [(ngModel)]="editandoProducto.nombre" placeholder="Nombre" />
+                        <textarea [(ngModel)]="editandoProducto.descripcion" placeholder="Descripción"
+                            rows="3"></textarea>
+                        <input [(ngModel)]="editandoProducto.precio" type="number" placeholder="Precio" />
+                        <input [(ngModel)]="editandoProducto.stock" type="number" placeholder="Stock" />
+
+                        <p *ngIf="editandoProducto.imagen" style="grid-column: 1 / -1; font-size: 0.9em; color: #555;">
+                            Imagen actual: {{ editandoProducto.imagen }} (No editable)
+                        </p>
+                    </div>
+                    <div class="producto-acciones-admin">
+                        <button (click)="guardarEdicion()" class="btn btn-guardar">💾 Guardar</button>
+                        <button (click)="cancelarEdicion()" class="btn btn-cancelar">❌ Cancelar</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+
+    <div *ngIf="!productos || productos.length === 0" class="no-productos">
+        <p>No hay productos para mostrar. ¡Agrega algunos!</p>
+    </div>
+</div>

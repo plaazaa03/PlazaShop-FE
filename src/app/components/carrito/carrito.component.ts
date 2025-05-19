@@ -14,19 +14,26 @@ import { FormsModule } from '@angular/forms';
 export class CarritoComponent implements OnInit {
   carrito: { producto_id: number; cantidad: number; producto: Producto }[] = [];
   total: number = 0;
+  isAuthenticated: boolean = false;
 
   constructor(private carritoService: CarritoService) {}
 
   ngOnInit(): void {
-    this.carritoService.obtenerCarrito().subscribe({
-      next: (data) => {
-        this.carrito = data;
-        this.actualizarTotal();
-      },
-      error: (err) => {
-        console.error('Error al obtener carrito:', err);
-      }
-    });
+    const token = localStorage.getItem('token');
+    this.isAuthenticated = !!token;
+
+    if (this.isAuthenticated) {
+      this.carritoService.obtenerCarrito().subscribe({
+        next: (data) => {
+          this.carrito = data;
+          this.actualizarTotal();
+        },
+        error: (err) => {
+          console.error('Error al obtener carrito:', err);
+          this.carrito = [];
+        }
+      });
+    }
   }
 
   eliminar(itemId: number) {

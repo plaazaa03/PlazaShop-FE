@@ -1,50 +1,98 @@
 <header class="header">
-  <div class="container">
-    <!-- Logo -->
-    <div class="logo">
-      <a href="/" class="logo-link">🖥️ PlazaShop</a>
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-links">
+        <a href="/ofertas">🎯 Ofertas Flash</a>
+        <a href="/envio">🚚 Envío en 24h</a>
+        <a href="/servicio-tecnico">🔧 Servicio Técnico</a>
+      </div>
+      <div class="user-links">
+        <a href="/ayuda">❓ Ayuda</a>
+        <a href="/tiendas">🏪 Nuestras Tiendas</a>
+      </div>
     </div>
-
-    <!-- Barra de búsqueda -->
-    <div class="search-bar">
-      <input type="text" placeholder="Buscar productos tecnológicos..." class="search-input">
-      <button class="search-btn">🔍</button>
-    </div>
-
-    <!-- Navegación principal -->
-    <nav class="navbar">
-      <ul>
-        <li><a href="/categorias">Categorías</a></li>
-        <li><a href="/ofertas">Ofertas</a></li>
-        <li><a href="/novedades">Novedades</a></li>
-        <li><a href="/ayuda">Ayuda</a></li>
-      </ul>
-    </nav>
-
-    <!-- Íconos de acciones del usuario -->
-    <div class="header-right">
-      <!-- Si el usuario está logueado, mostrar su perfil y botón de cerrar sesión -->
-      <div *ngIf="isLoggedIn(); else loginLink" class="user-actions">
-        <a href="/perfil" class="user-link" title="Mi perfil">
-          <i class="fas fa-user-circle"></i> Mi perfil
-        </a>
-        <a href="#" class="logout-link" (click)="logout()" title="Cerrar sesión">
-          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+  </div>
+  
+  <div class="main-header">
+    <div class="container">
+      <!-- Logo -->
+      <div class="logo">
+        <a href="/" class="logo-link">
+          <img src="img/image.png" alt="Logo" class="logo-icon">
         </a>
       </div>
 
-      <!-- Si el usuario no está logueado, mostrar enlace de login -->
-      <ng-template #loginLink>
-        <a href="/login" class="user-link" title="Iniciar sesión o registrarse">
-          <i class="fas fa-sign-in-alt"></i> Iniciar sesión
-        </a>
-      </ng-template>
+      <!-- Barra de búsqueda -->
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar productos, marcas..." class="search-input">
+        <button class="search-btn">🔍</button>
+      </div>
 
-      <!-- Carrito de compras -->
-      <a href="/carrito" class="carrito-link" title="Carrito de compras">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count">3</span>
-      </a>
+      <!-- Acciones del usuario -->
+      <div class="header-actions">
+        <!-- Cuenta -->
+        <div *ngIf="isLoggedIn(); else loginLink" class="account-dropdown">
+          <button class="account-btn">
+            <img src="img/usuario-activo.png" alt="Usuario" class="user-icon">
+            <span>Mi cuenta</span>
+            <span class="dropdown-icon">▼</span>
+          </button>
+          <div class="dropdown-menu">
+
+            <a href="/perfil">
+              <img src="img/usuario-activo.png" alt="Usuario" class="user-icon">
+              Mi perfil
+            </a>
+
+            <a href="/pedidos">
+              <img src="img/logistica.png" alt="Pedidos" class="user-icon">
+              Mis pedidos
+            </a>
+
+            <a href="/lista-deseos">
+              <img src="img/me-gusta.png" alt="Like" class="user-icon">
+             Lista de deseos
+            </a>
+            
+            <a href="#" (click)="logout()">
+              <img src="img/cerrar-sesion.png" alt="Cerrar sesión" class="user-icon">
+            Cerrar sesión</a>
+          </div>
+        </div>
+
+        <ng-template #loginLink>
+          <a href="/login" class="login-link">
+            <img src="img/iniciar-sesion.png" alt="Usuario" class="login-icon">
+            <span>Iniciar sesión</span>
+          </a>
+        </ng-template>
+
+        <!-- Carrito -->
+        <a href="/carrito" class="cart-btn">
+          <img src="img/carrito-de-compras.png" alt="Carrito" class="cart-icon">
+          <span class="cart-text">Carrito</span>
+        </a>
+      </div>
     </div>
   </div>
+
+  <!-- Navegación principal -->
+  <nav class="main-nav">
+    <div class="container">
+      <ul>
+        <li class="dropdown">
+          <a href="#">☰ Todas las categorías</a>
+          <div class="mega-menu">
+            <!-- Aquí iría el menú desplegable con todas las categorías -->
+          </div>
+        </li>
+        <li><a href="/ordenadores">💻 Ordenadores</a></li>
+        <li><a href="/componentes">⚙️ Componentes</a></li>
+        <li><a href="/perifericos">⌨️ Periféricos</a></li>
+        <li><a href="/smartphones">📱 Smartphones</a></li>
+        <li><a href="/tv">📺 TV & Monitor</a></li>
+        <li><a href="/gaming">🎮 Gaming</a></li>
+      </ul>
+    </div>
+  </nav>
 </header>
