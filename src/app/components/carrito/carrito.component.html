@@ -19,7 +19,7 @@
           </td>
           <td>{{ item.producto.precio | currency:'EUR' }}</td>
           <td>{{ item.producto.precio * item.cantidad | currency:'EUR' }}</td>
-          <td><button (click)="eliminar(item.producto_id)">❌</button></td>
+          <td><button (click)="eliminar(item.id)">❌</button></td>
         </tr>
       </tbody>
     </table>
@@ -42,9 +42,9 @@
 <!-- Si el usuario NO está autenticado -->
 <ng-template #noSesion>
   <div class="carrito-vacio">
-    <img src="assets/icons/empty-cart.svg" alt="Debes iniciar sesión" class="icono-carrito" />
+    <img src="img/iniciar-sesion.png" alt="Debes iniciar sesión" class="icono-carrito" />
     <h2>Debes iniciar sesión</h2>
     <p>Accede a tu cuenta para ver tu carrito de compras.</p>
-    <a routerLink="/login" class="boton-sesion">Iniciar sesión</a>
+    <a href="/login" class="boton-sesion">Iniciar sesión</a>
   </div>
 </ng-template>

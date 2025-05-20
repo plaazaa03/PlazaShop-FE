@@ -14,12 +14,12 @@ export class HeaderComponent {
 
   // Verificar si el usuario está logueado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('auth_token');  // Cambia esto según tu lógica de autenticación
+    return !!localStorage.getItem('token');  // Cambia esto según tu lógica de autenticación
   }
 
   // Función para cerrar sesión
   logout(): void {
-    localStorage.removeItem('auth_token');  // Eliminar el token de sesión
+    localStorage.removeItem('token');  // Eliminar el token de sesión
     localStorage.removeItem('user_rol');  // Eliminar el rol si lo tienes guardado
     this.router.navigate(['/']);  // Redirigir a la página principal
   }

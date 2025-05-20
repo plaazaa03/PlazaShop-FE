@@ -1,21 +1,61 @@
-<!-- src/app/components/pedidos/pedidos.component.html -->
-<table *ngIf="pedidos.length > 0; else sinPedidos">
-  <thead>
-    <tr>
-      <th>ID Pedido</th>
-      <th>Total</th>
-      <th>Estado</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let pedido of pedidos">
-      <td>{{ pedido.user_id }}</td>
-      <td>{{ pedido.total | currency:'EUR' }}</td>
-      <td>{{ pedido.estado }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="pedidos-container">
+  <h1>Pedidos</h1>
+  <table *ngIf="pedidos.length > 0; else sinPedidos">
+    <thead>
+      <tr>
+        <th>ID Pedido</th>
+        <th>Total</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos">
+        <td>{{ pedido.user_id }}</td>
+        <td>{{ pedido.total | currency:'EUR' }}</td>
+        <td>{{ pedido.estado }}</td>
+        <td>
+          <button (click)="verDetalles(pedido)">Ver detalles</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<ng-template #sinPedidos>
-  <p>No hay pedidos disponibles.</p>
-</ng-template>
+  <ng-template #sinPedidos>
+    <p>No hay pedidos disponibles.</p>
+  </ng-template>
+
+  <div class="pedido-detalle" *ngIf="pedidoSeleccionado">
+    <h2>Detalles del pedido</h2>
+    <p>Fecha de creación: {{ pedidoSeleccionado.created_at }}</p>
+    <p>Estado: {{ pedidoSeleccionado.estado }}</p>
+    <p>Total: {{ pedidoSeleccionado.total | currency:'EUR' }}</p>
+    <p>Productos:</p>
+    <ul>
+      <li *ngFor="let producto of pedidoSeleccionado.productos">
+        {{ producto.nombre }} ({{ producto.cantidad }})
+      </li>
+    </ul>
+    <button (click)="realizarPedido()">Realizar pedido</button>
+  </div>
+
+  <div class="metodos-pago">
+    <h2>Métodos de pago</h2>
+    <select [(ngModel)]="metodoPago">
+      <option value="tarjeta">Tarjeta de crédito</option>
+      <option value="paypal">PayPal</option>
+      <option value="transferencia">Transferencia bancaria</option>
+    </select>
+  </div>
+
+  <div class="direccion-envio">
+    <h2>Dirección de envío</h2>
+    <input [(ngModel)]="direccionEnvio" type="text" placeholder="Ingrese la dirección de envío">
+  </div>
+
+  <div class="resumen-pedido">
+    <h2>Resumen del pedido</h2>
+    <p *ngIf="pedidoSeleccionado">Total: {{ pedidoSeleccionado.total | currency:'EUR' }}</p>
+    <p>Método de pago: {{ metodoPago }}</p>
+    <p>Dirección de envío: {{ direccionEnvio }}</p>
+  </div>
+</div>

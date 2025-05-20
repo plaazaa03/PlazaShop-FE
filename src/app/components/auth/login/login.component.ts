@@ -25,7 +25,7 @@ login() {
     next: (response) => {
       console.log('Respuesta del backend:', response);
 
-      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('token', response.token);
       localStorage.setItem('user_rol', response.rol);
       alert('¡Inicio de sesión exitoso!');
 
