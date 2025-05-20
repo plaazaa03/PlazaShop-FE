@@ -30,11 +30,21 @@
 
   <!-- Carrito vacío -->
   <ng-template #vacio>
-    <p>El carrito está vacío</p>
+    <div class="carrito-vacio">
+      <img src="img/carro-vacio.png" alt="Carrito vacío" class="icono-carrito" />
+      <h2>Tu carrito está vacío</h2>
+      <p>¡Explora nuestras categorías y encuentra lo que necesitas!</p>
+      <a href="/productos" class="boton-sesion">Seguir comprando</a>
+    </div>
   </ng-template>
 </div>
 
 <!-- Si el usuario NO está autenticado -->
 <ng-template #noSesion>
-  <p style="text-align: center; margin-top: 2rem;">Debes iniciar sesión para ver tu carrito.</p>
+  <div class="carrito-vacio">
+    <img src="assets/icons/empty-cart.svg" alt="Debes iniciar sesión" class="icono-carrito" />
+    <h2>Debes iniciar sesión</h2>
+    <p>Accede a tu cuenta para ver tu carrito de compras.</p>
+    <a routerLink="/login" class="boton-sesion">Iniciar sesión</a>
+  </div>
 </ng-template>

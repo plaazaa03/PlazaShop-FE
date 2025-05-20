@@ -46,4 +46,16 @@ export class ProductoService {
       headers: this.getAuthHeaders()
     });
   }
+
+  subirProducto(productoFormData: FormData): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  return this.http.post(`${this.apiUrl}`, productoFormData, { headers });
+}
+
+
+
 }

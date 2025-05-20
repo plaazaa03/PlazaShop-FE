@@ -16,11 +16,13 @@ export class CarritoComponent implements OnInit {
   total: number = 0;
   isAuthenticated: boolean = false;
 
-  constructor(private carritoService: CarritoService) {}
+  constructor(private carritoService: CarritoService) { }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     this.isAuthenticated = !!token;
+    console.log('this.isAuthenticated:', this.isAuthenticated);
+    console.log('token:', token);
 
     if (this.isAuthenticated) {
       this.carritoService.obtenerCarrito().subscribe({
@@ -33,8 +35,12 @@ export class CarritoComponent implements OnInit {
           this.carrito = [];
         }
       });
+    } else {
+      this.carrito = [];
+      this.total = 0;
     }
   }
+
 
   eliminar(itemId: number) {
     this.carritoService.eliminarDelCarrito(itemId).subscribe(() => {

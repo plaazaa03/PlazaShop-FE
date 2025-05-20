@@ -23,9 +23,10 @@
 
 .producto-img {
   max-width: 100%;
-  height: auto;
-  margin-bottom: 15px;
+  height: 200px; /* Agrega una altura fija */
+  object-fit: contain;
   border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .producto-info h3 {
@@ -71,10 +72,10 @@
 }
 
 .carrito-control button {
-  padding: 10px 20px;
+  padding: 5px 10px;
   background-color: #d32f2f;
   color: #fff;
-  font-size: 16px;
+  font-size: 13px;
   border: none;
   border-radius: 25px;
   cursor: pointer;

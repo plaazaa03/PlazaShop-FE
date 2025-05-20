@@ -9,7 +9,7 @@
             <input [(ngModel)]="nuevoProducto.descripcion" placeholder="Descripción" />
             <input [(ngModel)]="nuevoProducto.precio" type="number" placeholder="Precio (€)" />
             <input [(ngModel)]="nuevoProducto.stock" type="number" placeholder="Stock Disponible" />
-            <input [(ngModel)]="nuevoProducto.imagen" placeholder="Nombre archivo imagen (ej: mi_imagen.jpg)" />
+            <input type="file" (change)="onFileSelected($event)" />
             <button (click)="agregarProducto()" class="btn btn-primary">Agregar Producto</button>
         </div>
     </div>
@@ -21,7 +21,7 @@
         <div class="producto-card-admin" *ngFor="let producto of productos">
             <!-- VISTA NORMAL DEL PRODUCTO -->
             <ng-container *ngIf="editandoProducto?.id !== producto.id; else editarProductoTemplate">
-                <img [src]="producto.imagen | imageUrl" alt="{{ producto.nombre }}" class="producto-img-admin" />
+                <img [src]="producto.imagen" class="producto-img-admin" />
                 <div class="producto-info-admin">
                     <h4>{{ producto.nombre }}</h4>
                     <p class="descripcion">{{ producto.descripcion }}</p>
@@ -33,6 +33,8 @@
                     <button (click)="eliminarProducto(producto.id)" class="btn btn-eliminar">🗑 Eliminar</button>
                 </div>
             </ng-container>
+
+
             <!-- PLANTILLA PARA EDITAR PRODUCTO -->
             <ng-template #editarProductoTemplate>
                 <div *ngIf="editandoProducto" class="producto-edit-mode">

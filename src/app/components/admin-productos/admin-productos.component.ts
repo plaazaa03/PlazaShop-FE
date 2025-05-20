@@ -17,6 +17,7 @@ export class AdminProductosComponent implements OnInit {
   nuevoProducto: Producto = this.resetProducto();
   editandoProducto: Producto | null = null;
   isAdmin: boolean = false;
+  selectedFile: File | null = null;
 
   constructor(private productoService: ProductoService) { }
 
@@ -37,6 +38,10 @@ export class AdminProductosComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
 
   cargarProductos(): void {
     this.productoService.obtenerProductos().subscribe({
@@ -46,14 +51,28 @@ export class AdminProductosComponent implements OnInit {
   }
 
   agregarProducto(): void {
-    this.productoService.agregarProducto(this.nuevoProducto).subscribe({
+    if (!this.selectedFile) {
+      alert('Selecciona una imagen antes de agregar el producto.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('nombre', this.nuevoProducto.nombre);
+    formData.append('descripcion', this.nuevoProducto.descripcion);
+    formData.append('precio', this.nuevoProducto.precio.toString());
+    formData.append('stock', this.nuevoProducto.stock.toString());
+    formData.append('imagen', this.selectedFile);
+
+    this.productoService.subirProducto(formData).subscribe({
       next: () => {
         this.cargarProductos();
         this.nuevoProducto = this.resetProducto();
+        this.selectedFile = null;
       },
       error: (err) => console.error('Error al agregar producto:', err)
     });
   }
+
 
   iniciarEdicion(producto: Producto): void {
   this.editandoProducto = { ...producto }; // Copia todas las propiedades
