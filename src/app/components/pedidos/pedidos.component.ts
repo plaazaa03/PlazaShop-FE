@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Pedido } from '../../model/pedido.model';
@@ -12,17 +12,26 @@ import { CarritoService } from '../../services/carrito.service';
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class PedidosComponent {
+export class PedidosComponent implements OnInit {
   pedidos: Pedido[] = [];
   pedidoSeleccionado: Pedido | null = null;
-  metodoPago: string = "";
-  direccionEnvio: string = "";
+  metodoPago: string = '';
+  direccionEnvio: string = '';
   carrito: any[] = [];
+  total: number = 0;
+  pedidoReciente: Pedido | null = null;
 
-  constructor(private pedidosService: PedidosService, private carritoService: CarritoService) { }
+  constructor(
+    private pedidosService: PedidosService,
+    private carritoService: CarritoService
+  ) {}
 
   ngOnInit(): void {
-    // Obtener los pedidos al cargar el componente
+    this.cargarPedidos();
+    this.cargarCarrito();
+  }
+
+  cargarPedidos() {
     this.pedidosService.obtenerPedidos().subscribe({
       next: (data) => {
         this.pedidos = data;
@@ -31,11 +40,13 @@ export class PedidosComponent {
         console.error('Error al obtener los pedidos', error);
       }
     });
+  }
 
-    // Obtener el carrito del usuario
+  cargarCarrito() {
     this.carritoService.obtenerCarrito().subscribe({
       next: (data) => {
         this.carrito = data;
+        this.total = this.carrito.reduce((acc, item) => acc + item.cantidad * item.producto.precio, 0);
       },
       error: (error) => {
         console.error('Error al obtener el carrito', error);
@@ -45,30 +56,28 @@ export class PedidosComponent {
 
   verDetalles(pedido: Pedido) {
     this.pedidoSeleccionado = pedido;
+    this.pedidoReciente = null;
   }
 
   realizarPedido() {
-    const pedido = this.pedidoSeleccionado;
-    const metodoPago = this.metodoPago;
-    const direccionEnvio = this.direccionEnvio;
-
-    if (pedido) {
-      // Llamar a la API para realizar el pedido
-      this.pedidosService.realizarPedido(pedido, metodoPago, direccionEnvio).subscribe({
-        next: (data) => {
-          console.log('Pedido realizado con éxito:', data);
-        },
-        error: (error) => {
-          console.error('Error al realizar el pedido:', error);
-        }
-      });
-    } else {
-      console.error('No se ha seleccionado un pedido');
+    if (!this.metodoPago || !this.direccionEnvio) {
+      alert('Debes proporcionar un método de pago y dirección de envío.');
+      return;
     }
-  }
 
-  finalizarPedido() {
-    // Mostrar los datos del carrito en la vista del pedido
-    console.log('Carrito:', this.carrito);
+    this.pedidosService.realizarPedido(this.metodoPago, this.direccionEnvio).subscribe({
+      next: (response) => {
+        alert('Pedido realizado con éxito ✅');
+        this.carrito = [];
+        this.total = 0;
+        this.pedidoReciente = response.pedido; // Mostrar detalles del nuevo pedido
+        this.pedidoSeleccionado = null;
+        this.cargarPedidos();
+      },
+      error: (error) => {
+        console.error('Error al realizar el pedido ❌', error);
+        alert('Error al realizar el pedido');
+      }
+    });
   }
 }

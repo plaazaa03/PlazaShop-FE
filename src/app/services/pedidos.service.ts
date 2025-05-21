@@ -23,14 +23,15 @@ export class PedidosService {
     return this.http.get<Pedido[]>(this.apiUrl, { headers });
   }
 
-  realizarPedido(pedido: Pedido, metodoPago: string, direccionEnvio: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    const body = {
-      pedido: pedido,
-      metodo_pago: metodoPago,
-      direccion_envio: direccionEnvio
-    };
+  realizarPedido(metodoPago: string, direccionEnvio: string): Observable<any> {
+  const headers = this.getAuthHeaders();
+  const body = {
+    metodo_pago: metodoPago,
+    direccion_envio: direccionEnvio
+  };
 
-    return this.http.post(this.apiUrl + '/realizar-pedido', body, { headers });
-  }
+  return this.http.post(this.apiUrl + '/realizar-pedido', body, { headers });
+}
+
+
 }
