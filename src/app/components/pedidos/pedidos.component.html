@@ -1,99 +1,179 @@
-<!-- Contenedor principal -->
-<div class="max-w-6xl mx-auto p-6 space-y-8">
+<div class="pedidos-page-container">
 
-  <!-- Carrito resumen -->
-  <section class="bg-white shadow rounded-2xl p-6 border border-gray-200">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">🛒 Resumen del Carrito</h2>
-    <ul class="divide-y divide-gray-200 mb-4">
-      <li *ngFor="let item of carrito" class="py-2 flex justify-between">
-        <span class="text-gray-700">{{ item.producto.nombre }} x {{ item.cantidad }}</span>
-        <span class="font-medium text-gray-900">{{ item.producto.precio | currency:'EUR' }}</span>
-        <img src="{{ item.producto.imgagen }}" alt="Foto del producto">
-      </li>
-    </ul>
-    <p class="text-right text-xl font-semibold text-blue-700">Total: {{ total | currency:'EUR' }}</p>
-  </section>
+  <header class="pedidos-header">
+    <h1 class="page-title">Finaliza tu Compra</h1>
+    <p class="page-subtitle">Revisa tu pedido y completa los detalles.</p>
+  </header>
 
-  <!-- Formulario de pedido -->
-  <section class="bg-white shadow rounded-2xl p-6 border border-gray-200">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">📦 Información de Envío</h2>
-    <div class="grid gap-4 md:grid-cols-2">
-      <div>
-        <label class="block mb-1 text-gray-600">Método de Pago</label>
-        <select [(ngModel)]="metodoPago" class="w-full border border-gray-300 rounded-lg p-2">
-          <option value="tarjeta">Tarjeta de crédito</option>
-          <option value="paypal">PayPal</option>
-          <option value="transferencia">Transferencia bancaria</option>
-        </select>
-      </div>
-      <div>
-        <label class="block mb-1 text-gray-600">Dirección de Envío</label>
-        <input [(ngModel)]="direccionEnvio" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Calle Falsa 123...">
-      </div>
-    </div>
-    <div *ngIf="metodoPago === 'tarjeta'">
-      <label class="block mb-1 text-gray-600">Número de tarjeta</label>
-      <input type="text" class="w-full border border-gray-300 rounded-lg p-2">
-    </div>
-    <div *ngIf="metodoPago === 'paypal'">
-      <label class="block mb-1 text-gray-600">Correo electrónico de PayPal</label>
-      <input type="email" class="w-full border border-gray-300 rounded-lg p-2">
-    </div>
-    <div *ngIf="metodoPago === 'transferencia'">
-      <label class="block mb-1 text-gray-600">Número de cuenta bancaria</label>
-      <input type="text" class="w-full border border-gray-300 rounded-lg p-2">
-    </div>
-    <button (click)="realizarPedido()" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg">
-      Finalizar Pedido
-    </button>
-  </section>
-
-  <!-- Pedido recién realizado -->
-  <section *ngIf="pedidoReciente" class="bg-green-50 border border-green-300 shadow rounded-2xl p-6">
-    <h2 class="text-xl font-bold text-green-800">✅ Pedido Realizado con Éxito</h2>
-    <p class="mt-2">ID: <strong>{{ pedidoReciente.id }}</strong></p>
-    <p>Total: {{ pedidoReciente.total | currency:'EUR' }}</p>
-    <p>Estado: <span class="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">{{ pedidoReciente.estado }}</span></p>
-    <ul class="mt-4 space-y-2">
-      <li *ngFor="let producto of pedidoReciente.productos" class="flex justify-between">
-        <span>{{ producto.nombre }} (x{{ producto.pivot.cantidad }})</span>
-        <img src="{{ producto.foto }}" alt="Foto del producto">
-        <span>{{ producto.pivot.precio_unitario | currency:'EUR' }}</span>
-      </li>
-    </ul>
-  </section>
-    <!-- Detalles del pedido seleccionado -->
-  <section *ngIf="pedidoSeleccionado" class="bg-white border border-gray-300 shadow rounded-2xl p-6">
-    <h2 class="text-xl font-bold text-gray-800 mb-2">📄 Detalles del Pedido #{{ pedidoSeleccionado.id }}</h2>
-    <p>Total: {{ pedidoSeleccionado.total | currency:'EUR' }}</p>
-    <p>Estado: <span class="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">{{ pedidoSeleccionado.estado }}</span></p>
-    <ul class="mt-4 space-y-2">
-      <li *ngFor="let producto of pedidoSeleccionado.productos" class="flex justify-between text-sm">
-        <span>{{ producto.nombre }} (x{{ producto.pivot.cantidad }})</span>
-        <img src="{{ producto.foto }}" alt="Foto del producto">
-        <span>{{ producto.pivot.precio_unitario | currency:'EUR' }}</span>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Lista de pedidos -->
-  <section class="bg-white border border-gray-300 shadow rounded-2xl p-6">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">📚 Historial de Pedidos</h2>
-    <div class="divide-y divide-gray-200">
-      <div *ngFor="let pedido of pedidos" (click)="verDetalles(pedido)"
-           class="py-3 cursor-pointer hover:bg-gray-50 px-2 rounded transition">
-        <div class="flex justify-between items-center">
-          <div>
-            <p class="font-semibold">Pedido #{{ pedido.id }}</p>
-            <p class="text-sm text-gray-500">{{ pedido.created_at | date:'medium' }}</p>
-          </div>
-          <div class="text-right">
-            <p class="text-blue-600 font-medium">{{ pedido.total | currency:'EUR' }}</p>
-            <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{{ pedido.estado }}</span>
-          </div>
+  <div class="pedidos-layout">
+    <!-- Columna Izquierda -->
+    <div class="pedidos-main-column">
+      <!-- Resumen del Carrito -->
+      <section class="checkout-card">
+        <div class="checkout-card-header">
+          <h2><i class="bi bi-cart3"></i> Resumen del Carrito</h2>
         </div>
-      </div>
-    </div>
-  </section>
+        <ul class="checkout-list">
+          <li *ngIf="carrito.length === 0" class="checkout-list-empty">
+            <i class="bi bi-cart-x"></i>
+            <p>Tu carrito está vacío.</p>
+          </li>
+          <li *ngFor="let item of carrito" class="checkout-list-item">
+            <div class="item-info">
+              <img [src]="'http://127.0.0.1:8000/img/' + item.producto.imagen" alt="Foto de {{ item.producto.nombre }}" class="item-thumbnail" />
+              <div class="item-details">
+                <h6 class="item-name">{{ item.producto.nombre }}</h6>
+                <small class="item-meta">Cantidad: {{ item.cantidad }}</small>
+              </div>
+            </div>
+            <span class="item-price">{{ item.producto.precio * item.cantidad | currency:'EUR' }}</span>
+          </li>
+        </ul>
+        <div *ngIf="carrito.length > 0" class="checkout-card-footer">
+          <p class="total-summary">
+            <strong>Total:</strong>
+            <span class="total-amount">{{ total | currency:'EUR' }}</span>
+          </p>
+        </div>
+      </section>
 
+      <!-- Formulario de Pedido -->
+      <section class="checkout-card">
+        <div class="checkout-card-header">
+          <h2><i class="bi bi-truck"></i> Información de Envío y Pago</h2>
+        </div>
+        <div class="checkout-card-body">
+          <form (ngSubmit)="realizarPedido()" #pedidoForm="ngForm" class="checkout-form">
+            <div class="form-group">
+              <label for="direccionEnvio" class="form-label">Dirección de Envío <span class="required-asterisk">*</span></label>
+              <input type="text" id="direccionEnvio" name="direccionEnvio" [(ngModel)]="direccionEnvio" required placeholder="Ej: Calle Principal 123, Ciudad">
+            </div>
+
+            <div class="form-group">
+              <label for="metodoPago" class="form-label">Método de Pago <span class="required-asterisk">*</span></label>
+              <select id="metodoPago" name="metodoPago" [(ngModel)]="metodoPago" (ngModelChange)="onPaymentMethodChange()" required>
+                <option value="" disabled selected>Selecciona un método...</option>
+                <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                <option value="paypal">PayPal</option>
+                <option value="transferencia">Transferencia Bancaria</option>
+              </select>
+            </div>
+
+            <!-- Campos dinámicos para Tarjeta -->
+            <div *ngIf="metodoPago === 'tarjeta'" class="payment-details-section fadeIn-animation">
+              <h6 class="payment-details-title">Detalles de la Tarjeta</h6>
+              <div class="form-group">
+                <label for="numeroTarjeta" class="form-label-small">Número de Tarjeta</label>
+                <input type="text" id="numeroTarjeta" name="numeroTarjeta" [(ngModel)]="detallesPago.numeroTarjeta" required placeholder="0000 0000 0000 0000">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="fechaCaducidad" class="form-label-small">Fecha Cad. (MM/AA)</label>
+                  <input type="text" id="fechaCaducidad" name="fechaCaducidad" [(ngModel)]="detallesPago.fechaCaducidad" required placeholder="MM/AA">
+                </div>
+                <div class="form-group">
+                  <label for="cvv" class="form-label-small">CVV</label>
+                  <input type="text" id="cvv" name="cvv" [(ngModel)]="detallesPago.cvv" required placeholder="123">
+                </div>
+              </div>
+            </div>
+
+            <!-- Campos dinámicos para PayPal -->
+            <div *ngIf="metodoPago === 'paypal'" class="payment-details-section fadeIn-animation">
+              <h6 class="payment-details-title">Detalles de PayPal</h6>
+              <div class="form-group">
+                <label for="emailPaypal" class="form-label-small">Correo electrónico de PayPal</label>
+                <input type="email" id="emailPaypal" name="emailPaypal" [(ngModel)]="detallesPago.emailPaypal" required placeholder="tuemail@example.com">
+                <small class="form-help-text">Serás redirigido a PayPal para completar el pago.</small>
+              </div>
+            </div>
+
+            <!-- Campos dinámicos para Transferencia -->
+            <div *ngIf="metodoPago === 'transferencia'" class="payment-details-section fadeIn-animation">
+              <h6 class="payment-details-title">Instrucciones para Transferencia</h6>
+              <div class="info-message">
+                <p>Por favor, realiza la transferencia a la siguiente cuenta:</p>
+                <p><strong>Banco:</strong> MiBanco Ejemplo</p>
+                <p><strong>IBAN:</strong> ES00 0000 0000 0000 0000 0000</p>
+                <p><strong>Concepto:</strong> Pedido #{{ generarIdPedidoTemporal() }}</p>
+                <small>Tu pedido se procesará una vez confirmada la recepción del pago.</small>
+              </div>
+            </div>
+            
+            <button type="submit" [disabled]="!pedidoForm.form.valid || !isPaymentDetailsFilled() || carrito.length === 0" class="btn-submit">
+              <i class="bi bi-lock-fill"></i>
+              Finalizar Pedido y Pagar
+            </button>
+          </form>
+        </div>
+      </section>
+    </div> <!-- Fin Columna Izquierda -->
+
+    <!-- Columna Derecha -->
+    <div class="pedidos-sidebar-column">
+      <!-- Pedido Recién Realizado -->
+      <section *ngIf="pedidoReciente" class="alert-message alert-success fadeIn-animation">
+        <i class="bi bi-check-circle-fill"></i>
+        <div class="alert-content">
+          <h4 class="alert-title">¡Pedido Realizado con Éxito!</h4>
+          <p>ID de pedido: <strong>{{ pedidoReciente.id }}</strong></p>
+          <p>Total: <strong>{{ pedidoReciente.total | currency:'EUR' }}</strong></p>
+          <p>Estado: <span class="status-badge" [ngClass]="getBadgeClassForCss(pedidoReciente.estado)">{{ pedidoReciente.estado | titlecase }}</span></p>
+          <hr *ngIf="pedidoReciente.productos && pedidoReciente.productos.length > 0">
+          <ul *ngIf="pedidoReciente.productos && pedidoReciente.productos.length > 0" class="recent-order-products">
+            <li *ngFor="let producto of pedidoReciente.productos" class="recent-order-product-item">
+              <i class="bi bi-dot"></i> {{ producto.nombre }} (x{{ producto.pivot.cantidad }})
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Historial de Pedidos -->
+      <section class="checkout-card">
+        <div class="checkout-card-header">
+          <h2><i class="bi bi-receipt-cutoff"></i> Historial de Pedidos</h2>
+        </div>
+        <div *ngIf="pedidos && pedidos.length > 0; else noPedidosHistorial" class="order-history-list">
+          <a *ngFor="let pedido of pedidos" (click)="verDetalles(pedido); $event.preventDefault()" href="#" class="order-history-item">
+            <div class="order-summary">
+              <h6 class="order-id">Pedido #{{ pedido.id }}</h6>
+              <small class="order-date">{{ pedido.created_at | date:'shortDate' }}</small>
+            </div>
+            <div class="order-summary">
+              <p class="order-date-full">{{ pedido.created_at | date:'mediumDate' }}</p>
+              <p class="order-total">{{ pedido.total | currency:'EUR' }}</p>
+            </div>
+             <div class="order-status-container">
+                <span class="status-badge" [ngClass]="getBadgeClassForCss(pedido.estado)">
+                  {{ pedido.estado | titlecase }}
+                </span>
+            </div>
+
+            <div *ngIf="pedidoSeleccionado && pedidoSeleccionado.id === pedido.id" 
+                 [@collapseAnimation]="!!(pedidoSeleccionado && pedidoSeleccionado.id === pedido.id)" 
+                 class="order-details-expanded">
+              <h6>Detalles del Pedido:</h6>
+              <ul class="expanded-product-list">
+                <li *ngFor="let producto of pedidoSeleccionado.productos" class="expanded-product-item">
+                  <div class="item-info">
+                     <img [src]="'http://127.0.0.1:8000/img/' + producto.imagen" alt="{{ producto.nombre }}" class="item-thumbnail-tiny" />
+                    <span class="item-name-truncated">{{ producto.nombre }} (x{{ producto.pivot.cantidad }})</span>
+                  </div>
+                  <span class="item-price-details">{{ producto.pivot.precio_unitario * producto.pivot.cantidad | currency:'EUR' }}</span>
+                </li>
+              </ul>
+               <p><strong>Dirección:</strong> {{ pedidoSeleccionado.direccion_envio || 'No especificada' }}</p>
+               <p><strong>Pago:</strong> {{ pedidoSeleccionado.metodo_pago ? (pedidoSeleccionado.metodo_pago | titlecase) : 'No especificado' }}</p>
+            </div>
+          </a>
+        </div>
+        <ng-template #noPedidosHistorial>
+          <div class="checkout-list-empty history-empty">
+            <i class="bi bi-archive"></i>
+            <p>Aún no tienes pedidos en tu historial.</p>
+          </div>
+        </ng-template>
+      </section>
+    </div> <!-- Fin Columna Derecha -->
+  </div> <!-- Fin Layout -->
 </div>

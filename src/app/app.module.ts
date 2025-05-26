@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';  // Importar CommonModule aquí
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 // Importamos los componentes standalone
 import { AppComponent } from './app.component';
@@ -14,6 +16,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     CommonModule,  // Asegúrate de importar CommonModule aquí

@@ -30,6 +30,7 @@ export class CarritoComponent implements OnInit {
       this.carritoService.obtenerCarrito().subscribe({
         next: (data) => {
           this.carrito = data;
+          console.log("Datos del carrito recibidos: ", data);
           this.actualizarTotal();
         },
         error: (err) => {
@@ -44,6 +45,7 @@ export class CarritoComponent implements OnInit {
 
     // Suscribirse al observable carritoObservable
     this.carritoUpdaterService.getCarritoObservable().subscribe((carrito) => {
+      console.log('Carrito actualizado:', carrito);
       this.carrito = carrito;
       this.actualizarTotal();
     });

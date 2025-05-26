@@ -1,66 +1,131 @@
 <div class="admin-productos-container">
-    <h2>Gestión de Productos</h2>
+    <header class="admin-header">
+        <h2>Gestión de Productos</h2>
+    </header>
 
     <!-- Formulario agregar producto -->
-    <div class="form-agregar-producto card-style">
-        <h3>Agregar Nuevo Producto</h3>
-        <div class="form-grid">
-            <input [(ngModel)]="nuevoProducto.nombre" placeholder="Nombre del Producto" />
-            <input [(ngModel)]="nuevoProducto.descripcion" placeholder="Descripción" />
-            <input [(ngModel)]="nuevoProducto.precio" type="number" placeholder="Precio (€)" />
-            <input [(ngModel)]="nuevoProducto.stock" type="number" placeholder="Stock Disponible" />
-            <input type="file" (change)="onFileSelected($event)" />
-            <button (click)="agregarProducto()" class="btn btn-primary">Agregar Producto</button>
-        </div>
-    </div>
-
-    <hr class="divider" />
-
-    <h3>Listado de Productos</h3>
-    <div class="productos-admin-grid">
-        <div class="producto-card-admin" *ngFor="let producto of productos">
-            <!-- VISTA NORMAL DEL PRODUCTO -->
-            <ng-container *ngIf="editandoProducto?.id !== producto.id; else editarProductoTemplate">
-                <img [src]="producto.imagen" class="producto-img-admin" />
-                <div class="producto-info-admin">
-                    <h4>{{ producto.nombre }}</h4>
-                    <p class="descripcion">{{ producto.descripcion }}</p>
-                    <p class="precio">{{ producto.precio | currency:'EUR' }}</p>
-                    <p class="stock">Stock: {{ producto.stock }}</p>
+    <section class="form-section add-product-form modern-card">
+        <h3><i class="bi bi-plus-square-dotted"></i> Agregar Nuevo Producto</h3>
+        <form (ngSubmit)="agregarProducto()" #addForm="ngForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nuevoNombre">Nombre del Producto</label>
+                    <input id="nuevoNombre" name="nuevoNombre" [(ngModel)]="nuevoProducto.nombre" placeholder="Ej: Teclado Mecánico RGB" required />
                 </div>
-                <div class="producto-acciones-admin">
-                    <button (click)="iniciarEdicion(producto)" class="btn btn-editar">✏️ Editar</button>
-                    <button (click)="eliminarProducto(producto.id)" class="btn btn-eliminar">🗑 Eliminar</button>
+                <div class="form-group">
+                    <label for="nuevoPrecio">Precio (€)</label>
+                    <input id="nuevoPrecio" name="nuevoPrecio" [(ngModel)]="nuevoProducto.precio" type="number" placeholder="Ej: 79.99" required />
                 </div>
-            </ng-container>
+                <div class="form-group">
+                    <label for="nuevoStock">Stock Disponible</label>
+                    <input id="nuevoStock" name="nuevoStock" [(ngModel)]="nuevoProducto.stock" type="number" placeholder="Ej: 50" required />
+                </div>
+                <div class="form-group form-group-full-width">
+                    <label for="nuevoDescripcion">Descripción</label>
+                    <textarea id="nuevoDescripcion" name="nuevoDescripcion" [(ngModel)]="nuevoProducto.descripcion" placeholder="Detalles del producto..." rows="3" required></textarea>
+                </div>
+                <div class="form-group form-group-full-width file-input-group">
+                    <label for="fileUpload" class="file-upload-label">
+                        <i class="bi bi-image-fill"></i>
+                        <span>{{ selectedFile ? selectedFile.name : 'Seleccionar imagen principal...' }}</span>
+                    </label>
+                    <input type="file" id="fileUpload" (change)="onFileSelected($event)" class="file-input-hidden" accept="image/*" required/>
+                </div>
+                <div class="form-group form-group-full-width form-actions">
+                    <button type="submit" class="btn btn-primary" [disabled]="!addForm.form.valid || !selectedFile">
+                        <i class="bi bi-check-circle-fill"></i> Agregar Producto
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
 
+    <hr class="section-divider" />
 
-            <!-- PLANTILLA PARA EDITAR PRODUCTO -->
-            <ng-template #editarProductoTemplate>
-                <div *ngIf="editandoProducto" class="producto-edit-mode">
-                    <img [src]="editandoProducto.imagen | imageUrl" alt="{{ editandoProducto.nombre }}"
-                        class="producto-img-admin" />
-                    <div class="producto-info-admin form-grid-edit">
-                        <input [(ngModel)]="editandoProducto.nombre" placeholder="Nombre" />
-                        <textarea [(ngModel)]="editandoProducto.descripcion" placeholder="Descripción"
-                            rows="3"></textarea>
-                        <input [(ngModel)]="editandoProducto.precio" type="number" placeholder="Precio" />
-                        <input [(ngModel)]="editandoProducto.stock" type="number" placeholder="Stock" />
-
-                        <p *ngIf="editandoProducto.imagen" style="grid-column: 1 / -1; font-size: 0.9em; color: #555;">
-                            Imagen actual: {{ editandoProducto.imagen }} (No editable)
-                        </p>
+    <section class="product-list-section">
+        <h3><i class="bi bi-list-ul"></i> Listado de Productos</h3>
+        <div class="productos-admin-grid">
+            <div class="product-card-admin modern-card" *ngFor="let producto of productos" 
+                 [class.editing]="editandoProducto?.id === producto.id">
+                <!-- VISTA NORMAL DEL PRODUCTO -->
+                <ng-container *ngIf="editandoProducto?.id !== producto.id; else editarProductoTemplate">
+                    <div class="product-image-wrapper">
+                        <img [src]="producto.imagen | imageUrl" alt="{{ producto.nombre }}" class="product-img-admin" />
                     </div>
-                    <div class="producto-acciones-admin">
-                        <button (click)="guardarEdicion()" class="btn btn-guardar">💾 Guardar</button>
-                        <button (click)="cancelarEdicion()" class="btn btn-cancelar">❌ Cancelar</button>
+                    <div class="product-info-admin">
+                        <h4>{{ producto.nombre }}</h4>
+                        <p class="description">{{ producto.descripcion | slice:0:100 }}{{ producto.descripcion.length > 100 ? '...' : '' }}</p>
+                        <div class="product-meta">
+                            <span class="price">{{ producto.precio | currency:'EUR' }}</span>
+                            <span class="stock"><i class="bi bi-box-seam"></i> Stock: {{ producto.stock }}</span>
+                        </div>
                     </div>
-                </div>
-            </ng-template>
-        </div>
-    </div>
+                    <div class="product-actions-admin">
+                        <button (click)="iniciarEdicion(producto)" class="btn btn-edit">
+                            <i class="bi bi-pencil-fill"></i> Editar
+                        </button>
+                        <button (click)="eliminarProducto(producto.id)" class="btn btn-delete">
+                            <i class="bi bi-trash-fill"></i> Eliminar
+                        </button>
+                    </div>
+                </ng-container>
 
-    <div *ngIf="!productos || productos.length === 0" class="no-productos">
-        <p>No hay productos para mostrar. ¡Agrega algunos!</p>
-    </div>
+                <!-- PLANTILLA PARA EDITAR PRODUCTO -->
+                                <!-- PLANTILLA PARA EDITAR PRODUCTO -->
+                <ng-template #editarProductoTemplate>
+                    <!-- El *ngIf="editandoProducto" aquí ya asegura que editandoProducto no es null,
+                         pero para satisfacer al compilador más estricto o si la lógica fuera más compleja,
+                         podemos ser más explícitos o usar el operador de aserción de no nulo.
+                         En este caso, como *ngIf ya lo cubre, podríamos usar '!' o simplemente
+                         asegurarnos que la configuración del compilador no sea excesivamente paranoica
+                         dentro de un *ngIf. Sin embargo, para ser explícitos y evitar el error: -->
+                    <form (ngSubmit)="guardarEdicion()" #editForm="ngForm" class="product-edit-form">
+                        <div *ngIf="editandoProducto" class="product-edit-mode"> <!-- Este ngIf es la guarda principal -->
+                            <div class="product-image-wrapper">
+                                <!-- Aquí podemos usar '!' porque el *ngIf="editandoProducto" nos da confianza -->
+                                <img [src]="editandoProducto!.imagen | imageUrl" alt="{{ editandoProducto!.nombre }}" class="product-img-admin" />
+                            </div>
+                            <div class="product-info-admin form-grid-edit">
+                                <div class="form-group">
+                                    <label for="editNombre">Nombre</label>
+                                    <input id="editNombre" name="editNombre" [(ngModel)]="editandoProducto!.nombre" placeholder="Nombre" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="editPrecio">Precio (€)</label>
+                                    <input id="editPrecio" name="editPrecio" [(ngModel)]="editandoProducto!.precio" type="number" placeholder="Precio" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="editStock">Stock</label>
+                                    <input id="editStock" name="editStock" [(ngModel)]="editandoProducto!.stock" type="number" placeholder="Stock" required />
+                                </div>
+                                <div class="form-group form-group-full-width">
+                                    <label for="editDescripcion">Descripción</label>
+                                    <textarea id="editDescripcion" name="editDescripcion" [(ngModel)]="editandoProducto!.descripcion" placeholder="Descripción" rows="3" required></textarea>
+                                </div>
+                                <!-- Para el *ngIf de la imagen, ya está comprobando implícitamente que editandoProducto existe.
+                                     Para el acceso a editandoProducto.imagen dentro del ngIf, también podemos usar '!' -->
+                                <p class="current-image-info" *ngIf="editandoProducto!.imagen">
+                                    <i class="bi bi-card-image"></i> Imagen: {{ editandoProducto!.imagen }} (No editable aquí)
+                                </p>
+                            </div>
+                            <div class="product-actions-admin edit-actions">
+                                <button type="submit" class="btn btn-save" [disabled]="!editForm.form.valid">
+                                    <i class="bi bi-check-lg"></i> Guardar
+                                </button>
+                                <button type="button" (click)="cancelarEdicion()" class="btn btn-cancel">
+                                    <i class="bi bi-x-lg"></i> Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </div>
+        </div>
+
+        <div *ngIf="!productos || productos.length === 0" class="no-products-message modern-card">
+            <i class="bi bi-emoji-neutral-fill"></i>
+            <p>No hay productos para mostrar.</p>
+            <p class="subtle-text">¡Anímate a agregar algunos para empezar!</p>
+        </div>
+    </section>
 </div>
