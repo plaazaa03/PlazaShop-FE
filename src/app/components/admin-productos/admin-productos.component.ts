@@ -4,6 +4,7 @@ import { Producto } from '../../model/producto.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+import { NotificationService } from '../../services/notification.service'; // <--- 1. IMPORTAR
 
 @Component({
   selector: 'app-admin-productos',
@@ -19,42 +20,59 @@ export class AdminProductosComponent implements OnInit {
   isAdmin: boolean = false;
   selectedFile: File | null = null;
 
-  constructor(private productoService: ProductoService) { }
+  constructor(
+    private productoService: ProductoService,
+    private notificationService: NotificationService // <--- 2. INYECTAR
+  ) { }
 
   ngOnInit(): void {
     const rol = localStorage.getItem('user_rol');
-    console.log('Rol obtenido de localStorage:', rol); // VERIFICA ESTO
-
-    this.isAdmin = rol === 'admin'; // Asegúrate que 'admin' sea exacto (mayúsculas/minúsculas)
-    console.log('this.isAdmin está establecido en:', this.isAdmin); // VERIFICA ESTO
+    this.isAdmin = rol === 'admin';
 
     if (this.isAdmin) {
-      console.log('Usuario es admin. Intentando cargar productos...'); // VERIFICA SI LLEGA AQUÍ
       this.cargarProductos();
     } else {
-      console.warn('Usuario NO es admin o rol no reconocido. No se cargarán productos.');
-      // Podrías querer mostrar un mensaje en la UI aquí o redirigir.
-      // Por ejemplo: this.productos = []; // Asegura que productos esté vacío si no es admin
+      this.notificationService.showError('Acceso denegado. No tienes permisos de administrador.');
+      // Considera redirigir o mostrar un mensaje más permanente en la UI
     }
   }
 
   onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) { // Límite de 2MB por ejemplo
+        this.notificationService.showWarning('La imagen es demasiado grande. Máximo 2MB.');
+        this.selectedFile = null;
+        event.target.value = null; // Resetear el input de archivo
+        return;
+      }
+      this.selectedFile = file;
+    } else {
+      this.selectedFile = null;
+    }
   }
 
 
   cargarProductos(): void {
     this.productoService.obtenerProductos().subscribe({
       next: (data) => this.productos = data,
-      error: (err) => console.error('Error al cargar productos:', err)
+      error: (err) => {
+        console.error('Error al cargar productos:', err);
+        this.notificationService.showError('Error al cargar la lista de productos.');
+      }
     });
   }
 
   agregarProducto(): void {
     if (!this.selectedFile) {
-      alert('Selecciona una imagen antes de agregar el producto.');
+      this.notificationService.showWarning('Por favor, selecciona una imagen para el producto.');
       return;
     }
+    // Puedes añadir más validaciones aquí para los otros campos si es necesario
+    // if (!this.nuevoProducto.nombre.trim() || this.nuevoProducto.precio <= 0 || this.nuevoProducto.stock < 0) {
+    //   this.notificationService.showWarning('Completa todos los campos obligatorios correctamente.');
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append('nombre', this.nuevoProducto.nombre);
@@ -64,60 +82,79 @@ export class AdminProductosComponent implements OnInit {
     formData.append('imagen', this.selectedFile);
 
     this.productoService.subirProducto(formData).subscribe({
-      next: () => {
+      next: (response) => { // Asumiendo que el backend puede devolver un mensaje
+        this.notificationService.showSuccess(response.message || '¡Producto agregado exitosamente!');
         this.cargarProductos();
         this.nuevoProducto = this.resetProducto();
         this.selectedFile = null;
+        // Resetear el input de archivo en el DOM si es necesario (puede requerir ViewChild)
+        const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
+        if (fileUpload) {
+          fileUpload.value = '';
+        }
       },
-      error: (err) => console.error('Error al agregar producto:', err)
+      error: (err) => {
+        console.error('Error al agregar producto:', err);
+        const errorMsg = err.error?.message || err.message || 'Error desconocido al agregar el producto.';
+        this.notificationService.showError(`Error al agregar producto: ${errorMsg}`);
+      }
     });
   }
 
 
   iniciarEdicion(producto: Producto): void {
-  this.editandoProducto = { ...producto }; // Copia todas las propiedades
-
-  // Ahora, ajusta 'editandoProducto.imagen' para que sea solo el nombre del archivo
-  if (this.editandoProducto.imagen && (this.editandoProducto.imagen.startsWith('http://') || this.editandoProducto.imagen.startsWith('https://'))) {
-    try {
-      const url = new URL(this.editandoProducto.imagen);
-      // Obtiene la última parte de la ruta, que debería ser el nombre del archivo
-      const pathSegments = url.pathname.split('/');
-      this.editandoProducto.imagen = pathSegments.pop() || ''; // Asigna solo el nombre del archivo
-      console.log('Nombre de archivo extraído para edición:', this.editandoProducto.imagen);
-    } catch (e) {
-      console.error('Error al parsear URL de imagen para extraer nombre de archivo:', this.editandoProducto.imagen, e);
-      // Si falla el parseo, mantenemos el valor original pero advertimos.
-      // O podrías decidir dejarlo vacío: this.editandoProducto.imagen = '';
+    this.editandoProducto = { ...producto }; 
+    if (this.editandoProducto.imagen && (this.editandoProducto.imagen.startsWith('http://') || this.editandoProducto.imagen.startsWith('https://'))) {
+      try {
+        const url = new URL(this.editandoProducto.imagen);
+        const pathSegments = url.pathname.split('/');
+        this.editandoProducto.imagen = pathSegments.pop() || '';
+      } catch (e) {
+        // No es necesario notificar aquí, es un manejo interno
+      }
     }
-  } else {
-    // Si no es una URL completa, asumimos que ya es solo el nombre del archivo
-    console.log('Imagen ya es nombre de archivo (o vacía) para edición:', this.editandoProducto.imagen);
+  }
+
+  guardarEdicion(): void {
+  if (this.editandoProducto) {
+    this.productoService.editarProducto(this.editandoProducto.id, this.editandoProducto).subscribe({
+      next: (productoActualizado: Producto) => { // Asumimos que devuelve el producto
+        this.notificationService.showSuccess('¡Producto actualizado exitosamente!'); 
+        this.cargarProductos();
+        this.editandoProducto = null;
+      },
+      error: (err) => {
+        console.error('Error al editar producto:', err);
+        const errorMsg = err.error?.message || err.message || 'Error desconocido al actualizar el producto.';
+        this.notificationService.showError(`Error al actualizar: ${errorMsg}`);
+      }
+    });
   }
 }
 
-  guardarEdicion(): void {
-    if (this.editandoProducto) {
-      this.productoService.editarProducto(this.editandoProducto.id, this.editandoProducto).subscribe({
-        next: () => {
-          this.cargarProductos();
-          this.editandoProducto = null;
-        },
-        error: (err) => console.error('Error al editar producto:', err)
-      });
-    }
-  }
-
   cancelarEdicion(): void {
     this.editandoProducto = null;
+    this.notificationService.showInfo('Edición cancelada.');
   }
 
   eliminarProducto(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este producto?')) {
+    // Usar una notificación de confirmación sería ideal, pero el servicio actual no lo soporta.
+    // Se puede usar window.confirm o una librería de modales como SweetAlert2 para esto.
+    // Por ahora, mantendremos el confirm del navegador.
+    if (confirm('¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.')) {
       this.productoService.eliminarProducto(id).subscribe({
-        next: () => this.cargarProductos(),
-        error: (err) => console.error('Error al eliminar producto:', err)
+        next: (response) => {
+          this.notificationService.showSuccess(response.message || '¡Producto eliminado exitosamente!');
+          this.cargarProductos();
+        },
+        error: (err) => {
+          console.error('Error al eliminar producto:', err);
+          const errorMsg = err.error?.message || err.message || 'Error desconocido al eliminar el producto.';
+          this.notificationService.showError(`Error al eliminar: ${errorMsg}`);
+        }
       });
+    } else {
+      this.notificationService.showInfo('Eliminación cancelada.');
     }
   }
 

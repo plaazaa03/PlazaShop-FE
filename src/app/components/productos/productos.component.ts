@@ -52,7 +52,7 @@ export class ProductosComponent implements OnInit {
     next: () => {
       // Actualiza el carrito después de agregar el producto
       this.carritoService.obtenerCarrito().subscribe((data) => {
-        this.carritoUpdaterService.updateCarrito(data);
+        this.carritoUpdaterService.actualizarCarrito(data);
       });
       alert('Producto añadido al carrito');
     },

@@ -1,52 +1,106 @@
-<!-- Mostrar el carrito solo si el usuario está autenticado -->
-<div *ngIf="isAuthenticated; else noSesion">
-  <div class="carrito-container" *ngIf="carrito.length > 0; else vacio">
-    <table>
-      <thead>
-        <tr>
-          <th>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
-          <th>Total</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of carrito">
-          <td><img [src]="'http://127.0.0.1:8000/img/' + item.producto.imagen" alt="Foto del producto" style="width: 120px; height: 120px;" /></td>
-          <td>{{ item.producto.nombre }}</td>
-          <td>
-            <input type="number" [(ngModel)]="item.cantidad" min="1" (change)="actualizarTotal()" />
-          </td>
-          <td>{{ item.producto.precio | currency:'EUR' }}</td>
-          <td>{{ item.producto.precio * item.cantidad | currency:'EUR' }}</td>
-          <td><button (click)="eliminar(item.id)">❌</button></td>
-        </tr>
-      </tbody>
-    </table>
+<div class="carrito-page-wrapper">
+  <!-- Mostrar el carrito solo si el usuario está autenticado -->
+  <div *ngIf="isAuthenticated; else noSesion">
+    <div *ngIf="carrito.length > 0; else vacio" class="carrito-content-wrapper">
+      <h1 class="carrito-page-title">Tu Carrito de Compras</h1>
+      
+      <div class="carrito-items-container">
+        <div *ngFor="let item of carrito" class="carrito-item-card">
+          <div class="item-imagen">
+            <img [src]="'http://127.0.0.1:8000/img/' + item.producto.imagen" 
+                 alt="Foto de {{ item.producto.nombre }}" 
+                 class="producto-thumbnail" />
+          </div>
+          <div class="item-detalles">
+            <h3 class="producto-nombre">{{ item.producto.nombre }}</h3>
+            <p class="producto-precio-unitario">Precio: {{ item.producto.precio | currency:'EUR' }}</p>
+          </div>
+          <div class="item-cantidad">
+            <label for="cantidad-{{item.id}}" class="sr-only">Cantidad de {{ item.producto.nombre }}</label>
+            <div class="cantidad-control">
+              <button (click)="decrementarCantidad(item)" 
+                      class="btn-cantidad" 
+                      [disabled]="item.cantidad <= 1"
+                      aria-label="Decrementar cantidad">
+                <i class="bi bi-dash-lg"></i>
+              </button>
+              <input type="number" 
+                     id="cantidad-{{item.id}}"
+                     class="input-cantidad"
+                     [(ngModel)]="item.cantidad" 
+                     min="1" 
+                     (ngModelChange)="actualizarCantidad(item)" 
+                     (blur)="validarCantidad(item)"
+                     aria-label="Cantidad" />
+              <button (click)="incrementarCantidad(item)" 
+                      class="btn-cantidad"
+                      aria-label="Incrementar cantidad">
+                <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </div>
+          <div class="item-subtotal">
+            <p class="subtotal-texto">{{ item.producto.precio * item.cantidad | currency:'EUR' }}</p>
+          </div>
+          <div class="item-acciones">
+            <button (click)="eliminar(item.id)" class="btn-eliminar" title="Eliminar producto">
+              <i class="bi bi-trash3-fill"></i>
+              <span class="sr-only">Eliminar</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <p><strong>Total:</strong> {{ total | currency:'EUR' }}</p>
-    <button (click)="finalizarPedido()">Realizar Pedido</button>
+      <div class="carrito-resumen-container">
+        <div class="resumen-card">
+          <h2 class="resumen-titulo">Resumen del Pedido</h2>
+          <div class="resumen-linea">
+            <span>Subtotal ({{ cantidadTotalItems }} productos):</span>
+            <span>{{ total | currency:'EUR' }}</span>
+          </div>
+          <div class="resumen-linea envio">
+            <span>Envío:</span>
+            <span>Gratis</span>
+          </div>
+          <hr class="resumen-divisor">
+          <div class="resumen-linea total-final">
+            <strong>Total a Pagar:</strong>
+            <strong>{{ total | currency:'EUR' }}</strong>
+          </div>
+          <button (click)="finalizarPedido()" class="btn-finalizar-pedido">
+            <i class="bi bi-credit-card-2-front-fill"></i> Proceder al Pago
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carrito vacío -->
+    <ng-template #vacio>
+      <div class="carrito-mensaje-alternativo">
+        <i class="bi bi-cart-x icono-grande"></i>
+        <h2>Tu carrito está vacío</h2>
+        <p>Aún no has añadido ningún producto. ¡Explora nuestras ofertas!</p>
+        <a routerLink="/productos" class="btn-accion-primario">
+          <i class="bi bi-shop"></i> Ver Productos
+        </a>
+      </div>
+    </ng-template>
   </div>
 
-  <!-- Carrito vacío -->
-  <ng-template #vacio>
-    <div class="carrito-vacio">
-      <img src="img/carro-vacio.png" alt="Carrito vacío" class="icono-carrito" />
-      <h2>Tu carrito está vacío</h2>
-      <p>¡Explora nuestras categorías y encuentra lo que necesitas!</p>
-      <a href="/productos" class="boton-sesion">Seguir comprando</a>
+  <!-- Si el usuario NO está autenticado -->
+  <ng-template #noSesion>
+    <div class="carrito-mensaje-alternativo">
+      <i class="bi bi-person-lock icono-grande"></i>
+      <h2>Inicia Sesión para Ver tu Carrito</h2>
+      <p>Accede a tu cuenta o regístrate para empezar a comprar.</p>
+      <div class="acciones-no-sesion">
+        <a routerLink="/login" class="btn-accion-primario">
+          <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+        </a>
+        <a routerLink="/register" class="btn-accion-secundario">
+          <i class="bi bi-person-plus-fill"></i> Registrarse
+        </a>
+      </div>
     </div>
   </ng-template>
 </div>
-
-<!-- Si el usuario NO está autenticado -->
-<ng-template #noSesion>
-  <div class="carrito-vacio">
-    <img src="img/iniciar-sesion.png" alt="Debes iniciar sesión" class="icono-carrito" />
-    <h2>Debes iniciar sesión</h2>
-    <p>Accede a tu cuenta para ver tu carrito de compras.</p>
-    <a href="/login" class="boton-sesion">Iniciar sesión</a>
-  </div>
-</ng-template>
