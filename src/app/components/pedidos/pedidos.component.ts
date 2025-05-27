@@ -6,7 +6,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Pedido } from '../../model/pedido.model';
 import { PedidosService } from '../../services/pedidos.service';
 import { CarritoService } from '../../services/carrito.service';
+import { NotificationService } from '../../services/notification.service'; // <--- 1. IMPORTAR
 
+// ... (tus interfaces CarritoItem, DetallesPago, CrearPedidoData permanecen igual)
 interface CarritoItem {
   id: number;
   producto: {
@@ -14,7 +16,6 @@ interface CarritoItem {
     nombre: string;
     precio: number;
     imagen: string;
-    // producto_id?: number; // Si necesitas el ID original del producto para enviar al backend
   };
   cantidad: number;
 }
@@ -26,14 +27,11 @@ interface DetallesPago {
   emailPaypal?: string;
 }
 
-// Interfaz para el payload que se pasará al servicio
 interface CrearPedidoData {
   total: number;
   estado: string;
-  direccion_envio: string; // Siempre la enviaremos al servicio
-  metodo_pago: string;    // Siempre la enviaremos al servicio
-  // Si necesitas enviar los items explícitamente al backend:
-  // items?: { producto_id: number, cantidad: number, precio_unitario: number }[]; 
+  direccion_envio: string; 
+  metodo_pago: string;   
 }
 
 
@@ -63,7 +61,8 @@ export class PedidosComponent implements OnInit {
 
   constructor(
     private pedidosService: PedidosService,
-    private carritoService: CarritoService // Asumo que CarritoService tiene un método para limpiar o actualizar el carrito
+    private carritoService: CarritoService,
+    private notificationService: NotificationService // <--- 2. INYECTAR
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +77,7 @@ export class PedidosComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener los pedidos:', error.message || error);
-        // Podrías mostrar un toast o mensaje al usuario aquí
+        this.notificationService.showError('Error al cargar el historial de pedidos.'); // <--- USAR NOTIFICACIÓN
       }
     });
   }
@@ -93,7 +92,7 @@ export class PedidosComponent implements OnInit {
         console.error('Error al obtener el carrito:', error.message || error);
         this.carrito = [];
         this.actualizarTotalCarrito();
-        // Podrías mostrar un toast o mensaje al usuario aquí
+        this.notificationService.showError('Error al cargar el carrito.'); // <--- USAR NOTIFICACIÓN
       }
     });
   }
@@ -104,7 +103,11 @@ export class PedidosComponent implements OnInit {
 
   verDetalles(pedido: Pedido): void {
     this.pedidoSeleccionado = (this.pedidoSeleccionado && this.pedidoSeleccionado.id === pedido.id) ? null : pedido;
-    this.pedidoReciente = null;
+    // No ocultar pedidoReciente aquí, para que el usuario pueda seguir viéndolo si lo desea.
+    // Si quieres que al ver detalles de otro pedido se oculte el "pedidoReciente" de la alerta, entonces:
+    // if (this.pedidoSeleccionado && this.pedidoSeleccionado.id !== this.pedidoReciente?.id) {
+    //   this.pedidoReciente = null;
+    // }
   }
 
   onPaymentMethodChange(): void {
@@ -124,43 +127,45 @@ export class PedidosComponent implements OnInit {
   }
 
   realizarPedido(): void {
-    if (!this.direccionEnvio.trim() || !this.metodoPago || !this.isPaymentDetailsFilled() || this.carrito.length === 0) {
-      alert('Por favor, completa todos los campos requeridos y asegúrate de que tu carrito no esté vacío.');
+    if (this.carrito.length === 0) {
+      this.notificationService.showWarning('Tu carrito está vacío. Añade productos antes de finalizar el pedido.');
+      return;
+    }
+    if (!this.direccionEnvio.trim()) {
+        this.notificationService.showWarning('Por favor, ingresa tu dirección de envío.');
+        return;
+    }
+    if (!this.metodoPago) {
+        this.notificationService.showWarning('Por favor, selecciona un método de pago.');
+        return;
+    }
+    if (!this.isPaymentDetailsFilled()) {
+      this.notificationService.showWarning('Por favor, completa los detalles del método de pago seleccionado.');
       return;
     }
 
-    // El estado inicial del pedido, según tu Postman
     const estadoInicialPedido = "pendiente"; 
 
-    // Prepara los datos para el servicio
     const datosParaServicio: CrearPedidoData = {
-      total: this.total, // El total calculado en el frontend
+      total: this.total,
       estado: estadoInicialPedido,
       direccion_envio: this.direccionEnvio,
       metodo_pago: this.metodoPago,
-      // Si necesitas enviar los items del carrito al backend explícitamente:
-      // items: this.carrito.map(item => ({
-      //   producto_id: item.producto.id, // o item.producto_id si lo tienes así
-      //   cantidad: item.cantidad,
-      //   precio_unitario: item.producto.precio
-      // }))
     };
 
     this.pedidosService.realizarPedido(datosParaServicio).subscribe({
-      next: (response) => { // response es de tipo CrearPedidoResponse
-        alert(response.message || 'Pedido realizado con éxito ✅'); // Usa el mensaje del backend si existe
+      next: (response) => {
+        // Usar el mensaje del backend si está disponible, sino uno genérico
+        const successMessage = response.message || '¡Pedido realizado con éxito! 🎉';
+        this.notificationService.showSuccess(successMessage); // <--- USAR NOTIFICACIÓN
         
-        this.pedidoReciente = response.pedido; // Asigna el pedido devuelto por el backend
-        this.pedidoSeleccionado = null;
+        this.pedidoReciente = response.pedido; 
+        this.pedidoSeleccionado = null; // Para que no se muestre un detalle de pedido anterior expandido
         
-        // Lógica para limpiar/actualizar el carrito
-        // Opción 1: Si el backend limpia el carrito del usuario:
+        // Limpiar carrito localmente (el backend también debería manejar la lógica del carrito)
         this.carrito = [];
         this.actualizarTotalCarrito();
-        // Opción 2: Si necesitas llamar a un método del CarritoService para actualizarlo o limpiarlo:
-        // this.carritoService.limpiarCarritoTrasPedido().subscribe(() => {
-        //   this.cargarCarrito(); // Recargar para reflejar el carrito vacío
-        // });
+        // O llamar a this.carritoService.limpiarCarritoTrasPedido().subscribe(...) si es necesario
 
         // Resetear formulario
         this.metodoPago = '';
@@ -169,14 +174,16 @@ export class PedidosComponent implements OnInit {
         
         this.cargarPedidos(); // Recargar historial para mostrar el nuevo pedido
 
+        // Scroll suave a la sección del pedido reciente (opcional)
         setTimeout(() => {
-          const recentOrderSection = document.querySelector('.alert-success'); // Tu selector de alerta
+          const recentOrderSection = document.querySelector('.alert-success');
           recentOrderSection?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
       },
-      error: (error) => { // error ya es de tipo Error
+      error: (error) => {
         console.error('Error al realizar el pedido ❌', error);
-        alert(error.message || 'Error al realizar el pedido. Inténtalo de nuevo.');
+        const errorMessage = error.message || 'Error al procesar el pedido. Por favor, inténtalo de nuevo.';
+        this.notificationService.showError(errorMessage); // <--- USAR NOTIFICACIÓN
       }
     });
   }

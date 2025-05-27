@@ -1,18 +1,17 @@
-/* pedidos.component.css */
 :host {
-  --primary-color: #007bff; /* Azul primario (puedes cambiarlo) */
-  --primary-color-dark: #0056b3;
-  --primary-color-light: #60a5fa;
-  --secondary-color: #6c757d; /* Gris secundario */
+  --primary-color: #d32f2f; /* TU ROJO */
+  --primary-color-dark: #b71c1c; /* Rojo más oscuro */
+  --primary-color-light: #e57373; /* Rojo más claro */
+  --secondary-color: #6c757d;
   --success-color: #28a745;
   --info-color: #17a2b8;
   --warning-color: #ffc107;
   --danger-color: #dc3545;
-  --light-bg: #f8f9fa; /* Fondo claro para secciones */
-  --ultra-light-bg: #f0f4f8; /* Fondo de página */
-  --text-color: #212529; /* Texto principal */
+  --light-bg: #f8f9fa;
+  --ultra-light-bg: #fdf6f6; /* Fondo de página ligeramente rojizo/cálido */
+  --text-color: #212529;
   --text-muted-color: #6c757d;
-  --border-color: #dee2e6; /* Borde general */
+  --border-color: #dee2e6;
   --card-bg: #ffffff;
   --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   --card-radius: 0.75rem;
@@ -20,29 +19,27 @@
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
-/* Estilos globales para esta página */
 .pedidos-page-container {
   background-color: var(--ultra-light-bg);
   min-height: 100vh;
   font-family: var(--font-family);
-  padding: 2.5rem 1.5rem; /* padding para móviles */
+  padding: 2.5rem 1.5rem;
   color: var(--text-color);
 }
 
 @media (min-width: 768px) {
   .pedidos-page-container {
-    padding: 2.5rem; /* Más padding en pantallas grandes */
+    padding: 2.5rem;
   }
 }
 
-/* Encabezado de Página */
 .pedidos-header {
   text-align: center;
   margin-bottom: 2.5rem;
 }
 .page-title {
-  color: #1a202c;
-  font-size: 2.25rem; /* Ajustado desde display-5 */
+  color: var(--primary-color); /* Título con color primario */
+  font-size: 2.25rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
@@ -55,30 +52,28 @@
   line-height: 1.6;
 }
 
-/* Layout Principal (Flexbox para dos columnas) */
 .pedidos-layout {
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* Espacio entre columnas en móvil */
+  gap: 2rem;
   max-width: 1140px;
   margin: 0 auto;
 }
-@media (min-width: 992px) { /* lg breakpoint */
+@media (min-width: 992px) {
   .pedidos-layout {
     flex-direction: row;
     gap: 2.5rem;
   }
   .pedidos-main-column {
-    flex: 0 0 60%; /* Aproximadamente col-lg-7 */
+    flex: 0 0 60%;
     max-width: 60%;
   }
   .pedidos-sidebar-column {
-    flex: 0 0 40%; /* Aproximadamente col-lg-5 */
+    flex: 0 0 40%;
     max-width: 40%;
   }
 }
 
-/* Tarjetas (Checkout Card) */
 .checkout-card {
   background-color: var(--card-bg);
   border-radius: var(--card-radius);
@@ -97,7 +92,7 @@
   display: flex;
   align-items: center;
 }
-.checkout-card-header h2 .bi { /* Asumiendo que mantienes iconos Bootstrap */
+.checkout-card-header h2 .bi {
   margin-right: 0.75rem;
   font-size: 1.3em;
   color: var(--primary-color);
@@ -126,7 +121,6 @@
   margin-left: 0.5rem;
 }
 
-/* Listas dentro de las tarjetas */
 .checkout-list {
   list-style: none;
   padding: 0;
@@ -176,7 +170,7 @@
   color: var(--text-muted-color);
 }
 .checkout-list-empty .bi {
-  font-size: 3rem; /* Ajusta tamaño del icono */
+  font-size: 3rem;
   margin-bottom: 0.75rem;
   opacity: 0.5;
 }
@@ -184,7 +178,6 @@
   margin:0;
 }
 
-/* Formularios */
 .checkout-form .form-group {
   margin-bottom: 1.5rem;
 }
@@ -195,7 +188,7 @@
   margin-bottom: 0.5rem;
   color: #2d3748;
 }
-.checkout-form .form-label-small { /* Para labels dentro de payment-details */
+.checkout-form .form-label-small {
   font-size: 0.85rem;
   font-weight: normal;
   color: #4a5568;
@@ -216,23 +209,23 @@
   background-color: #fff;
   color: var(--text-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box; /* Importante para que padding no aumente el ancho total */
+  box-sizing: border-box;
 }
 .checkout-form input[type="text"]:focus,
 .checkout-form input[type="email"]:focus,
 .checkout-form select:focus {
   outline: none;
   border-color: var(--primary-color-light);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15); /* Sombra de foco con tu rojo */
 }
 
-.checkout-form .form-row { /* Para CVV y Fecha Cad. */
+.checkout-form .form-row {
   display: flex;
   gap: 1rem;
 }
 .checkout-form .form-row .form-group {
-  flex: 1; /* Distribuye el espacio */
-  margin-bottom: 0; /* Quita margen inferior si están en la misma fila */
+  flex: 1;
+  margin-bottom: 0;
 }
 
 .payment-details-section {
@@ -256,9 +249,9 @@
   margin-top: 0.3rem;
 }
 .info-message {
-  background-color: #e6f7ff; /* Azul muy claro para mensajes info */
-  border: 1px solid #91d5ff;
-  color: #005080;
+  background-color: #ffebee; /* Fondo rojizo muy claro para mensajes info */
+  border: 1px solid #ffcdd2;
+  color: #c62828; /* Texto rojo oscuro */
   padding: 0.75rem 1rem;
   border-radius: var(--input-radius);
   font-size: 0.9rem;
@@ -268,8 +261,6 @@
 .info-message strong { font-weight: 600; }
 .info-message small { display: block; margin-top: 0.5rem; }
 
-
-/* Botón Principal */
 .btn-submit {
   display: flex;
   align-items: center;
@@ -296,27 +287,26 @@
 }
 .btn-submit:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25), 0 2px 4px rgba(0,0,0,0.07);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.25), 0 2px 4px rgba(0,0,0,0.07); /* Sombra de foco con tu rojo */
 }
 .btn-submit:disabled {
-  background-color: #adb5bd; /* Gris para deshabilitado */
+  background-color: #adb5bd;
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-/* Alertas (Pedido Reciente) */
 .alert-message {
   display: flex;
-  align-items: flex-start; /* Icono arriba */
+  align-items: flex-start;
   padding: 1.25rem;
   margin-bottom: 2rem;
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
 }
 .alert-message .bi {
-  font-size: 1.75rem; /* Icono grande */
+  font-size: 1.75rem;
   margin-right: 1rem;
-  flex-shrink: 0; /* Evita que el icono se encoja */
+  flex-shrink: 0;
 }
 .alert-message .alert-content {
   font-size: 0.9rem;
@@ -352,11 +342,9 @@
 }
 .recent-order-product-item .bi-dot { margin-right: 0.25rem; }
 
-/* Historial de Pedidos */
 .order-history-list {
   max-height: 60vh;
   overflow-y: auto;
-  /* Scrollbar (Mantenido) */
 }
 .order-history-list::-webkit-scrollbar { width: 6px; }
 .order-history-list::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
@@ -398,7 +386,6 @@
 }
 .order-status-container { margin-top: 0.75rem; }
 
-/* Badges de Estado (CSS Puro) */
 .status-badge {
   display: inline-block;
   padding: 0.4em 0.75em;
@@ -414,11 +401,9 @@
 .status-badge.estado-pendiente { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5;}
 .status-badge.estado-procesando { background-color: #cff4fc; color: #055160; border: 1px solid #b6effb;}
 .status-badge.estado-completado, .status-badge.estado-enviado { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;}
-.status-badge.estado-cancelado { background-color: #f8d7da; color: #58151c; border: 1px solid #f1b0b7;}
+.status-badge.estado-cancelado { background-color: #f8d7da; color: #58151c; border: 1px solid #f1b0b7;} /* Este ya usa un tono rojo, podría quedarse o ajustarse */
 .status-badge.estado-default { background-color: #e9ecef; color: #495057; border: 1px solid #dee2e6;}
 
-
-/* Detalles expandidos del pedido */
 .order-details-expanded {
   background-color: var(--light-bg);
   border: 1px solid var(--border-color);
@@ -456,14 +441,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 180px; /* Ajustar según necesidad */
+  max-width: 180px;
 }
 .item-price-details { font-weight: 500; }
 .order-details-expanded p { margin: 0.3rem 0; }
 .order-details-expanded p strong { color: var(--text-color); }
 
-
-/* Animación (Mantenida) */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -472,7 +455,7 @@
   animation: fadeIn 0.35s ease-out forwards;
 }
 
-.history-empty { /* Para el mensaje de historial vacío */
+.history-empty {
   padding: 2.5rem 1.5rem;
 }
 .history-empty .bi {

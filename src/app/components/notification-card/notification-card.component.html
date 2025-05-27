@@ -1,0 +1,7 @@
+<div *ngIf="notification" 
+     class="notification-card" 
+     [ngClass]="getNotificationClass()" 
+     @fadeInOut>
+  <span class="notification-message">{{ notification.message }}</span>
+  <button class="notification-close" (click)="closeNotification()" title="Cerrar">×</button>
+</div>
