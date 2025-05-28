@@ -1,0 +1,80 @@
+<!-- Alertas Globales (fuera de la tarjeta de perfil) -->
+<div *ngIf="successMessage" class="global-alert alert-success" role="alert">
+  {{ successMessage }}
+</div>
+<div *ngIf="errorMessage" class="global-alert alert-danger" role="alert">
+  {{ errorMessage }}
+</div>
+
+<!-- Tarjeta de Perfil -->
+<div class="profile-card" *ngIf="!isLoading; else loadingState">
+  <div class="profile-header">
+    <h2 class="profile-title">Mi Perfil</h2>
+    <p class="profile-subtitle">Actualiza tu información personal y configuración de cuenta.</p>
+  </div>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="form-section">
+      <h3 class="form-section-title">Información Personal</h3>
+      <div class="form-group">
+        <label for="name" class="form-label">Nombre Completo</label>
+        <input type="text" id="name" formControlName="name" class="form-control" placeholder="Ej: Juan Pérez">
+        <div *ngIf="profileForm.get('name')?.invalid && (profileForm.get('name')?.dirty || profileForm.get('name')?.touched)" class="text-danger">
+          El nombre es requerido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control" placeholder="tu@email.com">
+        <div *ngIf="profileForm.get('email')?.invalid && (profileForm.get('email')?.dirty || profileForm.get('email')?.touched)" class="text-danger">
+          <span *ngIf="profileForm.get('email')?.errors?.['required']">El email es requerido.</span>
+          <span *ngIf="profileForm.get('email')?.errors?.['email']">Ingresa un email válido.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="direccion" class="form-label">Dirección</label>
+        <input type="text" id="direccion" formControlName="direccion" class="form-control" placeholder="Ej: Calle Falsa 123, Ciudad">
+      </div>
+
+      <div class="form-group">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="tel" id="telefono" formControlName="telefono" class="form-control" placeholder="Ej: +34 600 000 000">
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="form-section">
+      <h3 class="form-section-title">Cambiar Contraseña</h3>
+      <div class="form-group">
+        <label for="password" class="form-label">Nueva Contraseña</label>
+        <input type="password" id="password" formControlName="password" class="form-control" placeholder="••••••••">
+        <small class="password-help-text">Mínimo 8 caracteres. Dejar en blanco si no deseas cambiarla.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+        <input type="password" id="password_confirmation" formControlName="password_confirmation" class="form-control" placeholder="••••••••">
+        <div *ngIf="profileForm.errors?.['mismatch'] && (profileForm.get('password')?.dirty || profileForm.get('password_confirmation')?.dirty)" class="text-danger">
+          Las contraseñas no coinciden.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="profile-button" [disabled]="profileForm.invalid || isLoading">
+        Guardar Cambios
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Estado de Carga -->
+<ng-template #loadingState>
+  <div class="loading-indicator">
+    <div class="spinner"></div>
+    <p>Cargando perfil...</p>
+  </div>
+</ng-template>

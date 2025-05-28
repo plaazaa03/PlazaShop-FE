@@ -1,0 +1,249 @@
+/* src/app/components/perfil/perfil.component.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+
+:host {
+  display: flex;
+  flex-direction: column; /* Para alinear mensajes de alerta arriba */
+  min-height: calc(100vh - 80px); /* Ajusta 80px según la altura de tu header */
+  align-items: center;
+  justify-content: center; /* Centra el .profile-card verticalmente si hay espacio */
+  background-color: #f0f2f5; /* Un gris muy claro y moderno para el fondo */
+  padding: 40px 20px; /* Padding para que no se pegue a los bordes en pantallas pequeñas */
+  font-family: 'Roboto', 'Poppins', sans-serif; /* Nueva fuente */
+  box-sizing: border-box;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 700px; /* Un poco más de espacio para el perfil */
+  background-color: #ffffff;
+  border-radius: 16px; /* Bordes más redondeados */
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06); /* Sombra más suave y moderna */
+  padding: 40px 50px; /* Buen padding interno */
+  margin-top: 20px; /* Espacio si hay alertas globales arriba */
+  margin-bottom: 20px; /* Espacio inferior */
+  text-align: left;
+  transition: transform 0.3s ease-out;
+}
+
+/* Efecto sutil al cargar o interactuar */
+/* .profile-card:hover {
+  transform: translateY(-5px);
+} */
+
+.profile-header {
+  margin-bottom: 35px;
+  text-align: center; /* Título centrado dentro de la tarjeta */
+}
+
+.profile-title {
+  font-size: 2.4rem; /* Título más grande y prominente */
+  font-weight: 600; /* Un poco menos bold que 700 */
+  color: #1c1e21; /* Color de texto principal oscuro (similar a Facebook) */
+  margin-bottom: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-subtitle {
+  font-size: 1rem;
+  color: #606770; /* Color de texto secundario */
+  font-weight: 400;
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #d32f2f; /* TU COLOR ROJO */
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0; /* Separador más sutil */
+}
+
+.form-group {
+  margin-bottom: 22px; /* Un poco más de espacio */
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: block;
+  color: #333; /* Un gris oscuro para las etiquetas */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+  width: 100%;
+  padding: 14px 18px; /* Padding más generoso */
+  border: 1px solid #ccd0d5; /* Borde sutil gris */
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1c1e21; /* Color de texto del input */
+  background-color: #f5f6f7; /* Fondo del input ligeramente gris */
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #8a8d91; /* Placeholder un poco más oscuro */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus {
+  border-color: #d32f2f; /* TU COLOR ROJO al hacer foco */
+  background-color: #ffffff; /* Fondo blanco al hacer foco */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2); /* Sombra de foco más sutil */
+}
+
+.password-help-text {
+    font-size: 0.8rem;
+    color: #606770;
+    margin-top: 6px;
+    display: block;
+}
+
+.form-actions {
+  margin-top: 30px;
+  text-align: center; /* Centrar el botón */
+}
+
+.profile-button {
+  min-width: 220px; /* Botón más ancho */
+  padding: 14px 30px; /* Padding generoso */
+  background-image: linear-gradient(to right, #e53935, #d32f2f); /* Gradiente sutil para el botón */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Bordes consistentes */
+  font-size: 1.05rem;
+  font-weight: 500; /* Peso de fuente medio */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transición para todos los estados */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25); /* Sombra sutil para el botón */
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-button:disabled {
+  background-image: none;
+  background-color: #bcc0c4; /* Gris para deshabilitado */
+  color: #f5f6f7;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.profile-button:not(:disabled):hover {
+  background-image: linear-gradient(to right, #d32f2f, #b71c1c); /* Gradiente más oscuro al pasar el mouse */
+  box-shadow: 0 6px 15px rgba(183, 28, 28, 0.35);
+  transform: translateY(-2px); /* Ligero levantamiento */
+}
+
+.profile-button:not(:disabled):active {
+  transform: translateY(0px); /* Presionar hacia abajo */
+  box-shadow: 0 2px 8px rgba(183, 28, 28, 0.3);
+}
+
+/* Estilos para mensajes de alerta (globales, fuera de la tarjeta) */
+.global-alert {
+  width: 100%;
+  max-width: 700px; /* Mismo ancho que la tarjeta para consistencia */
+  margin: 0 auto 20px auto; /* Centrado y con margen inferior */
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.global-alert.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+}
+.global-alert.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+}
+
+/* Mensajes de error de validación de campo */
+.text-danger {
+  font-size: 0.8rem;
+  color: #e53935; /* Un rojo un poco más brillante para los errores de campo */
+  margin-top: 5px;
+  display: block;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 35px 0; /* Más espacio alrededor del hr */
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.spinner {
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left-color: #d32f2f; /* TU COLOR ROJO */
+  margin-bottom: 15px;
+  animation: spin 1s linear infinite;
+}
+
+.loading-indicator p {
+  font-size: 1rem;
+  color: #606770;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+  :host {
+    padding: 20px 15px; /* Menos padding en el host */
+  }
+  .profile-card {
+    padding: 30px 25px; /* Menos padding interno en la tarjeta */
+    margin-top: 10px;
+  }
+  .profile-title {
+    font-size: 2rem;
+  }
+  .form-section-title {
+    font-size: 1.1rem;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"] {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+  }
+  .profile-button {
+    min-width: 100%; /* Botón ocupa todo el ancho */
+    padding: 12px;
+    font-size: 1rem;
+  }
+}

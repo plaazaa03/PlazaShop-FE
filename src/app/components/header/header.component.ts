@@ -14,13 +14,24 @@ export class HeaderComponent {
 
   // Verificar si el usuario está logueado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');  // Cambia esto según tu lógica de autenticación
+    return !!localStorage.getItem('token'); 
   }
 
   // Función para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token');  // Eliminar el token de sesión
-    localStorage.removeItem('user_rol');  // Eliminar el rol si lo tienes guardado
-    this.router.navigate(['/']);  // Redirigir a la página principal
+    localStorage.removeItem('token'); 
+    localStorage.removeItem('user_rol');  
+    this.router.navigate(['/']);
+  }
+
+  isAdmin(): boolean {
+    if (!this.isLoggedIn()) {
+      return false; // Si no está logueado, no puede ser admin
+    }
+    const userRole = localStorage.getItem('user_rol');
+    // Compara el rol (asegúrate que 'admin' sea el string exacto que guardas)
+    // Puedes hacerlo insensible a mayúsculas/minúsculas si es necesario:
+    // return userRole?.toLowerCase() === 'admin';
+    return userRole === 'admin';
   }
 }

@@ -1,0 +1,232 @@
+/* src/app/components/admin/admin-users/admin-users.component.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+
+:host {
+  display: block; /* O flex si necesitas más control sobre hijos directos */
+  width: 100%;
+  min-height: calc(100vh - 80px); /* Ajusta según altura de tu header */
+  padding: 30px; /* Padding general para la vista */
+  background-color: #f8f9fa; /* Fondo gris claro para la sección de admin */
+  box-sizing: border-box;
+  font-family: 'Roboto', 'Poppins', sans-serif;
+}
+
+.admin-users-container {
+  max-width: 1200px; /* Ancho máximo para el contenido */
+  margin: 0 auto; /* Centrar el contenedor */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  padding: 30px;
+  overflow: hidden; /* Para manejar el desbordamiento de la tabla */
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.admin-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #212529; /* Negro suave */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Podrías añadir un botón de "Crear Usuario" aquí si lo necesitas */
+/* .add-user-btn { ... } */
+
+/* Alertas globales para la vista de admin */
+.admin-alert {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.admin-alert.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+}
+.admin-alert.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+}
+.admin-alert.alert-info {
+  color: #055160;
+  background-color: #cff4fc;
+  border: 1px solid #9eeaf9;
+}
+
+.table-responsive-wrapper {
+  overflow-x: auto; /* Permite scroll horizontal en la tabla en pantallas pequeñas */
+  width: 100%;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: separate; /* Permite border-radius en celdas si se usa con border-spacing */
+  border-spacing: 0; /* Necesario con border-collapse: separate */
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.users-table th,
+.users-table td {
+  padding: 14px 18px; /* Buen padding en celdas */
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e9ecef; /* Líneas horizontales suaves */
+}
+
+.users-table thead th {
+  background-color: #f8f9fa; /* Fondo ligero para cabeceras */
+  color: #495057; /* Color de texto de cabecera */
+  font-weight: 500; /* Peso medio para cabeceras */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+  position: sticky; /* Para que la cabecera se mantenga visible al hacer scroll (opcional) */
+  top: 0; /* Necesario para position: sticky */
+  z-index: 10;
+}
+/* Bordes redondeados para la primera y última cabecera si la tabla tiene border-radius */
+/* .users-table thead th:first-child { border-top-left-radius: 8px; } */
+/* .users-table thead th:last-child { border-top-right-radius: 8px; } */
+
+
+.users-table tbody tr:hover {
+  background-color: #f1f3f5; /* Color de fondo sutil al pasar el mouse */
+}
+
+.users-table td {
+  color: #343a40;
+}
+
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 12px; /* Más redondeado */
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize; /* Primera letra en mayúscula */
+  display: inline-block; /* Para que el padding funcione bien */
+}
+
+.role-admin {
+  background-color: rgba(211, 47, 47, 0.1); /* TU COLOR ROJO con transparencia */
+  color: #b71c1c; /* TU COLOR ROJO más oscuro */
+  border: 1px solid rgba(211, 47, 47, 0.2);
+}
+
+.role-cliente {
+  background-color: rgba(25, 118, 210, 0.1); /* Un azul para clientes */
+  color: #1565c0; /* Azul oscuro */
+  border: 1px solid rgba(25, 118, 210, 0.2);
+}
+
+.actions-cell {
+  text-align: right; /* Alinea los botones a la derecha */
+  white-space: nowrap; /* Evita que los botones se rompan en varias líneas */
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+  display: inline-flex; /* Para alinear icono y texto si se añade */
+  align-items: center;
+  justify-content: center;
+}
+.action-btn:first-child {
+  margin-left: 0;
+}
+
+.btn-edit {
+  background-color: #ffc107; /* Amarillo para editar */
+  color: #212529; /* Texto oscuro para contraste */
+}
+.btn-edit:hover {
+  background-color: #e0a800;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: white;
+}
+.btn-delete:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+/* Iconos (ejemplo con Font Awesome si lo usas) */
+/* .action-btn .fa { margin-right: 5px; } */
+
+
+.loading-indicator, .no-users-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d; /* Gris para texto informativo */
+  font-size: 1.1rem;
+}
+
+.spinner {
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left-color: #007bff; /* Un azul para el spinner de admin, o tu color principal */
+  margin: 0 auto 15px auto; /* Centrado */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Media Queries para responsividad de la tabla */
+@media (max-width: 768px) {
+  :host {
+    padding: 20px 15px;
+  }
+  .admin-users-container {
+    padding: 20px;
+  }
+  .admin-title {
+    font-size: 1.6rem;
+  }
+  .users-table th,
+  .users-table td {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+  .action-btn {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+    margin-bottom: 5px; /* Espacio entre botones si se apilan */
+    display: block; /* Hace que los botones ocupen el ancho y se apilen */
+    width: 100%;
+    margin-left: 0;
+  }
+  .actions-cell {
+    text-align: center; /* Centra los botones apilados */
+  }
+  .role-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+}

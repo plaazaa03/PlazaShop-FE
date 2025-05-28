@@ -1,0 +1,68 @@
+<div class="admin-users-container">
+  <div class="admin-header">
+    <h2 class="admin-title">Administrar Usuarios</h2>
+    <!-- Aquí podrías añadir un botón "Añadir Usuario" si tienes esa funcionalidad -->
+    <!-- <button class="btn btn-primary add-user-btn">Añadir Usuario</button> -->
+  </div>
+
+  <div *ngIf="successMessage" class="admin-alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="admin-alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="isLoading; else content" class="loading-indicator">
+    <div class="spinner"></div>
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <ng-template #content>
+    <div *ngIf="users.length > 0; else noUsers">
+      <div class="table-responsive-wrapper">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th class="actions-cell">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="role-badge" [ngClass]="{
+                  'role-admin': user.rol === 'admin',
+                  'role-cliente': user.rol === 'cliente'
+                }">
+                  {{ user.rol }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                <button (click)="editUser(user.id)" class="action-btn btn-edit" title="Editar usuario">
+                  <!-- <i class="fa fa-edit"></i> Opcional: icono -->
+                  Editar
+                </button>
+                <button (click)="deleteUser(user.id, user.name)" class="action-btn btn-delete" title="Eliminar usuario">
+                  <!-- <i class="fa fa-trash"></i> Opcional: icono -->
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <ng-template #noUsers>
+      <div class="no-users-message admin-alert alert-info">
+        No hay usuarios registrados en el sistema.
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

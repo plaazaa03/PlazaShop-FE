@@ -12,7 +12,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="main-header">
     <div class="container">
       <!-- Logo -->
@@ -49,11 +49,23 @@
               Mis pedidos
             </a>
 
-            <a href="/lista-deseos">
-              <img src="img/me-gusta.png" alt="Like" class="user-icon">
-             Lista de deseos
+            
+            <a *ngIf="isAdmin()" href="/admin/usuarios"> 
+              <img src="img/ajustes.png" alt="Admin Usuarios" class="user-icon"> 
+              Administrar Usuarios
             </a>
             
+            
+            <a *ngIf="isAdmin()" href="/admin-productos"> 
+              <img src="img/agregar-producto.png" alt="Admin Usuarios" class="user-icon"> 
+              Administrar Productos
+            </a>
+
+            <!--<a href="/lista-deseos">
+              <img src="img/me-gusta.png" alt="Like" class="user-icon">
+             Lista de deseos
+            </a>-->
+
             <a href="#" (click)="logout()">
               <img src="img/cerrar-sesion.png" alt="Cerrar sesión" class="user-icon">
             Cerrar sesión</a>
@@ -76,14 +88,14 @@
     </div>
   </div>
 
-  <!-- Navegación principal 
+  <!-- Navegación principal
   <nav class="main-nav">
     <div class="container">
       <ul>
         <li class="dropdown">
           <a href="#">☰ Todas las categorías</a>
           <div class="mega-menu">
-           
+
           </div>
         </li>
         <li><a href="/ordenadores">💻 Ordenadores</a></li>
