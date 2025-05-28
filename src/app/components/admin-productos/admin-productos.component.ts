@@ -103,7 +103,7 @@ export class AdminProductosComponent implements OnInit {
 
 
   iniciarEdicion(producto: Producto): void {
-    this.editandoProducto = { ...producto }; 
+    this.editandoProducto = { ...producto };
     if (this.editandoProducto.imagen && (this.editandoProducto.imagen.startsWith('http://') || this.editandoProducto.imagen.startsWith('https://'))) {
       try {
         const url = new URL(this.editandoProducto.imagen);
@@ -116,21 +116,21 @@ export class AdminProductosComponent implements OnInit {
   }
 
   guardarEdicion(): void {
-  if (this.editandoProducto) {
-    this.productoService.editarProducto(this.editandoProducto.id, this.editandoProducto).subscribe({
-      next: (productoActualizado: Producto) => { // Asumimos que devuelve el producto
-        this.notificationService.showSuccess('¡Producto actualizado exitosamente!'); 
-        this.cargarProductos();
-        this.editandoProducto = null;
-      },
-      error: (err) => {
-        console.error('Error al editar producto:', err);
-        const errorMsg = err.error?.message || err.message || 'Error desconocido al actualizar el producto.';
-        this.notificationService.showError(`Error al actualizar: ${errorMsg}`);
-      }
-    });
+    if (this.editandoProducto) {
+      this.productoService.editarProducto(this.editandoProducto.id, this.editandoProducto).subscribe({
+        next: (productoActualizado: Producto) => { // Asumimos que devuelve el producto
+          this.notificationService.showSuccess('¡Producto actualizado exitosamente!');
+          this.cargarProductos();
+          this.editandoProducto = null;
+        },
+        error: (err) => {
+          console.error('Error al editar producto:', err);
+          const errorMsg = err.error?.message || err.message || 'Error desconocido al actualizar el producto.';
+          this.notificationService.showError(`Error al actualizar: ${errorMsg}`);
+        }
+      });
+    }
   }
-}
 
   cancelarEdicion(): void {
     this.editandoProducto = null;
@@ -138,22 +138,29 @@ export class AdminProductosComponent implements OnInit {
   }
 
   eliminarProducto(id: number): void {
-    // Usar una notificación de confirmación sería ideal, pero el servicio actual no lo soporta.
-    // Se puede usar window.confirm o una librería de modales como SweetAlert2 para esto.
-    // Por ahora, mantendremos el confirm del navegador.
     if (confirm('¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.')) {
       this.productoService.eliminarProducto(id).subscribe({
-        next: (response) => {
-          this.notificationService.showSuccess(response.message || '¡Producto eliminado exitosamente!');
-          this.cargarProductos();
+        next: (response: any) => { // Puedes usar 'any' si la respuesta es variable
+          console.log('INTENTANDO MOSTRAR NOTIFICACIÓN DE ÉXITO');
+
+          // ---- MODIFICACIÓN AQUÍ ----
+          const successMessage = response && response.message
+            ? response.message
+            : '¡Producto eliminado exitosamente!';
+          this.notificationService.showSuccess(successMessage);
+          // ---- FIN DE MODIFICACIÓN ----
+
+          this.productos = this.productos.filter(producto => producto.id !== id);
         },
         error: (err) => {
           console.error('Error al eliminar producto:', err);
           const errorMsg = err.error?.message || err.message || 'Error desconocido al eliminar el producto.';
+          console.log('INTENTANDO MOSTRAR NOTIFICACIÓN DE ERROR');
           this.notificationService.showError(`Error al eliminar: ${errorMsg}`);
         }
       });
     } else {
+      console.log('INTENTANDO MOSTRAR NOTIFICACIÓN DE INFO (CANCELADO)');
       this.notificationService.showInfo('Eliminación cancelada.');
     }
   }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private notificationService: NotificationService) {}
 
   // Verificar si el usuario está logueado
   isLoggedIn(): boolean {
@@ -19,19 +20,18 @@ export class HeaderComponent {
 
   // Función para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token'); 
-    localStorage.removeItem('user_rol');  
-    this.router.navigate(['/']);
+    this.notificationService.showSuccess('¡Has cerrado sesión exitosamente!',5000);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_rol');
+    this.router.navigate(['/login']);
   }
 
   isAdmin(): boolean {
     if (!this.isLoggedIn()) {
-      return false; // Si no está logueado, no puede ser admin
+      return false; 
     }
     const userRole = localStorage.getItem('user_rol');
-    // Compara el rol (asegúrate que 'admin' sea el string exacto que guardas)
-    // Puedes hacerlo insensible a mayúsculas/minúsculas si es necesario:
-    // return userRole?.toLowerCase() === 'admin';
+    
     return userRole === 'admin';
   }
 }
