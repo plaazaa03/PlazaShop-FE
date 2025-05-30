@@ -2,7 +2,13 @@
   <!-- Mostrar el carrito solo si el usuario está autenticado -->
   <div *ngIf="isAuthenticated; else noSesion">
     <div *ngIf="carrito.length > 0; else vacio" class="carrito-content-wrapper">
-      <h1 class="carrito-page-title">Tu Carrito de Compras</h1>
+      <h1 class="carrito-page-title">Carrito de Compras</h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Carrito</li>
+        </ol>
+      </nav>
       
       <div class="carrito-items-container">
         <div *ngFor="let item of carrito" class="carrito-item-card">

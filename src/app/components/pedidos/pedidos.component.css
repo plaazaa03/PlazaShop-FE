@@ -20,7 +20,7 @@
 }
 
 .pedidos-page-container {
-  background-color: var(--ultra-light-bg);
+  background-color: #f8f9fa;
   min-height: 100vh;
   font-family: var(--font-family);
   padding: 2.5rem 1.5rem;
@@ -38,18 +38,12 @@
   margin-bottom: 2.5rem;
 }
 .page-title {
-  color: var(--primary-color); /* Título con color primario */
-  font-size: 2.25rem;
+  color: #212529;
+  font-size: 2.6rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-.page-subtitle {
-  color: #4a5568;
-  font-size: 1.125rem;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
+  margin-bottom: 10px;
+  text-align: left;
+  padding-top: 20px;
 }
 
 .pedidos-layout {
@@ -72,6 +66,38 @@
     flex: 0 0 40%;
     max-width: 40%;
   }
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.breadcrumb-item {
+  font-size: 0.9rem;
+  color: #6c757d; /* Gris para el texto normal del breadcrumb */
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  padding: 0 0.7rem;
+  color: #adb5bd; /* Gris más claro para el separador */
+  content: ">"; /* Cambiado a ">" para un look más moderno */
+}
+.breadcrumb-item a {
+  color: var(--brand-red); /* Tu rojo para los enlaces */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.breadcrumb-item a:hover {
+  color: var(--brand-red-hover);
+  text-decoration: underline;
+}
+.breadcrumb-item.active {
+  color: #495057; /* Un gris más oscuro para el ítem activo */
+  font-weight: 500;
 }
 
 .checkout-card {

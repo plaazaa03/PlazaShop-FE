@@ -28,7 +28,7 @@
 
 .carrito-page-wrapper {
   font-family: var(--font-family);
-  background-color: var(--page-bg);
+  background-color: #f8f9fa;
   min-height: calc(100vh - 80px); /* Ajusta según altura de tu header/navbar */
   padding: 2rem 1rem; /* padding para móviles */
   color: var(--text-color);
@@ -37,15 +37,18 @@
 .carrito-content-wrapper {
   max-width: 1100px;
   margin: 0 auto;
+  padding-top: 40px;
 }
 
 .carrito-page-title {
-  font-size: 2.25rem;
+  font-size: 2.6rem; /* Ligeramente ajustado */
+  color: #212529; /* Negro suave */
   font-weight: 700;
-  color: var(--primary-color);
-  text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 10px;
+  text-align: left;
 }
+
+
 
 .carrito-items-container {
   display: flex;
@@ -64,6 +67,39 @@
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-color);
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+.breadcrumb-item {
+  font-size: 0.9rem;
+  color: #6c757d; /* Gris para el texto normal del breadcrumb */
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  padding: 0 0.7rem;
+  color: #adb5bd; /* Gris más claro para el separador */
+  content: ">"; /* Cambiado a ">" para un look más moderno */
+}
+.breadcrumb-item a {
+  color: var(--brand-red); /* Tu rojo para los enlaces */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.breadcrumb-item a:hover {
+  color: var(--brand-red-hover);
+  text-decoration: underline;
+}
+.breadcrumb-item.active {
+  color: #495057; /* Un gris más oscuro para el ítem activo */
+  font-weight: 500;
 }
 
 /* Responsividad para el item-card */
@@ -89,7 +125,7 @@
 .producto-thumbnail {
   width: 100px;
   height: 100px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   border: 1px solid var(--border-color);
 }
@@ -266,7 +302,7 @@
 .carrito-mensaje-alternativo {
   text-align: center;
   padding: 4rem 1rem;
-  margin: 2rem auto;
+  margin: 8rem auto;
   max-width: 600px;
   background-color: var(--card-bg);
   border-radius: var(--card-radius);

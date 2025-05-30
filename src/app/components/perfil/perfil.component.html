@@ -6,6 +6,16 @@
   {{ errorMessage }}
 </div>
 
+<div class="titulo-pagina">
+  <h2 class="titulo">Gestionar Perfil</h2>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Perfil</li>
+    </ol>
+  </nav>
+</div>
+
 <!-- Tarjeta de Perfil -->
 <div class="profile-card" *ngIf="!isLoading; else loadingState">
   <div class="profile-header">

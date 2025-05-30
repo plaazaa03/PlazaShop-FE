@@ -1,19 +1,135 @@
-<div class="productos">
-  <div class="producto-grid">
-    <div class="producto-card" *ngFor="let p of productos">
-      <img [src]="p.imagen" alt="{{ p.nombre }}" class="producto-img" />
-      <div class="producto-info">
-        <h3>{{ p.nombre }}</h3>
-        <p class="descripcion">{{ p.descripcion }}</p>
-        <p class="precio">{{ p.precio | currency:'EUR' }}</p>
-        <p class="stock">Stock: {{ p.stock }}</p>
-        <p class="envio">🚚 Envío gratis</p>
-      </div>
-      <div class="carrito-control" *ngIf="isAuthenticated">
-        <input type="number" min="1" [max]="p.stock" [(ngModel)]="p.cantidadSeleccionada" />
-        <button (click)="agregarAlCarrito(p)">Añadir al carrito</button>
-      </div>
-      <p *ngIf="!isAuthenticated" class="inicia-sesion-msg">Inicia sesión para comprar</p>
+<!-- ... (resto del HTML sin cambios arriba) ... -->
+<main class="productos-pagina">
+  <div class="container">
+    <div class="encabezado-pagina">
+      <h1>Nuestros Productos</h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Productos</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="layout-productos">
+      <aside class="filtros-sidebar">
+        <h2>Filtrar Por</h2>
+
+        <!-- Filtro de Categorías (Oculto si no hay categorías) -->
+        <!-- <div class="filtro-grupo" *ngIf="listaCategorias && listaCategorias.length > 0"> -->
+        <!--   <h3>Categorías</h3> -->
+        <!--   <ul> -->
+        <!--     <li *ngFor="let categoria of listaCategorias"> -->
+        <!--       <label> -->
+        <!--         <input type="checkbox" -->
+        <!--                [value]="categoria.id" -->
+        <!--                (change)="onCategoriaChange($event, categoria.id)" -->
+        <!--                [checked]="filtrosAplicados.categorias.includes(categoria.id)"> -->
+        <!--         {{ categoria.nombre }} -->
+        <!--       </label> -->
+        <!--     </li> -->
+        <!--   </ul> -->
+        <!-- </div> -->
+
+        <!-- Filtro de Marca (Oculto si no hay marcas) -->
+        <!-- <div class="filtro-grupo" *ngIf="listaMarcas && listaMarcas.length > 0"> -->
+        <!--   <h3>Marca</h3> -->
+        <!--   <ul> -->
+        <!--      <li *ngFor="let marca of listaMarcas"> -->
+        <!--       <label> -->
+        <!--         <input type="checkbox" -->
+        <!--                [value]="marca.id" -->
+        <!--                (change)="onMarcaChange($event, marca.id)" -->
+        <!--                [checked]="filtrosAplicados.marcas.includes(marca.id)"> -->
+        <!--         {{ marca.nombre }} -->
+        <!--       </label> -->
+        <!--     </li> -->
+        <!--   </ul> -->
+        <!-- </div> -->
+
+        <div class="filtro-grupo">
+          <h3>Rango de Precio</h3>
+          <div class="rango-precio-inputs">
+            <input type="number" placeholder="Min" [(ngModel)]="filtrosAplicados.precioMin" (ngModelChange)="aplicarTodosLosFiltros()"> <!-- CAMBIO AQUÍ -->
+            <span>-</span>
+            <input type="number" placeholder="Max" [(ngModel)]="filtrosAplicados.precioMax" (ngModelChange)="aplicarTodosLosFiltros()"> <!-- CAMBIO AQUÍ -->
+          </div>
+        </div>
+
+        <button class="btn-aplicar-filtros" (click)="aplicarTodosLosFiltros()">Aplicar Filtros</button>
+        <button class="btn-limpiar-filtros" (click)="limpiarFiltros()">Limpiar Filtros</button>
+      </aside>
+
+      <section class="contenido-principal-productos">
+        <div class="controles-vista">
+          <div class="info-resultados">
+            <!-- CAMBIO AQUÍ: usar totalProductosFiltrados -->
+            Mostrando {{ totalProductosFiltrados || 0 }} de {{ todosLosProductos.length || 0 }} productos
+          </div>
+          <div class="ordenar-por">
+            <label for="ordenar">Ordenar por:</label>
+            <select id="ordenar" [(ngModel)]="opcionOrden" (ngModelChange)="ordenarProductos()">
+              <option value="relevancia">Relevancia</option>
+              <option value="precio_asc">Precio: Menor a Mayor</option>
+              <option value="precio_desc">Precio: Mayor a Menor</option>
+              <option value="nombre_asc">Nombre: A-Z</option>
+              <option value="nombre_desc">Nombre: Z-A</option>
+              <option value="novedad">Más Nuevos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="productos">
+          <!-- Añadido *ngIf="!isLoading" para evitar mostrar antes de cargar -->
+          <div class="producto-grid" *ngIf="!isLoading && productosPaginados && productosPaginados.length > 0; else noProductosEncontrados">
+            <div class="producto-card" *ngFor="let p of productosPaginados">
+              <img [src]="p.imagen" alt="{{ p.nombre }}" class="producto-img" />
+              <div class="producto-info">
+                <h3>{{ p.nombre }}</h3>
+                <p class="descripcion">{{ p.descripcion | slice:0:80 }}{{ p.descripcion && p.descripcion.length > 80 ? '...' : '' }}</p>
+                <p class="precio">{{ p.precio | currency:'EUR' }}</p>
+                <p class="stock" [ngClass]="{'poco-stock': p.stock < 10 && p.stock > 0, 'sin-stock': p.stock === 0}">
+                  {{ p.stock > 0 ? 'Stock: ' + p.stock : 'Agotado' }}
+                </p>
+                <!-- <p class="envio" *ngIf="p.envioGratis">🚚 Envío gratis</p> --> <!-- ELIMINADO/COMENTADO -->
+              </div>
+              <div class="carrito-control" *ngIf="isAuthenticated && p.stock > 0">
+                <input type="number" min="1" [max]="p.stock" [(ngModel)]="p.cantidadSeleccionada" #cantidadInput="ngModel" />
+                <button (click)="agregarAlCarrito(p)" [disabled]="!cantidadInput.valid || cantidadInput.value > p.stock || cantidadInput.value < 1">Añadir</button>
+              </div>
+               <p *ngIf="p.stock === 0 && isAuthenticated" class="agotado-msg">Producto Agotado</p>
+              <p *ngIf="!isAuthenticated" class="inicia-sesion-msg">
+                <a href="/login">Inicia sesión</a> para comprar
+              </p>
+            </div>
+          </div>
+          <ng-template #noProductosEncontrados>
+            <div *ngIf="!isLoading" class="no-productos-mensaje"> <!-- Añadido *ngIf="!isLoading" -->
+              <p>😔 No se encontraron productos que coincidan con tus filtros.</p>
+              <p>Intenta ajustar tu búsqueda o <a href="#" (click)="limpiarFiltros(); $event.preventDefault()">limpiar los filtros</a>.</p>
+            </div>
+             <div *ngIf="isLoading" class="loading-mensaje"> <!-- Mensaje de carga -->
+                <p>Cargando productos...</p>
+                <!-- Aquí podrías poner un spinner CSS -->
+            </div>
+          </ng-template>
+        </div>
+
+        <nav aria-label="Paginación de productos" *ngIf="!isLoading && totalPaginas > 1" class="paginacion">
+          <ul>
+            <li [class.disabled]="paginaActual === 1">
+              <a href="#" (click)="cambiarPagina(paginaActual - 1); $event.preventDefault()">Anterior</a>
+            </li>
+            <li *ngFor="let pagina of arrayPaginas" [class.active]="pagina === paginaActual" [class.ellipsis]="pagina === -1">
+              <a *ngIf="pagina !== -1" href="#" (click)="cambiarPagina(pagina); $event.preventDefault()">{{ pagina }}</a>
+              <span *ngIf="pagina === -1">...</span>
+            </li>
+            <li [class.disabled]="paginaActual === totalPaginas">
+              <a href="#" (click)="cambiarPagina(paginaActual + 1); $event.preventDefault()">Siguiente</a>
+            </li>
+          </ul>
+        </nav>
+      </section>
     </div>
   </div>
-</div>
+</main>

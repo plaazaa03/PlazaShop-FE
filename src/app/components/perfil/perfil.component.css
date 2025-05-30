@@ -23,7 +23,7 @@
   border-radius: 16px; /* Bordes más redondeados */
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06); /* Sombra más suave y moderna */
   padding: 40px 50px; /* Buen padding interno */
-  margin-top: 20px; /* Espacio si hay alertas globales arriba */
+  margin-top: 80px; /* Espacio si hay alertas globales arriba */
   margin-bottom: 20px; /* Espacio inferior */
   text-align: left;
   transition: transform 0.3s ease-out;
@@ -47,10 +47,55 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.titulo-pagina {
+  font-size: 2rem; /* Ligeramente ajustado */
+  color: #212529; /* Negro suave */
+  font-weight: 700;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.titulo {
+  text-align: left;
+}
+
 .profile-subtitle {
   font-size: 1rem;
   color: #606770; /* Color de texto secundario */
   font-weight: 400;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+.breadcrumb-item {
+  font-size: 0.9rem;
+  color: #6c757d; /* Gris para el texto normal del breadcrumb */
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  padding: 0 0.7rem;
+  color: #adb5bd; /* Gris más claro para el separador */
+  content: ">"; /* Cambiado a ">" para un look más moderno */
+}
+.breadcrumb-item a {
+  color: var(--brand-red); /* Tu rojo para los enlaces */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.breadcrumb-item a:hover {
+  color: var(--brand-red-hover);
+  text-decoration: underline;
+}
+.breadcrumb-item.active {
+  color: #495057; /* Un gris más oscuro para el ítem activo */
+  font-weight: 500;
 }
 
 .form-section {
