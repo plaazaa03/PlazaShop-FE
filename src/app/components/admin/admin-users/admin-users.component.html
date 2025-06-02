@@ -1,68 +1,153 @@
 <div class="admin-users-container">
-  <div class="admin-header">
-    <h2 class="admin-title">Administrar Usuarios</h2>
-    <!-- Aquí podrías añadir un botón "Añadir Usuario" si tienes esa funcionalidad -->
-    <!-- <button class="btn btn-primary add-user-btn">Añadir Usuario</button> -->
-  </div>
 
-  <div *ngIf="successMessage" class="admin-alert alert-success" role="alert">
-    {{ successMessage }}
-  </div>
-  <div *ngIf="errorMessage" class="admin-alert alert-danger" role="alert">
-    {{ errorMessage }}
-  </div>
-
-  <div *ngIf="isLoading; else content" class="loading-indicator">
-    <div class="spinner"></div>
-    <p>Cargando usuarios...</p>
-  </div>
-
-  <ng-template #content>
-    <div *ngIf="users.length > 0; else noUsers">
-      <div class="table-responsive-wrapper">
-        <table class="users-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Rol</th>
-              <th class="actions-cell">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{ user.id }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.email }}</td>
-              <td>
-                <span class="role-badge" [ngClass]="{
-                  'role-admin': user.rol === 'admin',
-                  'role-cliente': user.rol === 'cliente'
-                }">
-                  {{ user.rol }}
-                </span>
-              </td>
-              <td class="actions-cell">
-                <button (click)="editUser(user.id)" class="action-btn btn-edit" title="Editar usuario">
-                  <!-- <i class="fa fa-edit"></i> Opcional: icono -->
-                  Editar
-                </button>
-                <button (click)="deleteUser(user.id, user.name)" class="action-btn btn-delete" title="Eliminar usuario">
-                  <!-- <i class="fa fa-trash"></i> Opcional: icono -->
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- =========== FORMULARIO DE EDICIÓN DE USUARIO =========== -->
+  <div *ngIf="isEditing && editingUser" class="edit-user-section">
+    <div class="admin-header">
+      <h2 class="admin-title">Editar Usuario: {{ editingUser.name }} (ID: {{editingUser.id}})</h2>
     </div>
 
-    <ng-template #noUsers>
-      <div class="no-users-message admin-alert alert-info">
-        No hay usuarios registrados en el sistema.
+    <div *ngIf="successMessage && isEditing" class="admin-alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage && isEditing" class="admin-alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="userEditForm" (ngSubmit)="saveUser()" class="user-edit-form">
+      <div class="form-group">
+        <label for="editName">Nombre:</label>
+        <input type="text" id="editName" formControlName="name" class="form-control-edit">
+        <div *ngIf="editName?.invalid && (editName?.dirty || editName?.touched)" class="alert alert-danger validation-error">
+          <div *ngIf="editName?.errors?.['required']">El nombre es requerido.</div>
+          <div *ngIf="editName?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</div>
+        </div>
       </div>
+
+      <div class="form-group">
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" formControlName="email" class="form-control-edit">
+        <div *ngIf="editEmail?.invalid && (editEmail?.dirty || editEmail?.touched)" class="alert alert-danger validation-error">
+          <div *ngIf="editEmail?.errors?.['required']">El email es requerido.</div>
+          <div *ngIf="editEmail?.errors?.['email']">Formato de email inválido.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editTelefono">Teléfono:</label>
+        <input type="tel" id="editTelefono" formControlName="telefono" class="form-control-edit" placeholder="Ej: +34123456789">
+        <!-- Puedes añadir validación para teléfono aquí si es necesario -->
+        <!-- <div *ngIf="editTelefono?.invalid && (editTelefono?.dirty || editTelefono?.touched)" class="alert alert-danger validation-error">
+          <div *ngIf="editTelefono?.errors?.['pattern']">Formato de teléfono inválido.</div>
+        </div> -->
+      </div>
+
+      <div class="form-group">
+        <label for="editDireccion">Dirección:</label>
+        <input type="text" id="editDireccion" formControlName="direccion" class="form-control-edit" placeholder="Calle Falsa 123, Ciudad">
+        <!-- Puedes añadir validación para dirección aquí si es necesario -->
+      </div>
+
+      <div class="form-group">
+        <label for="editRol">Rol:</label>
+        <select id="editRol" formControlName="rol" class="form-control-edit">
+          <option *ngFor="let roleOption of userRoles" [value]="roleOption">
+            {{ roleOption | titlecase }}
+          </option>
+        </select>
+        <div *ngIf="editRol?.invalid && (editRol?.dirty || editRol?.touched)" class="alert alert-danger validation-error">
+          <div *ngIf="editRol?.errors?.['required']">El rol es requerido.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editPassword">Nueva Contraseña (opcional):</label>
+        <input type="password" id="editPassword" formControlName="password" class="form-control-edit" placeholder="Dejar en blanco para no cambiar">
+        <div *ngIf="editPassword?.invalid && (editPassword?.dirty || editPassword?.touched) && editPassword?.value?.length > 0" class="alert alert-danger validation-error">
+          <div *ngIf="editPassword?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+        </div>
+        <small class="form-text text-muted">Dejar en blanco si no desea cambiar la contraseña.</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary save-btn" [disabled]="userEditForm.invalid || isSaving">
+          <span *ngIf="!isSaving">Guardar Cambios</span>
+          <span *ngIf="isSaving">Guardando...</span>
+        </button>
+        <button type="button" (click)="cancelEdit()" class="btn btn-secondary cancel-btn" [disabled]="isSaving">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- =========== LISTA DE USUARIOS =========== -->
+  <div *ngIf="!isEditing">
+    <div class="admin-header">
+      <h2 class="admin-title">Administrar Usuarios</h2>
+    </div>
+
+    <div *ngIf="successMessage && !isEditing" class="admin-alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage && !isEditing" class="admin-alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="isLoading && !isEditing; else content" class="loading-indicator">
+      <div class="spinner"></div>
+      <p>Cargando usuarios...</p>
+    </div>
+
+    <ng-template #content>
+      <div *ngIf="users.length > 0; else noUsers">
+        <div class="table-responsive-wrapper">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>    <!-- NUEVA COLUMNA -->
+                <th>Dirección</th>   <!-- NUEVA COLUMNA -->
+                <th>Rol</th>
+                <th class="actions-cell">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telefono || '-' }}</td>  <!-- MOSTRAR TELÉFONO -->
+                <td>{{ user.direccion || '-' }}</td><!-- MOSTRAR DIRECCIÓN -->
+                <td>
+                  <span class="role-badge" [ngClass]="{
+                    'role-admin': user.rol === 'admin',
+                    'role-cliente': user.rol === 'cliente'
+                  }">
+                    {{ user.rol }}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <button (click)="startEditUser(user)" class="action-btn btn-edit" title="Editar usuario">
+                    Editar
+                  </button>
+                  <button (click)="deleteUser(user.id, user.name)" class="action-btn btn-delete" title="Eliminar usuario">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ng-template #noUsers>
+        <div class="no-users-message admin-alert alert-info">
+          No hay usuarios registrados en el sistema.
+        </div>
+      </ng-template>
     </ng-template>
-  </ng-template>
+  </div>
 </div>

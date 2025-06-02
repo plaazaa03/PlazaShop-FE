@@ -1,26 +1,55 @@
 // src/app/components/admin/admin-users/admin-users.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UserService, User } from '../../../services/user.service'; // Ajusta la ruta si es necesario
-import { Router, RouterModule } from '@angular/router'; // RouterModule para routerLink
+import { CommonModule, TitleCasePipe } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService, User } from '../../../services/user.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-users',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Añade RouterModule
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    TitleCasePipe
+  ],
   templateUrl: './admin-users.component.html',
-  styleUrls: ['./admin-users.component.css']
+  styleUrls: ['./admin-users.component.css'] // Tu CSS ya está proporcionado
 })
 export class AdminUsersComponent implements OnInit {
   users: User[] = [];
   isLoading = true;
+  isSaving = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-  constructor(private userService: UserService, private router: Router) { }
+  isEditing = false;
+  editingUser: User | null = null;
+  userEditForm!: FormGroup;
+  userRoles: string[] = ['admin', 'cliente'];
+
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
+    this.initEditForm();
+  }
+
+  initEditForm(): void {
+    this.userEditForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: [''], // Puedes añadir Validators.pattern si tienes un formato específico
+      direccion: [''],
+      rol: ['cliente', Validators.required],
+      password: ['', [Validators.minLength(6)]] // Opcional, validador si se ingresa algo
+      // Considera añadir un campo confirmPassword si quieres esa validación
+    });
   }
 
   loadUsers(): void {
@@ -35,32 +64,100 @@ export class AdminUsersComponent implements OnInit {
         this.errorMessage = 'Error al cargar usuarios: ' + err.message;
         console.error(err);
         this.isLoading = false;
-         if (err.status === 401 || err.status === 403) {
-            this.router.navigate(['/login']); // O a una página de no autorizado
+        if (err.status === 401 || err.status === 403) {
+          this.router.navigate(['/login']);
         }
       }
     });
   }
 
-  // Opcional: Redirigir a un formulario de edición de usuario
-  // Para esto, necesitarías un nuevo componente AdminUserEditComponent y una ruta.
-  // O podrías implementar un modal de edición aquí mismo.
-  editUser(userId: number): void {
-    // this.router.navigate(['/admin/usuarios/editar', userId]);
-    // Por ahora, solo un log:
-    console.log('Editar usuario con ID:', userId);
-    alert('Funcionalidad de edición no implementada en este ejemplo. Se necesitaría un formulario/componente de edición.');
+  startEditUser(userToEdit: User): void {
+    this.isEditing = true;
+    this.editingUser = { ...userToEdit };
+    this.successMessage = null;
+    this.errorMessage = null;
+
+    this.userEditForm.patchValue({
+      name: this.editingUser.name,
+      email: this.editingUser.email,
+      telefono: this.editingUser.telefono || '', // Valor por defecto si es undefined
+      direccion: this.editingUser.direccion || '', // Valor por defecto si es undefined
+      rol: this.editingUser.rol,
+      password: '' // Siempre limpiar el campo de contraseña al iniciar edición
+    });
+  }
+
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.editingUser = null;
+    // Resetear el formulario con valores por defecto si es necesario
+    this.userEditForm.reset({
+      name: '',
+      email: '',
+      telefono: '',
+      direccion: '',
+      rol: 'cliente',
+      password: ''
+    });
+    this.errorMessage = null;
+  }
+
+  saveUser(): void {
+    if (!this.editingUser) {
+      this.errorMessage = "No hay usuario seleccionado para editar.";
+      return;
+    }
+
+    if (this.userEditForm.invalid) {
+      this.userEditForm.markAllAsTouched();
+      this.errorMessage = "Por favor, corrige los errores en el formulario.";
+      return;
+    }
+
+    this.isSaving = true;
+    this.errorMessage = null;
+    this.successMessage = null;
+
+    const formValues = this.userEditForm.value;
+    const updatedUserData: Partial<User> = {
+      name: formValues.name,
+      email: formValues.email,
+      telefono: formValues.telefono,
+      direccion: formValues.direccion,
+      rol: formValues.rol
+    };
+
+    // Solo incluir la contraseña si el campo no está vacío
+    if (formValues.password && formValues.password.trim() !== '') {
+      updatedUserData.password = formValues.password;
+    }
+
+    this.userService.updateUser(this.editingUser.id, updatedUserData).subscribe({
+      next: (response: any) => {
+        this.successMessage = response.message || 'Usuario actualizado con éxito.';
+        this.isSaving = false;
+        this.loadUsers();
+        this.cancelEdit();
+        setTimeout(() => this.successMessage = null, 4000);
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al actualizar usuario: ' + err.message;
+        console.error(err);
+        this.isSaving = false;
+        setTimeout(() => this.errorMessage = null, 5000);
+      }
+    });
   }
 
   deleteUser(userId: number, userName: string): void {
     if (confirm(`¿Estás seguro de que quieres eliminar al usuario "${userName}"? Esta acción no se puede deshacer.`)) {
-      this.isLoading = true; // Podrías tener un loader por fila o global
+      this.isLoading = true;
       this.userService.deleteUser(userId).subscribe({
         next: (response) => {
           this.successMessage = response.message;
-          this.users = this.users.filter(u => u.id !== userId); // Elimina el usuario de la lista local
+          this.users = this.users.filter(u => u.id !== userId);
           this.isLoading = false;
-          setTimeout(() => this.successMessage = null, 3000); // Ocultar mensaje después de 3 seg
+          setTimeout(() => this.successMessage = null, 3000);
         },
         error: (err) => {
           this.errorMessage = 'Error al eliminar usuario: ' + err.message;
@@ -71,4 +168,12 @@ export class AdminUsersComponent implements OnInit {
       });
     }
   }
+
+  // Helpers para acceder a los form controls en el template
+  get editName() { return this.userEditForm.get('name'); }
+  get editEmail() { return this.userEditForm.get('email'); }
+  get editTelefono() { return this.userEditForm.get('telefono'); }
+  get editDireccion() { return this.userEditForm.get('direccion'); }
+  get editRol() { return this.userEditForm.get('rol'); }
+  get editPassword() { return this.userEditForm.get('password'); }
 }

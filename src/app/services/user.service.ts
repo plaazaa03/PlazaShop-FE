@@ -10,13 +10,12 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  rol: 'cliente' | 'admin'; // Asegura que el rol sea uno de estos valores
-  direccion?: string;
-  telefono?: string;
-  // Otros campos que puedas tener como email_verified_at, created_at, updated_at
-  created_at?: string;
-  updated_at?: string;
+  rol: 'admin' | 'cliente'; 
+  telefono?: string;        
+  direccion?: string;       
+  password?: string;
 }
+
 
 @Injectable({
   providedIn: 'root'

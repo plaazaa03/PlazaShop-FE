@@ -21,6 +21,7 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   padding: 30px;
+  margin-top: 100px;
   overflow: hidden; /* Para manejar el desbordamiento de la tabla */
 }
 
@@ -193,9 +194,130 @@
   animation: spin 1s linear infinite;
 }
 
+
+/* --- ESTILOS PARA LA SECCIÓN DE EDICIÓN DE USUARIO --- */
+.edit-user-section {
+  background-color: #fff; /* Fondo para la sección de edición, si es necesario */
+  padding: 20px;
+  border-radius: 8px; /* Similar al contenedor principal */
+  /* box-shadow: 0 4px 12px rgba(0,0,0,0.08);  Opcional: sombra propia */
+  margin-bottom: 30px; /* Espacio si hay otros elementos debajo */
+}
+
+.user-edit-form .form-group {
+  margin-bottom: 20px;
+}
+
+.user-edit-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.user-edit-form .form-control-edit { /* Usamos una clase diferente para evitar conflictos con otros .form-control si los tuvieras */
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem; /* Estilo Bootstrap 5 */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.user-edit-form .form-control-edit:focus {
+  border-color: #86b7fe; /* Color de foco Bootstrap 5 */
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Sombra de foco Bootstrap 5 */
+}
+
+.user-edit-form select.form-control-edit {
+  appearance: none; /* Opcional: para estilo personalizado de select */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  padding-right: 2.5rem; /* Espacio para el ícono del dropdown */
+}
+
+.user-edit-form .validation-error {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  margin-top: 6px;
+  /* Reutiliza los estilos de .admin-alert.alert-danger si prefieres, o define aquí: */
+  color: #842029;
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  border-radius: 4px;
+}
+
+.user-edit-form .form-actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+}
+
+.user-edit-form .form-actions .btn { /* Estilos base para botones del formulario */
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border: none;
+}
+.user-edit-form .form-actions .btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.user-edit-form .form-actions .btn-primary.save-btn {
+  background-color: #dc3545; /* Azul primario Bootstrap */
+  color: white;
+}
+.user-edit-form .form-actions .btn-primary.save-btn:hover:not(:disabled) {
+  background-color: #f3051d;
+}
+.user-edit-form .form-actions .btn-primary.save-btn:disabled {
+  background-color: #e46e79;
+  cursor: not-allowed;
+}
+
+.user-edit-form .form-actions .btn-secondary.cancel-btn {
+  background-color: #6c757d; /* Gris secundario Bootstrap */
+  color: white;
+}
+.user-edit-form .form-actions .btn-secondary.cancel-btn:hover:not(:disabled) {
+  background-color: #5c636a;
+}
+.user-edit-form .form-actions .btn-secondary.cancel-btn:disabled {
+  background-color: #a1a8af;
+  cursor: not-allowed;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Ajustes responsivos para el formulario de edición si es necesario */
+@media (max-width: 768px) {
+  .edit-user-section {
+    padding: 15px;
+  }
+  .user-edit-form .form-actions {
+    flex-direction: column;
+  }
+  .user-edit-form .form-actions .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .user-edit-form .form-actions .btn:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* Media Queries para responsividad de la tabla */

@@ -8,83 +8,103 @@
   display: flex;
   flex-direction: column; /* Para alinear mensajes de alerta arriba */
   min-height: calc(100vh - 80px); /* Ajusta 80px según la altura de tu header */
-  align-items: center;
-  justify-content: center; /* Centra el .profile-card verticalmente si hay espacio */
-  background-color: #f0f2f5; /* Un gris muy claro y moderno para el fondo */
+  justify-content: center; /* Centra el bloque de contenido verticalmente si hay espacio */
+  background-color: #f0f2f5;
   padding: 40px 20px; /* Padding para que no se pegue a los bordes en pantallas pequeñas */
-  font-family: 'Roboto', 'Poppins', sans-serif; /* Nueva fuente */
+  font-family: 'Roboto', 'Poppins', sans-serif;
   box-sizing: border-box;
 }
 
-.profile-card {
-  width: 100%;
-  max-width: 700px; /* Un poco más de espacio para el perfil */
-  background-color: #ffffff;
-  border-radius: 16px; /* Bordes más redondeados */
-  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06); /* Sombra más suave y moderna */
-  padding: 40px 50px; /* Buen padding interno */
-  margin-top: 80px; /* Espacio si hay alertas globales arriba */
-  margin-bottom: 20px; /* Espacio inferior */
-  text-align: left;
-  transition: transform 0.3s ease-out;
-}
-
-/* Efecto sutil al cargar o interactuar */
-/* .profile-card:hover {
-  transform: translateY(-5px);
-} */
-
-.profile-header {
-  margin-bottom: 35px;
-  text-align: center; /* Título centrado dentro de la tarjeta */
-}
-
-.profile-title {
-  font-size: 2.4rem; /* Título más grande y prominente */
-  font-weight: 600; /* Un poco menos bold que 700 */
-  color: #1c1e21; /* Color de texto principal oscuro (similar a Facebook) */
-  margin-bottom: 8px;
-  font-family: 'Poppins', sans-serif;
-}
-
 .titulo-pagina {
-  font-size: 2rem; /* Ligeramente ajustado */
-  color: #212529; /* Negro suave */
+  font-size: 2rem;
+  color: #212529;
   font-weight: 700;
-  margin-bottom: 10px;
+  
+  /* NUEVO: Centrado y con max-width, márgenes verticales ajustados */
+  width: 100%;
+  max-width: 700px; /* Consistente con profile-card y global-alert */
   margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .titulo {
-  text-align: left;
+  text-align: left; /* Ya estaba así, lo cual es correcto */
 }
 
-.profile-subtitle {
-  font-size: 1rem;
-  color: #606770; /* Color de texto secundario */
-  font-weight: 400;
-}
-
-/* Breadcrumbs */
+/* Breadcrumbs (ya se alinearán a la izquierda por defecto dentro de .titulo-pagina) */
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
-  margin: 0;
+  margin: 0; /* Asegúrate que no tenga márgenes que lo desplacen */
   list-style: none;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0; /* Ajustado, el margen inferior de .titulo-pagina controlará el espacio */
 }
+/* ... (resto de estilos de breadcrumb sin cambios) ... */
+
+
+.profile-card {
+  width: 100%;
+  max-width: 700px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  padding: 40px 50px;
+  /* margin-top: 80px; */ /* ANTERIOR */
+  /* margin-bottom: 20px; */ /* ANTERIOR */
+
+  /* MODIFICADO: Margen superior ajustado, centrado horizontalmente */
+  margin: 30px auto 20px auto; /* Margen sup 30px, inf 20px, izq/der auto para centrar */
+  text-align: left;
+  transition: transform 0.3s ease-out;
+}
+
+/* Los estilos de .global-alert ya son consistentes con este enfoque (max-width y margin auto) */
+.global-alert {
+  width: 100%;
+  max-width: 700px; /* Mismo ancho que la tarjeta para consistencia */
+  margin: 0 auto 20px auto; /* Centrado y con margen inferior (top 0, bottom 20px) */
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* ------ NO CAMBIAR EL RESTO DEL CSS A MENOS QUE SEA NECESARIO ------ */
+/* (El resto de tus estilos .profile-header, .form-section, etc., permanecen igual) */
+
+.profile-header {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.profile-title {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #1c1e21;
+  margin-bottom: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-subtitle {
+  font-size: 1rem;
+  color: #606770;
+  font-weight: 400;
+}
+
 .breadcrumb-item {
   font-size: 0.9rem;
-  color: #6c757d; /* Gris para el texto normal del breadcrumb */
+  color: #6c757d;
 }
 .breadcrumb-item + .breadcrumb-item::before {
   padding: 0 0.7rem;
-  color: #adb5bd; /* Gris más claro para el separador */
-  content: ">"; /* Cambiado a ">" para un look más moderno */
+  color: #adb5bd;
+  content: ">";
 }
 .breadcrumb-item a {
-  color: var(--brand-red); /* Tu rojo para los enlaces */
+  color: var(--brand-red);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -94,7 +114,7 @@
   text-decoration: underline;
 }
 .breadcrumb-item.active {
-  color: #495057; /* Un gris más oscuro para el ítem activo */
+  color: #495057;
   font-weight: 500;
 }
 
@@ -105,14 +125,14 @@
 .form-section-title {
   font-size: 1.25rem;
   font-weight: 500;
-  color: #d32f2f; /* TU COLOR ROJO */
+  color: #d32f2f;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0; /* Separador más sutil */
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .form-group {
-  margin-bottom: 22px; /* Un poco más de espacio */
+  margin-bottom: 22px;
 }
 
 .form-group label {
@@ -120,7 +140,7 @@
   font-size: 0.9rem;
   margin-bottom: 8px;
   display: block;
-  color: #333; /* Un gris oscuro para las etiquetas */
+  color: #333;
 }
 
 input[type="text"],
@@ -128,28 +148,28 @@ input[type="email"],
 input[type="password"],
 input[type="tel"] {
   width: 100%;
-  padding: 14px 18px; /* Padding más generoso */
-  border: 1px solid #ccd0d5; /* Borde sutil gris */
+  padding: 14px 18px;
+  border: 1px solid #ccd0d5;
   border-radius: 8px;
   font-size: 1rem;
-  color: #1c1e21; /* Color de texto del input */
-  background-color: #f5f6f7; /* Fondo del input ligeramente gris */
+  color: #1c1e21;
+  background-color: #f5f6f7;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
 }
 
 input::placeholder {
-  color: #8a8d91; /* Placeholder un poco más oscuro */
+  color: #8a8d91;
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus {
-  border-color: #d32f2f; /* TU COLOR ROJO al hacer foco */
-  background-color: #ffffff; /* Fondo blanco al hacer foco */
+  border-color: #d32f2f;
+  background-color: #ffffff;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2); /* Sombra de foco más sutil */
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
 }
 
 .password-help-text {
@@ -161,29 +181,29 @@ input[type="tel"]:focus {
 
 .form-actions {
   margin-top: 30px;
-  text-align: center; /* Centrar el botón */
+  text-align: center;
 }
 
 .profile-button {
-  min-width: 220px; /* Botón más ancho */
-  padding: 14px 30px; /* Padding generoso */
-  background-image: linear-gradient(to right, #e53935, #d32f2f); /* Gradiente sutil para el botón */
+  min-width: 220px;
+  padding: 14px 30px;
+  background-image: linear-gradient(to right, #e53935, #d32f2f);
   color: white;
   border: none;
-  border-radius: 8px; /* Bordes consistentes */
+  border-radius: 8px;
   font-size: 1.05rem;
-  font-weight: 500; /* Peso de fuente medio */
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease; /* Transición para todos los estados */
+  transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25); /* Sombra sutil para el botón */
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
   font-family: 'Poppins', sans-serif;
 }
 
 .profile-button:disabled {
   background-image: none;
-  background-color: #bcc0c4; /* Gris para deshabilitado */
+  background-color: #bcc0c4;
   color: #f5f6f7;
   cursor: not-allowed;
   box-shadow: none;
@@ -191,26 +211,16 @@ input[type="tel"]:focus {
 }
 
 .profile-button:not(:disabled):hover {
-  background-image: linear-gradient(to right, #d32f2f, #b71c1c); /* Gradiente más oscuro al pasar el mouse */
+  background-image: linear-gradient(to right, #d32f2f, #b71c1c);
   box-shadow: 0 6px 15px rgba(183, 28, 28, 0.35);
-  transform: translateY(-2px); /* Ligero levantamiento */
+  transform: translateY(-2px);
 }
 
 .profile-button:not(:disabled):active {
-  transform: translateY(0px); /* Presionar hacia abajo */
+  transform: translateY(0px);
   box-shadow: 0 2px 8px rgba(183, 28, 28, 0.3);
 }
 
-/* Estilos para mensajes de alerta (globales, fuera de la tarjeta) */
-.global-alert {
-  width: 100%;
-  max-width: 700px; /* Mismo ancho que la tarjeta para consistencia */
-  margin: 0 auto 20px auto; /* Centrado y con margen inferior */
-  padding: 15px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  text-align: center;
-}
 .global-alert.alert-success {
   color: #0f5132;
   background-color: #d1e7dd;
@@ -222,10 +232,9 @@ input[type="tel"]:focus {
   border: 1px solid #f5c2c7;
 }
 
-/* Mensajes de error de validación de campo */
 .text-danger {
   font-size: 0.8rem;
-  color: #e53935; /* Un rojo un poco más brillante para los errores de campo */
+  color: #e53935;
   margin-top: 5px;
   display: block;
 }
@@ -233,7 +242,7 @@ input[type="tel"]:focus {
 hr {
   border: none;
   border-top: 1px solid #e0e0e0;
-  margin: 35px 0; /* Más espacio alrededor del hr */
+  margin: 35px 0;
 }
 
 .loading-indicator {
@@ -249,7 +258,7 @@ hr {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border-left-color: #d32f2f; /* TU COLOR ROJO */
+  border-left-color: #d32f2f;
   margin-bottom: 15px;
   animation: spin 1s linear infinite;
 }
@@ -264,15 +273,17 @@ hr {
   100% { transform: rotate(360deg); }
 }
 
-/* Media query para pantallas más pequeñas */
 @media (max-width: 768px) {
   :host {
-    padding: 20px 15px; /* Menos padding en el host */
+    padding: 20px 15px;
   }
   .profile-card {
-    padding: 30px 25px; /* Menos padding interno en la tarjeta */
-    margin-top: 10px;
+    padding: 30px 25px;
+    /* margin-top: 10px; */ /* El margen auto se encargará bien aquí */
   }
+  /* Ajuste para .titulo-pagina en mobile si es necesario, aunque max-width y width 100% deberían funcionar bien */
+  /* .titulo-pagina { } */
+
   .profile-title {
     font-size: 2rem;
   }
@@ -287,7 +298,7 @@ hr {
     font-size: 0.95rem;
   }
   .profile-button {
-    min-width: 100%; /* Botón ocupa todo el ancho */
+    min-width: 100%;
     padding: 12px;
     font-size: 1rem;
   }
