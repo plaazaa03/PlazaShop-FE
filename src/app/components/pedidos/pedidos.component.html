@@ -1,19 +1,19 @@
 <div class="pedidos-page-container">
 
-  <header class="pedidos-header">
+  
+
+  <div class="pedidos-layout">
+    <div class="pedidos-main-column">
+      <header class="pedidos-header">
     <h1 class="page-title">Finaliza tu Compra</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="/carrito">Carrito</a></li>
           <li class="breadcrumb-item active" aria-current="page">Productos</li>
         </ol>
       </nav>
   </header>
-
-  <div class="pedidos-layout">
-    <!-- Columna Izquierda -->
-    <div class="pedidos-main-column">
-      <!-- Resumen del Carrito -->
       <section class="checkout-card">
         <div class="checkout-card-header">
           <h2><i class="bi bi-cart3"></i> Resumen del Carrito</h2>
@@ -93,7 +93,6 @@
               </div>
             </div>
 
-            <!-- Campos dinámicos para Transferencia -->
             <div *ngIf="metodoPago === 'transferencia'" class="payment-details-section fadeIn-animation">
               <h6 class="payment-details-title">Instrucciones para Transferencia</h6>
               <div class="info-message">
@@ -112,11 +111,9 @@
           </form>
         </div>
       </section>
-    </div> <!-- Fin Columna Izquierda -->
+    </div>
 
-    <!-- Columna Derecha -->
     <div class="pedidos-sidebar-column">
-      <!-- Pedido Recién Realizado -->
       <section *ngIf="pedidoReciente" class="alert-message alert-success fadeIn-animation">
         <i class="bi bi-check-circle-fill"></i>
         <div class="alert-content">
@@ -133,7 +130,6 @@
         </div>
       </section>
 
-      <!-- Historial de Pedidos -->
       <section class="checkout-card">
         <div class="checkout-card-header">
           <h2><i class="bi bi-receipt-cutoff"></i> Historial de Pedidos</h2>
@@ -179,6 +175,6 @@
           </div>
         </ng-template>
       </section>
-    </div> <!-- Fin Columna Derecha -->
-  </div> <!-- Fin Layout -->
+    </div>
+  </div>
 </div>

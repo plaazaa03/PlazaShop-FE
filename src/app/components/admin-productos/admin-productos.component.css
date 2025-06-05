@@ -1,4 +1,5 @@
-/* admin-productos.component.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :host {
   --admin-bg-color: #f7f8fc; /* Un gris azulado muy claro, moderno */
   --admin-text-color: #4a5568; /* Gris oscuro para texto general */
@@ -25,9 +26,6 @@
   --input-placeholder-color: #9ca3af; /* Color del placeholder */
   --input-focus-border-color: var(--admin-primary-color);
   --input-focus-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2); /* Sombra de foco con tu rojo, más sutil */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --title-font-family: 'Poppins', sans-serif; /* Fuente Poppins para títulos */
-
   display: block; /* Importante para que :host ocupe espacio */
   background-color: var(--admin-bg-color);
   min-height: 100vh;
@@ -72,7 +70,7 @@
   text-decoration: underline;
 }
 .breadcrumb-item.active {
-  color: #495057; /* Un gris más oscuro para el ítem activo */
+  color: #495057; 
   font-weight: 500;
 }
 
@@ -80,13 +78,11 @@
 .admin-header h2,
 .form-section h3,
 .product-list-section h3 {
-  font-family: var(--title-font-family);
   color: var(--admin-title-color);
   font-weight: 600; /* Un poco menos 'bold' que 700 para Poppins */
   letter-spacing: -0.025em; /* Ajuste fino para Poppins */
   display: flex;
   align-items: center;
-  margin-bottom: 1.75rem; /* Espacio consistente debajo de los títulos */
 }
 
 .admin-header h2 .bi,
@@ -101,10 +97,6 @@
 .admin-header h2 {
   font-size: 2rem; /* Tamaño del título principal */
   justify-content: flex-start; /* Alineación a la izquierda por defecto */
-  /* Si quieres centrar solo este: text-align: center; justify-content: center; */
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--card-border-color);
-  margin-bottom: 2.5rem;
 }
 
 .form-section h3,
@@ -133,7 +125,7 @@
 
 /* === SECCIÓN: FORMULARIO AGREGAR PRODUCTO === */
 .add-product-form.modern-card {
-  /* Estilos específicos si la tarjeta del formulario necesita ser diferente */
+  margin-top: 2.5rem;
 }
 
 .add-product-form .form-grid {

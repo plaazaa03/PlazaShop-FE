@@ -290,10 +290,9 @@
   color: #6c757d;
   margin: 0 0 15px 0;
   line-height: 1.6;
-  flex-grow: 1; /* Importante para empujar precio/stock/carrito abajo */
-  min-height: calc(1.6em * 2); /* Para dos líneas */
+  flex-grow: 1; 
+  min-height: calc(1.6em * 2);
    display: -webkit-box;
-   -webkit-line-clamp: 2; /* O 3 si quieres más descripción */
    -webkit-box-orient: vertical;
    overflow: hidden;
    text-overflow: ellipsis;

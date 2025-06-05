@@ -1,48 +1,100 @@
 /* src/app/components/admin/admin-users/admin-users.component.css */
 
+/* Importación de fuentes (asegúrate de que no se dupliquen si ya están globales) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); /* Para el título */
 
 
 :host {
-  display: block; /* O flex si necesitas más control sobre hijos directos */
+  display: block;
   width: 100%;
-  min-height: calc(100vh - 80px); /* Ajusta según altura de tu header */
-  padding: 30px; /* Padding general para la vista */
-  background-color: #f8f9fa; /* Fondo gris claro para la sección de admin */
+  min-height: calc(100vh - 80px); /* Ajusta según altura de tu header principal de la app */
+  padding: 30px;
+  background-color: #f8f9fa; /* Fondo general de la página de admin */
   box-sizing: border-box;
-  font-family: 'Roboto', 'Poppins', sans-serif;
+  font-family: 'Roboto', 'Poppins', sans-serif; /* Fuente base para esta vista */
+
+  /* Variables de color (si no están definidas globalmente y accesibles) */
+  --primary-color: #d32f2f;         /* Tu rojo principal */
+  --primary-color-dark: #b71c1c;    /* Tu rojo oscuro */
+  --text-color: #212529;            /* Color de texto principal */
+  --text-muted-color: #6c757d;      /* Color de texto atenuado */
+  --border-color: #dee2e6;          /* Color de borde general */
+  --success-color: #28a745;         /* Verde para éxito */
+  --danger-color: #dc3545;          /* Rojo para peligro/error */
+  --warning-color: #ffc107;         /* Amarillo para advertencia */
+  --info-color: #055160;            /* Azul/cian para información (ajustado) */
+  --light-bg: #f8f9fa;              /* Fondo claro */
+  --card-bg: #ffffff;               /* Fondo de tarjetas */
 }
 
 .admin-users-container {
-  max-width: 1200px; /* Ancho máximo para el contenido */
-  margin: 0 auto; /* Centrar el contenedor */
-  background-color: #ffffff;
+  max-width: 1200px;
+  margin: 30px auto 0 auto;
+  background-color: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   padding: 30px;
-  margin-top: 100px;
-  overflow: hidden; /* Para manejar el desbordamiento de la tabla */
+  overflow: hidden;
 }
 
-.admin-header {
+/* === ESTILOS PARA EL NUEVO ENCABEZADO DE PÁGINA === */
+.pedidos-header { /* Puedes renombrar esta clase a algo más genérico como .page-section-header */
+  text-align: left;
+  margin-bottom: 2rem; /* Espacio entre el header y el contenido principal de admin */
+  padding-top: 80px;
+}
+
+.page-title {
+  color: var(--text-color);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 0; /* Asegurar que no haya margen superior extra */
+  margin-bottom: 0.5rem;
+  text-align: left;
+  padding-top: 0;
+}
+
+.breadcrumb {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e9ecef;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-family: 'Roboto', sans-serif; /* Fuente para los breadcrumbs */
 }
 
-.admin-title {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #212529; /* Negro suave */
-  font-family: 'Poppins', sans-serif;
+.breadcrumb-item {
+  font-size: 0.9rem;
+  color: var(--text-muted-color);
 }
 
-/* Podrías añadir un botón de "Crear Usuario" aquí si lo necesitas */
-/* .add-user-btn { ... } */
+.breadcrumb-item + .breadcrumb-item::before {
+  padding: 0 0.5em;
+  color: var(--text-muted-color);
+  content: ">";
+}
+
+.breadcrumb-item a {
+  
+  color: var(--text-muted-color); /* Usando tu variable de color primario */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-item a:hover {
+  color: var(--primary-color-dark);
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: var(--text-color);
+  font-weight: 500;
+}
+/* === FIN ESTILOS ENCABEZADO DE PÁGINA === */
+
 
 /* Alertas globales para la vista de admin */
 .admin-alert {
@@ -62,50 +114,46 @@
   border: 1px solid #f5c2c7;
 }
 .admin-alert.alert-info {
-  color: #055160;
+  color: var(--info-color); /* Usando la variable definida */
   background-color: #cff4fc;
   border: 1px solid #9eeaf9;
 }
 
 .table-responsive-wrapper {
-  overflow-x: auto; /* Permite scroll horizontal en la tabla en pantallas pequeñas */
+  overflow-x: auto;
   width: 100%;
 }
 
 .users-table {
   width: 100%;
-  border-collapse: separate; /* Permite border-radius en celdas si se usa con border-spacing */
-  border-spacing: 0; /* Necesario con border-collapse: separate */
-  margin-top: 20px;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 0; /* El margen ya lo da el .pedidos-header */
   font-size: 0.9rem;
 }
 
 .users-table th,
 .users-table td {
-  padding: 14px 18px; /* Buen padding en celdas */
+  padding: 14px 18px;
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid #e9ecef; /* Líneas horizontales suaves */
+  border-bottom: 1px solid var(--border-color);
 }
 
 .users-table thead th {
-  background-color: #f8f9fa; /* Fondo ligero para cabeceras */
-  color: #495057; /* Color de texto de cabecera */
-  font-weight: 500; /* Peso medio para cabeceras */
+  background-color: var(--light-bg);
+  color: #495057;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.8rem;
-  position: sticky; /* Para que la cabecera se mantenga visible al hacer scroll (opcional) */
-  top: 0; /* Necesario para position: sticky */
+  position: sticky;
+  top: 0;
   z-index: 10;
 }
-/* Bordes redondeados para la primera y última cabecera si la tabla tiene border-radius */
-/* .users-table thead th:first-child { border-top-left-radius: 8px; } */
-/* .users-table thead th:last-child { border-top-right-radius: 8px; } */
-
 
 .users-table tbody tr:hover {
-  background-color: #f1f3f5; /* Color de fondo sutil al pasar el mouse */
+  background-color: #f1f3f5;
 }
 
 .users-table td {
@@ -114,28 +162,28 @@
 
 .role-badge {
   padding: 4px 10px;
-  border-radius: 12px; /* Más redondeado */
+  border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 500;
-  text-transform: capitalize; /* Primera letra en mayúscula */
-  display: inline-block; /* Para que el padding funcione bien */
+  text-transform: capitalize;
+  display: inline-block;
 }
 
 .role-admin {
-  background-color: rgba(211, 47, 47, 0.1); /* TU COLOR ROJO con transparencia */
-  color: #b71c1c; /* TU COLOR ROJO más oscuro */
+  background-color: rgba(211, 47, 47, 0.1); /* Rojo con transparencia */
+  color: var(--primary-color-dark);         /* Rojo oscuro */
   border: 1px solid rgba(211, 47, 47, 0.2);
 }
 
 .role-cliente {
-  background-color: rgba(25, 118, 210, 0.1); /* Un azul para clientes */
-  color: #1565c0; /* Azul oscuro */
+  background-color: rgba(25, 118, 210, 0.1);
+  color: #1565c0;
   border: 1px solid rgba(25, 118, 210, 0.2);
 }
 
 .actions-cell {
-  text-align: right; /* Alinea los botones a la derecha */
-  white-space: nowrap; /* Evita que los botones se rompan en varias líneas */
+  text-align: right;
+  white-space: nowrap;
 }
 
 .action-btn {
@@ -147,7 +195,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   margin-left: 8px;
-  display: inline-flex; /* Para alinear icono y texto si se añade */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
@@ -156,8 +204,8 @@
 }
 
 .btn-edit {
-  background-color: #ffc107; /* Amarillo para editar */
-  color: #212529; /* Texto oscuro para contraste */
+  background-color: var(--warning-color);
+  color: #212529;
 }
 .btn-edit:hover {
   background-color: #e0a800;
@@ -165,7 +213,7 @@
 }
 
 .btn-delete {
-  background-color: #dc3545; /* Rojo para eliminar */
+  background-color: var(--danger-color);
   color: white;
 }
 .btn-delete:hover {
@@ -173,14 +221,10 @@
   transform: translateY(-1px);
 }
 
-/* Iconos (ejemplo con Font Awesome si lo usas) */
-/* .action-btn .fa { margin-right: 5px; } */
-
-
 .loading-indicator, .no-users-message {
   text-align: center;
   padding: 40px 20px;
-  color: #6c757d; /* Gris para texto informativo */
+  color: var(--text-muted-color);
   font-size: 1.1rem;
 }
 
@@ -189,19 +233,19 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border-left-color: #007bff; /* Un azul para el spinner de admin, o tu color principal */
-  margin: 0 auto 15px auto; /* Centrado */
+  border-left-color: var(--primary-color); /* Spinner con tu color primario */
+  margin: 0 auto 15px auto;
   animation: spin 1s linear infinite;
 }
 
 
 /* --- ESTILOS PARA LA SECCIÓN DE EDICIÓN DE USUARIO --- */
 .edit-user-section {
-  background-color: #fff; /* Fondo para la sección de edición, si es necesario */
-  padding: 20px;
-  border-radius: 8px; /* Similar al contenedor principal */
-  /* box-shadow: 0 4px 12px rgba(0,0,0,0.08);  Opcional: sombra propia */
-  margin-bottom: 30px; /* Espacio si hay otros elementos debajo */
+  background-color: transparent; /* No necesita fondo propio si está dentro de .admin-users-container */
+  padding: 0; /* El padding ya lo da .admin-users-container */
+  border-radius: 0;
+  margin-top: 0; /* El margen ya lo da el .pedidos-header */
+  margin-bottom: 30px;
 }
 
 .user-edit-form .form-group {
@@ -215,7 +259,7 @@
   color: #495057;
 }
 
-.user-edit-form .form-control-edit { /* Usamos una clase diferente para evitar conflictos con otros .form-control si los tuvieras */
+.user-edit-form .form-control-edit {
   width: 100%;
   padding: 10px 12px;
   font-size: 1rem;
@@ -224,31 +268,30 @@
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 0.375rem; /* Estilo Bootstrap 5 */
+  border-radius: 0.375rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   box-sizing: border-box;
 }
 
 .user-edit-form .form-control-edit:focus {
-  border-color: #86b7fe; /* Color de foco Bootstrap 5 */
+  border-color: #86b7fe;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Sombra de foco Bootstrap 5 */
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .user-edit-form select.form-control-edit {
-  appearance: none; /* Opcional: para estilo personalizado de select */
+  appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 16px 12px;
-  padding-right: 2.5rem; /* Espacio para el ícono del dropdown */
+  padding-right: 2.5rem;
 }
 
 .user-edit-form .validation-error {
   font-size: 0.8rem;
   padding: 6px 10px;
   margin-top: 6px;
-  /* Reutiliza los estilos de .admin-alert.alert-danger si prefieres, o define aquí: */
   color: #842029;
   background-color: #f8d7da;
   border: 1px solid #f5c2c7;
@@ -261,7 +304,7 @@
   gap: 10px;
 }
 
-.user-edit-form .form-actions .btn { /* Estilos base para botones del formulario */
+.user-edit-form .form-actions .btn {
   padding: 10px 20px;
   border-radius: 6px;
   font-size: 0.95rem;
@@ -275,19 +318,20 @@
 }
 
 .user-edit-form .form-actions .btn-primary.save-btn {
-  background-color: #dc3545; /* Azul primario Bootstrap */
+  background-color: var(--primary-color); /* Usar tu color primario para guardar */
   color: white;
 }
 .user-edit-form .form-actions .btn-primary.save-btn:hover:not(:disabled) {
-  background-color: #f3051d;
+  background-color: var(--primary-color-dark);
 }
 .user-edit-form .form-actions .btn-primary.save-btn:disabled {
-  background-color: #e46e79;
+  background-color: var(--primary-color-light); /* Un color más claro para deshabilitado */
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .user-edit-form .form-actions .btn-secondary.cancel-btn {
-  background-color: #6c757d; /* Gris secundario Bootstrap */
+  background-color: #6c757d;
   color: white;
 }
 .user-edit-form .form-actions .btn-secondary.cancel-btn:hover:not(:disabled) {
@@ -296,6 +340,7 @@
 .user-edit-form .form-actions .btn-secondary.cancel-btn:disabled {
   background-color: #a1a8af;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 @keyframes spin {
@@ -303,10 +348,48 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Ajustes responsivos para el formulario de edición si es necesario */
+
+/* Media Queries para responsividad */
 @media (max-width: 768px) {
+  :host {
+    padding: 20px 15px;
+  }
+  .admin-users-container {
+    padding: 20px;
+    margin-top: 20px; /* Ajustar margen */
+  }
+
+  .page-title {
+    font-size: 1.8rem; /* Título más pequeño en móviles */
+  }
+  .breadcrumb-item {
+    font-size: 0.85rem;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+  .action-btn {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    margin-left: 0;
+  }
+  .actions-cell {
+    text-align: center;
+  }
+  .role-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+
+  /* Formulario de edición en móviles */
   .edit-user-section {
-    padding: 15px;
+    padding: 0; /* Ya está dentro de .admin-users-container que tiene padding */
   }
   .user-edit-form .form-actions {
     flex-direction: column;
@@ -317,38 +400,5 @@
   }
   .user-edit-form .form-actions .btn:last-child {
     margin-bottom: 0;
-  }
-}
-
-/* Media Queries para responsividad de la tabla */
-@media (max-width: 768px) {
-  :host {
-    padding: 20px 15px;
-  }
-  .admin-users-container {
-    padding: 20px;
-  }
-  .admin-title {
-    font-size: 1.6rem;
-  }
-  .users-table th,
-  .users-table td {
-    padding: 10px 12px;
-    font-size: 0.85rem;
-  }
-  .action-btn {
-    padding: 5px 8px;
-    font-size: 0.8rem;
-    margin-bottom: 5px; /* Espacio entre botones si se apilan */
-    display: block; /* Hace que los botones ocupen el ancho y se apilen */
-    width: 100%;
-    margin-left: 0;
-  }
-  .actions-cell {
-    text-align: center; /* Centra los botones apilados */
-  }
-  .role-badge {
-    font-size: 0.7rem;
-    padding: 3px 8px;
   }
 }

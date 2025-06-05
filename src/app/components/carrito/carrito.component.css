@@ -1,4 +1,5 @@
-/* carrito.component.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :host {
   --primary-color: #d32f2f;
   --primary-color-dark: #b71c1c;
@@ -27,7 +28,6 @@
 }
 
 .carrito-page-wrapper {
-  font-family: var(--font-family);
   background-color: #f8f9fa;
   min-height: calc(100vh - 80px); /* Ajusta según altura de tu header/navbar */
   padding: 2rem 1rem; /* padding para móviles */

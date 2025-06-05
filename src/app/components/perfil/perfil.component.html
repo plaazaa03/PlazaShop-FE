@@ -1,3 +1,17 @@
+
+
+<!-- Encabezado de Página Reutilizable -->
+<header class="page-section-header">
+  <h1 class="page-title">Gestionar Perfil</h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Perfil</li>
+    </ol>
+  </nav>
+</header>
+<!-- Fin Encabezado de Página -->
+
 <!-- Alertas Globales (fuera de la tarjeta de perfil) -->
 <div *ngIf="successMessage" class="global-alert alert-success" role="alert">
   {{ successMessage }}
@@ -5,17 +19,6 @@
 <div *ngIf="errorMessage" class="global-alert alert-danger" role="alert">
   {{ errorMessage }}
 </div>
-
-<div class="titulo-pagina">
-  <h2 class="titulo">Gestionar Perfil</h2>
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Perfil</li>
-    </ol>
-  </nav>
-</div>
-
 <!-- Tarjeta de Perfil -->
 <div class="profile-card" *ngIf="!isLoading; else loadingState">
   <div class="profile-header">
@@ -62,6 +65,10 @@
         <label for="password" class="form-label">Nueva Contraseña</label>
         <input type="password" id="password" formControlName="password" class="form-control" placeholder="••••••••">
         <small class="password-help-text">Mínimo 8 caracteres. Dejar en blanco si no deseas cambiarla.</small>
+        <!-- Mensaje de error para la longitud de la contraseña -->
+        <div *ngIf="profileForm.get('password')?.dirty && profileForm.get('password')?.errors?.['minlength']" class="text-danger">
+          La contraseña debe tener al menos 8 caracteres.
+        </div>
       </div>
 
       <div class="form-group">
@@ -75,7 +82,8 @@
 
     <div class="form-actions">
       <button type="submit" class="profile-button" [disabled]="profileForm.invalid || isLoading">
-        Guardar Cambios
+        <span *ngIf="!isLoading">Guardar Cambios</span>
+        <span *ngIf="isLoading">Guardando...</span>
       </button>
     </div>
   </form>

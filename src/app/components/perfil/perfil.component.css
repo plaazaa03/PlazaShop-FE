@@ -1,86 +1,117 @@
-/* src/app/components/perfil/perfil.component.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); /* Poppins para elementos dentro de la tarjeta */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :host {
-  display: flex;
-  flex-direction: column; /* Para alinear mensajes de alerta arriba */
-  min-height: calc(100vh - 80px); /* Ajusta 80px según la altura de tu header */
-  justify-content: center; /* Centra el bloque de contenido verticalmente si hay espacio */
-  background-color: #f0f2f5;
-  padding: 40px 20px; /* Padding para que no se pegue a los bordes en pantallas pequeñas */
-  font-family: 'Roboto', 'Poppins', sans-serif;
+  display: block;
+  min-height: calc(100vh - 80px); /* Ajusta 80px según la altura de tu header global si tienes uno */
+  background-color: #f0f2f5; /* Fondo general de la página de perfil */
+  padding: 30px 20px 40px 20px; /* Padding: top, right, bottom, left */
   box-sizing: border-box;
-}
-
-.titulo-pagina {
-  font-size: 2rem;
-  color: #212529;
-  font-weight: 700;
   
-  /* NUEVO: Centrado y con max-width, márgenes verticales ajustados */
+  /* Variables (si no están definidas globalmente y accesibles) */
+  --primary-color: #d32f2f;
+  --primary-color-dark: #b71c1c;
+  --text-color: #212529;
+  --text-muted-color: #6c757d;
+  --brand-red: var(--primary-color); /* Para breadcrumbs */
+  --brand-red-hover: var(--primary-color-dark); /* Para breadcrumbs hover */
+}
+
+.page-section-header {
   width: 100%;
-  max-width: 700px; /* Consistente con profile-card y global-alert */
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  max-width: 700px; /* Mismo max-width que .profile-card para alineación */
+  margin: 0 auto 2rem auto; /* Centrado horizontalmente, margen inferior */
+  padding-top: 80px; /* Espacio sobre el título */
+  text-align: left;
 }
 
-.titulo {
-  text-align: left; /* Ya estaba así, lo cual es correcto */
+.page-title {
+  font-family: 'Inter', sans-serif, ; /* Fuente específica para el título de página */
+  font-size: 2.2rem;
+  color: var(--text-color);
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  text-align: left;
 }
 
-/* Breadcrumbs (ya se alinearán a la izquierda por defecto dentro de .titulo-pagina) */
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
-  margin: 0; /* Asegúrate que no tenga márgenes que lo desplacen */
+  margin: 0;
   list-style: none;
-  margin-bottom: 0; /* Ajustado, el margen inferior de .titulo-pagina controlará el espacio */
-}
-/* ... (resto de estilos de breadcrumb sin cambios) ... */
-
-
-.profile-card {
-  width: 100%;
-  max-width: 700px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-  padding: 40px 50px;
-  /* margin-top: 80px; */ /* ANTERIOR */
-  /* margin-bottom: 20px; */ /* ANTERIOR */
-
-  /* MODIFICADO: Margen superior ajustado, centrado horizontalmente */
-  margin: 30px auto 20px auto; /* Margen sup 30px, inf 20px, izq/der auto para centrar */
-  text-align: left;
-  transition: transform 0.3s ease-out;
+  font-family: 'Inter', sans-serif; /* Fuente para breadcrumbs */
 }
 
-/* Los estilos de .global-alert ya son consistentes con este enfoque (max-width y margin auto) */
+.breadcrumb-item {
+  font-size: 0.9rem;
+  color: var(--text-muted-color);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  padding: 0 0.5em;
+  color: var(--text-muted-color);
+  content: ">";
+}
+
+.breadcrumb-item a {
+  color: var(--text-muted-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-item a:hover {
+  color: var(--brand-red-hover);
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: var(--text-color);
+  font-weight: 500;
+}
+/* === FIN ESTILOS ENCABEZADO DE PÁGINA === */
+
 .global-alert {
   width: 100%;
-  max-width: 700px; /* Mismo ancho que la tarjeta para consistencia */
-  margin: 0 auto 20px auto; /* Centrado y con margen inferior (top 0, bottom 20px) */
+  max-width: 700px;
+  margin: 0 auto 20px auto; /* Centrado, margen inferior para separar de la tarjeta, margen superior 0 porque el header ya da espacio */
   padding: 15px;
   border-radius: 8px;
   font-size: 0.95rem;
   text-align: center;
 }
+.global-alert.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+}
+.global-alert.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+}
 
-/* ------ NO CAMBIAR EL RESTO DEL CSS A MENOS QUE SEA NECESARIO ------ */
-/* (El resto de tus estilos .profile-header, .form-section, etc., permanecen igual) */
 
-.profile-header {
+.profile-card {
+  width: 100%;
+  max-width: 700px; /* Consistente con .page-section-header */
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  padding: 40px 50px;
+  margin: 0 auto 20px auto; /* Centrado, sin margen superior (ya lo da el header), margen inferior */
+  text-align: left;
+  transition: transform 0.3s ease-out;
+}
+
+.profile-header { /* Encabezado DENTRO de la tarjeta */
   margin-bottom: 35px;
   text-align: center;
 }
 
-.profile-title {
+.profile-title { /* Título DENTRO de la tarjeta */
   font-size: 2.4rem;
   font-weight: 600;
   color: #1c1e21;
@@ -94,30 +125,6 @@
   font-weight: 400;
 }
 
-.breadcrumb-item {
-  font-size: 0.9rem;
-  color: #6c757d;
-}
-.breadcrumb-item + .breadcrumb-item::before {
-  padding: 0 0.7rem;
-  color: #adb5bd;
-  content: ">";
-}
-.breadcrumb-item a {
-  color: var(--brand-red);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-.breadcrumb-item a:hover {
-  color: var(--brand-red-hover);
-  text-decoration: underline;
-}
-.breadcrumb-item.active {
-  color: #495057;
-  font-weight: 500;
-}
-
 .form-section {
   margin-bottom: 30px;
 }
@@ -125,10 +132,11 @@
 .form-section-title {
   font-size: 1.25rem;
   font-weight: 500;
-  color: #d32f2f;
+  color: var(--primary-color); /* Usar tu rojo principal */
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #e0e0e0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-group {
@@ -143,10 +151,10 @@
   color: #333;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"] {
+input[type="text"].form-control, /* Añadido .form-control para especificidad */
+input[type="email"].form-control,
+input[type="password"].form-control,
+input[type="tel"].form-control {
   width: 100%;
   padding: 14px 18px;
   border: 1px solid #ccd0d5;
@@ -158,18 +166,18 @@ input[type="tel"] {
   box-sizing: border-box;
 }
 
-input::placeholder {
+input.form-control::placeholder {
   color: #8a8d91;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="tel"]:focus {
-  border-color: #d32f2f;
+input[type="text"].form-control:focus,
+input[type="email"].form-control:focus,
+input[type="password"].form-control:focus,
+input[type="tel"].form-control:focus {
+  border-color: var(--primary-color); /* Foco con tu color primario */
   background-color: #ffffff;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2); /* Sombra de foco con tu color primario */
 }
 
 .password-help-text {
@@ -187,7 +195,7 @@ input[type="tel"]:focus {
 .profile-button {
   min-width: 220px;
   padding: 14px 30px;
-  background-image: linear-gradient(to right, #e53935, #d32f2f);
+  background-image: linear-gradient(to right, #e53935, var(--primary-color));
   color: white;
   border: none;
   border-radius: 8px;
@@ -211,7 +219,7 @@ input[type="tel"]:focus {
 }
 
 .profile-button:not(:disabled):hover {
-  background-image: linear-gradient(to right, #d32f2f, #b71c1c);
+  background-image: linear-gradient(to right, var(--primary-color), var(--primary-color-dark));
   box-shadow: 0 6px 15px rgba(183, 28, 28, 0.35);
   transform: translateY(-2px);
 }
@@ -221,20 +229,9 @@ input[type="tel"]:focus {
   box-shadow: 0 2px 8px rgba(183, 28, 28, 0.3);
 }
 
-.global-alert.alert-success {
-  color: #0f5132;
-  background-color: #d1e7dd;
-  border: 1px solid #badbcc;
-}
-.global-alert.alert-danger {
-  color: #842029;
-  background-color: #f8d7da;
-  border: 1px solid #f5c2c7;
-}
-
 .text-danger {
   font-size: 0.8rem;
-  color: #e53935;
+  color: #e53935; /* Un rojo consistente */
   margin-top: 5px;
   display: block;
 }
@@ -251,6 +248,9 @@ hr {
   align-items: center;
   justify-content: center;
   padding: 40px 0;
+  width: 100%;
+  max-width: 700px; /* Consistente con profile-card */
+  margin: 0 auto;
 }
 
 .spinner {
@@ -258,7 +258,7 @@ hr {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border-left-color: #d32f2f;
+  border-left-color: var(--primary-color); /* Spinner con tu color primario */
   margin-bottom: 15px;
   animation: spin 1s linear infinite;
 }
@@ -275,30 +275,53 @@ hr {
 
 @media (max-width: 768px) {
   :host {
-    padding: 20px 15px;
+    padding: 20px 15px 30px 15px; /* Ajustar padding inferior también */
   }
+
+  .page-section-header {
+    padding-top: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .page-title {
+    font-size: 1.8rem;
+  }
+  .breadcrumb-item, .breadcrumb-item a {
+    font-size: 0.85rem;
+  }
+
   .profile-card {
     padding: 30px 25px;
-    /* margin-top: 10px; */ /* El margen auto se encargará bien aquí */
+    margin: 0 auto 20px auto; /* Asegurar que el margen superior es 0 */
   }
-  /* Ajuste para .titulo-pagina en mobile si es necesario, aunque max-width y width 100% deberían funcionar bien */
-  /* .titulo-pagina { } */
 
-  .profile-title {
+  .global-alert {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .profile-header { /* Encabezado DENTRO de la tarjeta */
+    margin-bottom: 25px;
+  }
+  .profile-title { /* Título DENTRO de la tarjeta */
     font-size: 2rem;
   }
+  .profile-subtitle {
+    font-size: 0.95rem;
+  }
+
   .form-section-title {
     font-size: 1.1rem;
+    margin-bottom: 15px;
   }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="tel"] {
+  input[type="text"].form-control,
+  input[type="email"].form-control,
+  input[type="password"].form-control,
+  input[type="tel"].form-control {
     padding: 12px 15px;
     font-size: 0.95rem;
   }
   .profile-button {
-    min-width: 100%;
+    min-width: 100%; /* Botón ocupa todo el ancho en móvil */
     padding: 12px;
     font-size: 1rem;
   }
