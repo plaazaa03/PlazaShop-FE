@@ -507,10 +507,11 @@
 
   .filtros-sidebar {
     flex: 0 0 auto; /* Resetear flex-basis */
-    width: 100%;    /* Ocupar todo el ancho */
+    width: auto;    /* Ocupar todo el ancho */
     margin-bottom: 30px;
     position: static; /* Quitar sticky en pantallas más pequeñas */
-    border-top-width: 3px; /* Borde superior un poco más delgado */
+    border-top-width: 3px;
+
   }
 
   .filtros-sidebar h2 {
@@ -574,12 +575,7 @@
    Responsive - Pantallas Pequeñas (Móviles, ~768px y menos)
    ========================================================================== */
 @media (max-width: 768px) {
-  .productos-pagina .container {
-    padding: 20px 15px; /* Menos padding en el contenedor principal */
-  }
-
   .encabezado-pagina {
-    padding-top: 15px;
     margin-bottom: 30px;
     padding-bottom: 20px;
   }
@@ -696,15 +692,12 @@
   }
 }
 
-
-/* ... (Todo tu CSS anterior sin cambios hasta llegar a los media queries) ... */
-
 /* ==========================================================================
    Responsive - Pantallas Muy Pequeñas (Móviles < 480px) - REFINADO
    ========================================================================== */
 @media (max-width: 480px) {
   .productos-pagina .container {
-    padding: 15px 10px; /* Reducir padding lateral del contenedor principal */
+    padding: 15px 10px; 
   }
 
   .layout-productos {
@@ -712,7 +705,7 @@
   }
 
   .encabezado-pagina {
-    padding-top: 10px;
+    margin-top: 20px;
     margin-bottom: 25px;
     padding-bottom: 15px;
   }
@@ -730,6 +723,7 @@
   .filtros-sidebar {
     padding: 20px 15px; /* Menos padding interno */
     border-top-width: 3px;
+    width: auto;
   }
   .filtros-sidebar h2 {
     font-size: 1.25rem; /* Título de filtro más pequeño */
@@ -752,6 +746,7 @@
   .rango-precio-inputs input[type="number"] {
     padding: 10px 8px; /* Padding más ajustado */
     font-size: 0.85rem;
+    width: 100px;
   }
   .btn-aplicar-filtros, .btn-limpiar-filtros {
     padding: 10px 12px; /* Botones de filtro más pequeños */

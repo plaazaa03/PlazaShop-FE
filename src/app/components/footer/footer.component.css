@@ -1,56 +1,45 @@
-/* Estilos para un footer más minimalista */
 .footer {
-  background: #222529; /* Un gris oscuro sólido y moderno */
-  color: #adb5bd; /* Color de texto secundario, gris claro */
-  padding: 30px 20px 20px; /* Menos padding vertical */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente limpia */
-  text-align: center; /* Centrar todo el contenido del footer */
+  background: #222529;
+  color: #adb5bd;
+  padding: 30px 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .footer-container {
-  max-width: 800px; /* Ancho máximo más reducido para contenido centrado */
-  margin: 0 auto 20px auto; /* Centrado y con margen inferior antes del copyright */
-  display: flex; /* Para centrar el .footer-main-content si fuera necesario */
-  justify-content: center; /* Centra el contenido principal si es un flex item */
-}
-
-.footer-main-content {
-  /* No necesita ser flex item si text-align: center en .footer ya lo centra */
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .footer-logo {
-  width: 100px; /* Tamaño del logo más pequeño */
+  width: 100px;
   margin-bottom: 10px;
-  /* El filtro para invertir el logo puede o no ser necesario
-     dependiendo de tu logo y el color de fondo.
-     Si tu logo ya es blanco o claro, no lo necesitas. */
-  /* filter: brightness(0) invert(1); */
 }
 
 .footer-description {
-  font-size: 0.9rem; /* Tamaño de la descripción */
-  color: #868e96; /* Color más sutil para la descripción */
-  margin-bottom: 0; /* Eliminar margen inferior si es el último elemento antes del copyright */
-  max-width: 400px; /* Limitar el ancho de la descripción para que no sea muy larga */
-  margin-left: auto; /* Centrar el párrafo si tiene max-width */
-  margin-right: auto; /* Centrar el párrafo si tiene max-width */
+  font-size: 0.9rem;
+  color: #868e96;
+  margin-bottom: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
   line-height: 1.6;
 }
 
 .footer-bottom {
   padding-top: 20px;
-  border-top: 1px solid #343a40; /* Borde superior más sutil */
-  font-size: 0.85rem; /* Tamaño del texto de copyright */
-  color: #6c757d; /* Color aún más sutil para el copyright */
+  border-top: 1px solid #343a40;
+  font-size: 0.85rem;
+  color: #6c757d;
 }
 
 .footer-bottom p {
-  margin: 0; /* Eliminar margen del párrafo de copyright */
+  margin: 0;
 }
 
-/* No se necesitan las media queries para las columnas si ya no existen,
-   pero si quieres ajustar algo específicamente para móvil, puedes añadirlas.
-   Por ejemplo, para el tamaño del logo o el padding. */
 @media (max-width: 768px) {
   .footer {
     padding: 25px 15px 15px;
