@@ -1,48 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :host {
-  --admin-bg-color: #f7f8fc; /* Un gris azulado muy claro, moderno */
-  --admin-text-color: #4a5568; /* Gris oscuro para texto general */
-  --admin-title-color: #2d3748; /* Gris muy oscuro para títulos importantes */
-  --admin-primary-color: #d32f2f; /* TU ROJO PRINCIPAL */
-  --admin-primary-hover: #b71c1c; /* Rojo oscuro */
-  --admin-primary-light: #e57373; /* Rojo claro */
-  --admin-success-color: #10b981; /* Verde éxito */
+  --admin-bg-color: #f7f8fc;
+  --admin-text-color: #4a5568;
+  --admin-title-color: #2d3748;
+  --admin-primary-color: #d32f2f;
+  --admin-primary-hover: #b71c1c;
+  --admin-primary-light: #e57373;
+  --admin-success-color: #10b981;
   --admin-success-hover: #059669;
-  --admin-danger-color: #ef4444; /* Rojo peligro (diferente al primario si quieres) */
+  --admin-danger-color: #ef4444;
   --admin-danger-hover: #dc2626;
-  --admin-edit-color: #f59e0b; /* Naranja/Amarillo para editar */
+  --admin-edit-color: #f59e0b;
   --admin-edit-hover: #d97706;
-  --admin-edit-text: #ffffff; /* Texto blanco para botones de editar */
-  --admin-cancel-color: #6b7280; /* Gris para cancelar */
+  --admin-edit-text: #ffffff;
+  --admin-cancel-color: #6b7280;
   --admin-cancel-hover: #4b5563;
   --card-bg: #ffffff;
-  --card-border-color: #e5e7eb; /* Borde muy sutil para tarjetas */
-  --card-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.05), 0 3px 7px -3px rgba(0, 0, 0, 0.05); /* Sombra más suave */
-  --card-radius: 12px; /* Radio de borde consistente */
-  --input-bg-color: #fdfdff; /* Fondo de input casi blanco, muy sutilmente diferente del card */
-  --input-border-color: #d1d5db; /* Borde de input gris claro */
-  --input-text-color: #374151; /* Color del texto dentro del input */
-  --input-placeholder-color: #9ca3af; /* Color del placeholder */
+  --card-border-color: #e5e7eb;
+  --card-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.05), 0 3px 7px -3px rgba(0, 0, 0, 0.05);
+  --card-radius: 12px;
+  --input-bg-color: #fdfdff;
+  --input-border-color: #d1d5db;
+  --input-text-color: #374151;
+  --input-placeholder-color: #9ca3af;
   --input-focus-border-color: var(--admin-primary-color);
-  --input-focus-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2); /* Sombra de foco con tu rojo, más sutil */
-  display: block; /* Importante para que :host ocupe espacio */
+  --input-focus-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2);
+  display: block;
   background-color: var(--admin-bg-color);
   min-height: 100vh;
 }
 
 .admin-productos-container {
-  padding: 25px 30px; /* Ajustar padding general */
+  padding: 25px 30px;
   font-family: var(--font-family);
   color: var(--admin-text-color);
-  max-width: 1600px; /* Un poco más de ancho máximo si es necesario */
-  margin: 0 auto; /* Centrar el contenido */
+  max-width: 1600px;
+  margin: 0 auto;
   width: 100%;
   margin-top: 50px;
   box-sizing: border-box;
 }
 
-/* Breadcrumbs */
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
@@ -52,15 +51,15 @@
 }
 .breadcrumb-item {
   font-size: 0.9rem;
-  color: #6c757d; /* Gris para el texto normal del breadcrumb */
+  color: #6c757d;
 }
 .breadcrumb-item + .breadcrumb-item::before {
   padding: 0 0.7rem;
-  color: #adb5bd; /* Gris más claro para el separador */
-  content: ">"; /* Cambiado a ">" para un look más moderno */
+  color: #adb5bd;
+  content: ">";
 }
 .breadcrumb-item a {
-  color: var(--brand-red); /* Tu rojo para los enlaces */
+  color: var(--brand-red);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -70,17 +69,16 @@
   text-decoration: underline;
 }
 .breadcrumb-item.active {
-  color: #495057; 
+  color: #495057;
   font-weight: 500;
 }
 
-/* --- Encabezados --- */
 .admin-header h2,
 .form-section h3,
 .product-list-section h3 {
   color: var(--admin-title-color);
-  font-weight: 600; /* Un poco menos 'bold' que 700 para Poppins */
-  letter-spacing: -0.025em; /* Ajuste fino para Poppins */
+  font-weight: 600;
+  letter-spacing: -0.025em;
   display: flex;
   align-items: center;
 }
@@ -89,60 +87,52 @@
 .form-section h3 .bi,
 .product-list-section h3 .bi {
   margin-right: 0.85rem;
-  font-size: 1.1em; /* Ajustar tamaño de icono relativo al texto */
+  font-size: 1.1em;
   color: var(--admin-primary-color);
-  line-height: 1; /* Para mejor alineación vertical */
+  line-height: 1;
 }
 
 .admin-header h2 {
-  font-size: 2rem; /* Tamaño del título principal */
-  justify-content: flex-start; /* Alineación a la izquierda por defecto */
+  font-size: 2rem;
+  justify-content: flex-start;
 }
 
 .form-section h3,
 .product-list-section h3 {
-  font-size: 1.5rem; /* Títulos de sección un poco más pequeños */
+  font-size: 1.5rem;
   padding-bottom: 0.5rem;
 }
 
 .section-divider {
-  margin: 3.5rem auto; /* Más espacio alrededor del divisor */
+  margin: 3.5rem auto;
   border: 0;
   height: 1px;
-  background-image: linear-gradient(to right, transparent, #e0e0e0, transparent); /* Divisor más sutil */
+  background-image: linear-gradient(to right, transparent, #e0e0e0, transparent);
   width: 70%;
 }
 
-/* --- Tarjetas Modernas --- */
 .modern-card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border-color);
   border-radius: var(--card-radius);
-  padding: 2.5rem; /* Padding interno generoso */
+  padding: 2.5rem;
   box-shadow: var(--card-shadow);
   margin-bottom: 2.5rem;
 }
 
-/* === SECCIÓN: FORMULARIO AGREGAR PRODUCTO === */
 .add-product-form.modern-card {
   margin-top: 2.5rem;
 }
 
 .add-product-form .form-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Una columna por defecto para móviles */
-  gap: 1.75rem 2rem; /* Buen espaciado */
+  grid-template-columns: 1fr;
+  gap: 1.75rem 2rem;
 }
 
-@media (min-width: 768px) { /* Tablets y más */
+@media (min-width: 768px) {
   .add-product-form .form-grid {
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-  }
-}
-@media (min-width: 1024px) { /* Escritorios pequeños y más */
-  .add-product-form .form-grid {
-    /* Podrías tener 3 columnas si el diseño lo permite */
-    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -152,38 +142,37 @@
 }
 
 .add-product-form .form-group label {
-  font-size: 0.875rem; /* Ligeramente más pequeño y limpio */
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #4b5563; /* Un gris más oscuro para las etiquetas */
+  color: #4b5563;
   margin-bottom: 0.5rem;
   display: block;
 }
 
 .add-product-form .form-group-full-width {
-  grid-column: 1 / -1; /* Ocupa todas las columnas disponibles */
+  grid-column: 1 / -1;
 }
 
-/* --- INPUTS ESPECÍFICOS DEL FORMULARIO DE AGREGAR --- */
 .add-product-form input[type="text"],
 .add-product-form input[type="number"],
 .add-product-form textarea {
   width: 100%;
-  padding: 12px 18px; /* Buen padding */
+  padding: 12px 18px;
   border: 1px solid var(--input-border-color);
-  border-radius: 8px; /* Radio de borde sutil */
+  border-radius: 8px;
   font-size: 0.95rem;
-  line-height: 1.5; /* Mejor legibilidad */
+  line-height: 1.5;
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   background-color: var(--input-bg-color);
   color: var(--input-text-color);
-  font-family: var(--font-family); /* Asegurar la fuente */
+  font-family: var(--font-family);
 }
 
 .add-product-form input::placeholder,
 .add-product-form textarea::placeholder {
   color: var(--input-placeholder-color);
-  opacity: 1; /* Asegurar que el placeholder sea visible */
+  opacity: 1;
 }
 
 .add-product-form input:focus,
@@ -191,26 +180,25 @@
   outline: none;
   border-color: var(--input-focus-border-color);
   box-shadow: var(--input-focus-shadow);
-  background-color: #ffffff; /* Fondo blanco al hacer foco */
+  background-color: #ffffff;
 }
 
 .add-product-form textarea {
   resize: vertical;
-  min-height: 100px; /* Altura mínima para descripción */
+  min-height: 100px;
 }
 
-/* --- INPUT DE ARCHIVO MEJORADO --- */
 .add-product-form .file-input-group {
-  margin-top: 0; /* Ajustar si es necesario */
+  margin-top: 0;
 }
 .add-product-form .file-upload-label {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem; /* Más padding vertical */
+  padding: 2rem 1rem;
   border: 2px dashed var(--input-border-color);
-  border-radius: var(--card-radius); /* Consistente con tarjetas */
+  border-radius: var(--card-radius);
   cursor: pointer;
   transition: border-color 0.2s, background-color 0.2s, color 0.2s;
   background-color: var(--input-bg-color);
@@ -218,71 +206,67 @@
   text-align: center;
 }
 .add-product-form .file-upload-label:hover,
-.add-product-form .file-upload-label.file-selected { /* Nuevo estado si un archivo está seleccionado */
+.add-product-form .file-upload-label.file-selected {
   border-color: var(--admin-primary-color);
-  background-color: rgba(211, 47, 47, 0.03); /* Fondo rojo muy, muy claro */
+  background-color: rgba(211, 47, 47, 0.03);
   color: var(--admin-primary-color);
 }
 .add-product-form .file-upload-label .bi {
   margin-bottom: 0.75rem;
-  font-size: 2.25rem; /* Icono más grande */
+  font-size: 2.25rem;
 }
 .add-product-form .file-upload-label span {
-    font-size: 0.9rem;
-    font-weight: 500;
-    max-width: 90%; /* Evitar que nombres largos de archivo rompan el layout */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 500;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.add-product-form .file-input-hidden { display: none; }
+.add-product-form .file-input-hidden {
+  display: none;
+}
 
-
-/* --- BOTÓN DE AGREGAR PRODUCTO --- */
 .add-product-form .form-actions {
   grid-column: 1 / -1;
   margin-top: 1.5rem;
-  text-align: right; /* Alinea el botón a la derecha, común en formularios */
+  text-align: right;
 }
 
-.add-product-form .btn.btn-primary { /* Especificidad para el botón de submit */
+.add-product-form .btn.btn-primary {
   background-color: var(--admin-primary-color);
   color: white;
   min-width: 200px;
-  padding: 13px 26px; /* Ligeramente más pequeño que el ejemplo de perfil para no ser tan dominante */
+  padding: 13px 26px;
   font-weight: 500;
-  /* Hereda los estilos de .btn definidos más abajo */
 }
 .add-product-form .btn.btn-primary:hover {
   background-color: var(--admin-primary-hover);
 }
-/* === FIN SECCIÓN FORMULARIO AGREGAR PRODUCTO === */
 
-
-/* --- SECCIÓN LISTADO DE PRODUCTOS --- */
 .productos-admin-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Tarjetas un poco más anchas */
-  gap: 2.5rem; /* Más espacio entre tarjetas */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5rem;
 }
 
 .product-card-admin {
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out; /* Transición más rápida */
-  border-radius: var(--card-radius); /* Hereda de .modern-card */
-  overflow: hidden; /* Importante para que la imagen no se salga con el border-radius */
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+  border-radius: var(--card-radius);
+  overflow: hidden;
 }
 .product-card-admin:hover {
-  transform: translateY(-5px); /* Sutil levantamiento */
+  transform: translateY(-5px);
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.07), 0 4px 8px -4px rgba(0, 0, 0, 0.05);
 }
 
 .product-image-wrapper {
   width: 100%;
-  padding-top: 75%; /* Aspect ratio 4:3 para la imagen (height será 75% del width) */
-  position: relative; /* Para posicionar la imagen absolutamente dentro */
-  background-color: #f0f0f0; /* Color de fondo mientras carga la imagen */
+  padding-top: 75%;
+  position: relative;
+  background-color: #f0f0f0;
 }
 .product-img-admin {
   position: absolute;
@@ -290,29 +274,29 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Cubre el espacio sin distorsionar */
+  object-fit: cover;
   transition: transform 0.35s ease-out;
 }
 .product-card-admin:hover .product-img-admin {
-  transform: scale(1.03); /* Efecto de zoom sutil al pasar el mouse */
+  transform: scale(1.03);
 }
 
 .product-info-admin {
-  padding: 1.25rem 1.5rem; /* Ajustar padding */
+  padding: 1.25rem 1.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 .product-info-admin h4 {
   margin: 0 0 0.5rem 0;
-  font-size: 1.15rem; /* Tamaño de nombre de producto */
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--admin-title-color);
   line-height: 1.4;
 }
 .product-info-admin .description {
   font-size: 0.875rem;
-  color: #5f6c7b; /* Un gris más suave para la descripción */
+  color: #5f6c7b;
   margin-bottom: 1rem;
   line-height: 1.55;
   flex-grow: 1;
@@ -321,7 +305,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto; /* Empuja al final */
+  margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid var(--card-border-color);
 }
@@ -333,7 +317,7 @@
 .product-meta .stock {
   font-size: 0.8rem;
   color: #374151;
-  background-color: #eef2ff; /* Un color lavanda claro para el stock */
+  background-color: #eef2ff;
   padding: 5px 10px;
   border-radius: 6px;
   display: inline-flex;
@@ -343,19 +327,14 @@
 .product-meta .stock .bi {
   margin-right: 6px;
   font-size: 0.9em;
-  color: #6366f1; /* Icono del stock en un color complementario */
+  color: #6366f1;
 }
 
-/* --- MODO EDICIÓN EN TARJETA --- */
-.form-grid-edit { /* Este ya estaba, solo confirmando que se use */
-  /* ... estilos previos ... */
-}
 .form-grid-edit input[type="text"],
 .form-grid-edit input[type="number"],
 .form-grid-edit textarea {
-  /* Reutiliza los estilos de .add-product-form input para consistencia */
   width: 100%;
-  padding: 10px 14px; /* Ligeramente más compacto para edición en tarjeta */
+  padding: 10px 14px;
   border: 1px solid var(--input-border-color);
   border-radius: 6px;
   font-size: 0.9rem;
@@ -372,21 +351,19 @@
   min-height: 80px;
 }
 .product-card-admin.editing {
-  box-shadow: 0 0 0 2px var(--admin-edit-color), var(--card-shadow); /* Borde de "foco" y sombra */
-  border-color: var(--admin-edit-color); /* Cambia el color del borde */
+  box-shadow: 0 0 0 2px var(--admin-edit-color), var(--card-shadow);
+  border-color: var(--admin-edit-color);
 }
-/* .product-edit-form { display: contents; } /* No es necesario si la estructura HTML es correcta */
 .product-edit-mode {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Ocupa toda la altura de la tarjeta */
+  height: 100%;
 }
-.product-edit-mode .product-image-wrapper { /* Hereda estilos, no necesita cambios aquí */ }
-.product-edit-mode .form-grid-edit { /* Hereda .form-grid-edit */
+.product-edit-mode .form-grid-edit {
   display: grid;
-  gap: 1rem; /* Espacio entre campos de edición */
+  gap: 1rem;
   padding: 1.25rem 1.5rem;
-  flex-grow: 1; /* Ocupa el espacio disponible */
+  flex-grow: 1;
 }
 .current-image-info {
   grid-column: 1 / -1;
@@ -398,148 +375,94 @@
   display: flex;
   align-items: center;
 }
-.current-image-info .bi { margin-right: 6px; }
+.current-image-info .bi {
+  margin-right: 6px;
+}
 
-
-/* --- BOTONES GENERALES (Edit, Delete, Save, Cancel) --- */
 .btn {
-  padding: 10px 20px; /* Padding base para botones */
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px; /* Radio de borde consistente */
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 500; /* Peso de fuente medio */
+  font-weight: 500;
   transition: all 0.2s ease-out;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  letter-spacing: 0.025em; /* Espaciado sutil */
+  letter-spacing: 0.025em;
   line-height: 1.5;
 }
 .btn .bi {
-  margin-right: 0.5em; /* Espacio entre icono y texto */
-  font-size: 1.15em; /* Iconos un poco más grandes que el texto */
-  line-height: 1; /* Mejorar alineación vertical del icono */
+  margin-right: 0.5em;
+  font-size: 1.15em;
+  line-height: 1;
 }
 .btn:hover {
-  transform: translateY(-1px); /* Efecto sutil de levantamiento */
-  filter: brightness(95%); /* Ligeramente más oscuro */
+  transform: translateY(-1px);
+  filter: brightness(95%);
 }
 .btn:active {
   transform: translateY(0px);
   filter: brightness(90%);
 }
 .btn:disabled {
-  background-color: #cdd1d6 !important; /* Gris claro para deshabilitado */
+  background-color: #cdd1d6 !important;
   color: #868e99 !important;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
   opacity: 0.6;
 }
-/* Botones en acciones de tarjeta */
 .product-actions-admin {
   display: flex;
-  gap: 0.75rem; /* Espacio entre botones */
+  gap: 0.75rem;
   padding: 1.25rem 1.5rem;
   border-top: 1px solid var(--card-border-color);
-  background-color: #fcfdff; /* Fondo muy sutil para la sección de acciones */
+  background-color: #fcfdff;
 }
 .product-actions-admin .btn {
-  flex: 1; /* Para que los botones ocupen el espacio disponible equitativamente */
-  padding: 10px 15px; /* Ajustar padding si es necesario */
+  flex: 1;
+  padding: 10px 15px;
 }
 
-/* Colores específicos de botones */
-.btn-edit { background-color: var(--admin-edit-color); color: var(--admin-edit-text); }
-.btn-edit:hover { background-color: var(--admin-edit-hover); }
-.btn-delete { background-color: var(--admin-danger-color); color: white; }
-.btn-delete:hover { background-color: var(--admin-danger-hover); }
-.btn-save { background-color: var(--admin-success-color); color: white; }
-.btn-save:hover { background-color: var(--admin-success-hover); }
-.btn-cancel { background-color: var(--admin-cancel-color); color: white; }
-.btn-cancel:hover { background-color: var(--admin-cancel-hover); }
+.btn-edit {
+  background-color: var(--admin-edit-color);
+  color: var(--admin-edit-text);
+}
+.btn-edit:hover {
+  background-color: var(--admin-edit-hover);
+}
+.btn-delete {
+  background-color: var(--admin-danger-color);
+  color: white;
+}
+.btn-delete:hover {
+  background-color: var(--admin-danger-hover);
+}
+.btn-save {
+  background-color: var(--admin-success-color);
+  color: white;
+}
+.btn-save:hover {
+  background-color: var(--admin-success-hover);
+}
+.btn-cancel {
+  background-color: var(--admin-cancel-color);
+  color: white;
+}
+.btn-cancel:hover {
+  background-color: var(--admin-cancel-hover);
+}
 
-
-/* --- MENSAJE "SIN PRODUCTOS" --- */
 .no-products-message {
   text-align: center;
   padding: 3rem 2rem;
-  color: #718096; /* Un gris más suave */
+  color: #718096;
   font-size: 1.1rem;
   background-color: var(--card-bg);
-  border: 2px dashed #d1d5db; /* Borde discontinuo más sutil */
+  border: 2px dashed #d1d5db;
   border-radius: var(--card-radius);
   margin-top: 2.5rem;
-}
-.no-products-message .bi {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 1.25rem;
-  color: var(--admin-primary-light);
-}
-.no-products-message p {
-  margin-bottom: 0.25rem;
-}
-.no-products-message .subtle-text {
-  font-size: 0.9rem;
-  color: #a0aec0;
-  margin-top: 0.75rem;
-}
-
-/* --- UTILIDADES Y ESTADOS DE CARGA (SI LOS TIENES) --- */
-.loading-spinner-overlay { /* Si usas un overlay para carga */
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(255,255,255,0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-.spinner { /* Un spinner genérico */
-  border: 4px solid rgba(0,0,0,0.1);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border-left-color: var(--admin-primary-color);
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* --- RESPONSIVIDAD ADICIONAL --- */
-@media (max-width: 768px) {
-  .admin-productos-container {
-    padding: 20px 15px;
-  }
-  .modern-card {
-    padding: 1.5rem;
-  }
-  .admin-header h2 {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-  }
-  .form-section h3, .product-list-section h3 {
-    font-size: 1.3rem;
-  }
-  .add-product-form .form-actions {
-    text-align: center; /* Centrar botón en móvil */
-  }
-  .add-product-form .btn.btn-primary {
-    width: 100%; /* Botón de agregar ocupa todo el ancho en móvil */
-    min-width: auto;
-  }
-  .productos-admin-grid {
-    grid-template-columns: 1fr; /* Una columna para tarjetas en móvil */
-    gap: 1.5rem;
-  }
-  .product-actions-admin {
-    flex-direction: column; /* Apilar botones de acción en tarjeta en móvil */
-  }
-  .product-actions-admin .btn {
-    width: 100%; /* Botones de acción ocupan todo el ancho */
-  }
 }

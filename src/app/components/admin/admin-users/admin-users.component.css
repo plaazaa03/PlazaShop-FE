@@ -1,32 +1,30 @@
-/* src/app/components/admin/admin-users/admin-users.component.css */
 
-/* Importación de fuentes (asegúrate de que no se dupliquen si ya están globales) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); /* Para el título */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 
 :host {
   display: block;
   width: 100%;
-  min-height: calc(100vh - 80px); /* Ajusta según altura de tu header principal de la app */
+  min-height: calc(100vh - 80px); 
   padding: 30px;
-  background-color: #f8f9fa; /* Fondo general de la página de admin */
+  background-color: #f8f9fa;
   box-sizing: border-box;
-  font-family: 'Roboto', 'Poppins', sans-serif; /* Fuente base para esta vista */
+  font-family: 'Roboto', 'Poppins', sans-serif; 
 
-  /* Variables de color (si no están definidas globalmente y accesibles) */
-  --primary-color: #d32f2f;         /* Tu rojo principal */
-  --primary-color-dark: #b71c1c;    /* Tu rojo oscuro */
-  --text-color: #212529;            /* Color de texto principal */
-  --text-muted-color: #6c757d;      /* Color de texto atenuado */
-  --border-color: #dee2e6;          /* Color de borde general */
-  --success-color: #28a745;         /* Verde para éxito */
-  --danger-color: #dc3545;          /* Rojo para peligro/error */
-  --warning-color: #ffc107;         /* Amarillo para advertencia */
-  --info-color: #055160;            /* Azul/cian para información (ajustado) */
-  --light-bg: #f8f9fa;              /* Fondo claro */
-  --card-bg: #ffffff;               /* Fondo de tarjetas */
+ 
+  --primary-color: #d32f2f;         
+  --primary-color-dark: #b71c1c;    
+  --text-color: #212529;            
+  --text-muted-color: #6c757d;      
+  --border-color: #dee2e6;          
+  --success-color: #28a745;         
+  --danger-color: #dc3545;          
+  --warning-color: #ffc107;         
+  --info-color: #055160;            
+  --light-bg: #f8f9fa;              
+  --card-bg: #ffffff;               
 }
 
 .admin-users-container {
@@ -39,10 +37,10 @@
   overflow: hidden;
 }
 
-/* === ESTILOS PARA EL NUEVO ENCABEZADO DE PÁGINA === */
-.pedidos-header { /* Puedes renombrar esta clase a algo más genérico como .page-section-header */
+
+.pedidos-header { 
   text-align: left;
-  margin-bottom: 2rem; /* Espacio entre el header y el contenido principal de admin */
+  margin-bottom: 2rem; 
   padding-top: 80px;
 }
 
@@ -50,7 +48,7 @@
   color: var(--text-color);
   font-size: 2.2rem;
   font-weight: 700;
-  margin-top: 0; /* Asegurar que no haya margen superior extra */
+  margin-top: 0;
   margin-bottom: 0.5rem;
   text-align: left;
   padding-top: 0;
@@ -62,7 +60,7 @@
   padding: 0;
   margin: 0;
   list-style: none;
-  font-family: 'Roboto', sans-serif; /* Fuente para los breadcrumbs */
+  font-family: 'Roboto', sans-serif;
 }
 
 .breadcrumb-item {
@@ -78,7 +76,7 @@
 
 .breadcrumb-item a {
   
-  color: var(--text-muted-color); /* Usando tu variable de color primario */
+  color: var(--text-muted-color);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -93,10 +91,8 @@
   color: var(--text-color);
   font-weight: 500;
 }
-/* === FIN ESTILOS ENCABEZADO DE PÁGINA === */
 
 
-/* Alertas globales para la vista de admin */
 .admin-alert {
   margin-bottom: 20px;
   padding: 15px;
@@ -114,7 +110,7 @@
   border: 1px solid #f5c2c7;
 }
 .admin-alert.alert-info {
-  color: var(--info-color); /* Usando la variable definida */
+  color: var(--info-color); 
   background-color: #cff4fc;
   border: 1px solid #9eeaf9;
 }
@@ -128,7 +124,7 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin-top: 0; /* El margen ya lo da el .pedidos-header */
+  margin-top: 0; 
   font-size: 0.9rem;
 }
 
@@ -170,8 +166,8 @@
 }
 
 .role-admin {
-  background-color: rgba(211, 47, 47, 0.1); /* Rojo con transparencia */
-  color: var(--primary-color-dark);         /* Rojo oscuro */
+  background-color: rgba(211, 47, 47, 0.1);
+  color: var(--primary-color-dark);
   border: 1px solid rgba(211, 47, 47, 0.2);
 }
 
@@ -233,18 +229,18 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border-left-color: var(--primary-color); /* Spinner con tu color primario */
+  border-left-color: var(--primary-color);
   margin: 0 auto 15px auto;
   animation: spin 1s linear infinite;
 }
 
 
-/* --- ESTILOS PARA LA SECCIÓN DE EDICIÓN DE USUARIO --- */
+
 .edit-user-section {
-  background-color: transparent; /* No necesita fondo propio si está dentro de .admin-users-container */
-  padding: 0; /* El padding ya lo da .admin-users-container */
+  background-color: transparent; 
+  padding: 0;
   border-radius: 0;
-  margin-top: 0; /* El margen ya lo da el .pedidos-header */
+  margin-top: 0;
   margin-bottom: 30px;
 }
 
@@ -318,14 +314,14 @@
 }
 
 .user-edit-form .form-actions .btn-primary.save-btn {
-  background-color: var(--primary-color); /* Usar tu color primario para guardar */
+  background-color: var(--primary-color); 
   color: white;
 }
 .user-edit-form .form-actions .btn-primary.save-btn:hover:not(:disabled) {
   background-color: var(--primary-color-dark);
 }
 .user-edit-form .form-actions .btn-primary.save-btn:disabled {
-  background-color: var(--primary-color-light); /* Un color más claro para deshabilitado */
+  background-color: var(--primary-color-light);
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -349,18 +345,18 @@
 }
 
 
-/* Media Queries para responsividad */
+
 @media (max-width: 768px) {
   :host {
     padding: 20px 15px;
   }
   .admin-users-container {
     padding: 20px;
-    margin-top: 20px; /* Ajustar margen */
+    margin-top: 20px; 
   }
 
   .page-title {
-    font-size: 1.8rem; /* Título más pequeño en móviles */
+    font-size: 1.8rem; 
   }
   .breadcrumb-item {
     font-size: 0.85rem;
@@ -386,10 +382,9 @@
     font-size: 0.7rem;
     padding: 3px 8px;
   }
-
-  /* Formulario de edición en móviles */
+  
   .edit-user-section {
-    padding: 0; /* Ya está dentro de .admin-users-container que tiene padding */
+    padding: 0; 
   }
   .user-edit-form .form-actions {
     flex-direction: column;

@@ -1,32 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); /* Poppins para elementos dentro de la tarjeta */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Global box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 :host {
   display: block;
-  min-height: calc(100vh - 80px); /* Ajusta 80px según la altura de tu header global si tienes uno */
-  background-color: #f0f2f5; /* Fondo general de la página de perfil */
-  padding: 30px 20px 40px 20px; /* Padding: top, right, bottom, left */
-  box-sizing: border-box;
-  
-  /* Variables (si no están definidas globalmente y accesibles) */
+  min-height: calc(100vh - 80px);
+  background-color: #f0f2f5;
+  padding: 30px 20px 40px 20px;
+  overflow-x: hidden;
+
   --primary-color: #d32f2f;
   --primary-color-dark: #b71c1c;
   --text-color: #212529;
   --text-muted-color: #6c757d;
-  --brand-red: var(--primary-color); /* Para breadcrumbs */
-  --brand-red-hover: var(--primary-color-dark); /* Para breadcrumbs hover */
+  --brand-red: var(--primary-color);
+  --brand-red-hover: var(--primary-color-dark);
 }
 
 .page-section-header {
   width: 100%;
-  max-width: 700px; /* Mismo max-width que .profile-card para alineación */
-  margin: 0 auto 2rem auto; /* Centrado horizontalmente, margen inferior */
-  padding-top: 80px; /* Espacio sobre el título */
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  padding-top: 80px;
   text-align: left;
 }
 
 .page-title {
-  font-family: 'Inter', sans-serif, ; /* Fuente específica para el título de página */
+  font-family: 'Inter', sans-serif;
   font-size: 2.2rem;
   color: var(--text-color);
   font-weight: 700;
@@ -41,7 +45,7 @@
   padding: 0;
   margin: 0;
   list-style: none;
-  font-family: 'Inter', sans-serif; /* Fuente para breadcrumbs */
+  font-family: 'Inter', sans-serif;
 }
 
 .breadcrumb-item {
@@ -75,7 +79,7 @@
 .global-alert {
   width: 100%;
   max-width: 700px;
-  margin: 0 auto 20px auto; /* Centrado, margen inferior para separar de la tarjeta, margen superior 0 porque el header ya da espacio */
+  margin: 0 auto 20px auto;
   padding: 15px;
   border-radius: 8px;
   font-size: 0.95rem;
@@ -92,25 +96,25 @@
   border: 1px solid #f5c2c7;
 }
 
-
 .profile-card {
   width: 100%;
-  max-width: 700px; /* Consistente con .page-section-header */
+  max-width: 600px;
   background-color: #ffffff;
   border-radius: 16px;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.07), 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   padding: 40px 50px;
-  margin: 0 auto 20px auto; /* Centrado, sin margen superior (ya lo da el header), margen inferior */
+  margin: 0 auto 20px auto;
   text-align: left;
   transition: transform 0.3s ease-out;
+  overflow-x: hidden;
 }
 
-.profile-header { /* Encabezado DENTRO de la tarjeta */
+.profile-header {
   margin-bottom: 35px;
   text-align: center;
 }
 
-.profile-title { /* Título DENTRO de la tarjeta */
+.profile-title {
   font-size: 2.4rem;
   font-weight: 600;
   color: #1c1e21;
@@ -131,7 +135,7 @@
 .form-section-title {
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--primary-color); /* Usar tu rojo principal */
+  color: var(--primary-color);
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #e0e0e0;
@@ -150,11 +154,12 @@
   color: #333;
 }
 
-input[type="text"].form-control, /* Añadido .form-control para especificidad */
+input[type="text"].form-control,
 input[type="email"].form-control,
 input[type="password"].form-control,
 input[type="tel"].form-control {
   width: 100%;
+  max-width: 100%;
   padding: 14px 18px;
   border: 1px solid #ccd0d5;
   border-radius: 8px;
@@ -162,28 +167,24 @@ input[type="tel"].form-control {
   color: #1c1e21;
   background-color: #f5f6f7;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
 }
 
 input.form-control::placeholder {
   color: #8a8d91;
 }
 
-input[type="text"].form-control:focus,
-input[type="email"].form-control:focus,
-input[type="password"].form-control:focus,
-input[type="tel"].form-control:focus {
-  border-color: var(--primary-color); /* Foco con tu color primario */
+input.form-control:focus {
+  border-color: var(--primary-color);
   background-color: #ffffff;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2); /* Sombra de foco con tu color primario */
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
 }
 
 .password-help-text {
-    font-size: 0.8rem;
-    color: #606770;
-    margin-top: 6px;
-    display: block;
+  font-size: 0.8rem;
+  color: #606770;
+  margin-top: 6px;
+  display: block;
 }
 
 .form-actions {
@@ -192,8 +193,8 @@ input[type="tel"].form-control:focus {
 }
 
 .profile-button {
-  min-width: 220px;
-  padding: 14px 30px;
+  width: 100%;
+  padding: 14px;
   background-image: linear-gradient(to right, #e53935, var(--primary-color));
   color: white;
   border: none;
@@ -230,7 +231,7 @@ input[type="tel"].form-control:focus {
 
 .text-danger {
   font-size: 0.8rem;
-  color: #e53935; /* Un rojo consistente */
+  color: #e53935;
   margin-top: 5px;
   display: block;
 }
@@ -248,7 +249,7 @@ hr {
   justify-content: center;
   padding: 40px 0;
   width: 100%;
-  max-width: 700px; /* Consistente con profile-card */
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -257,7 +258,7 @@ hr {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border-left-color: var(--primary-color); /* Spinner con tu color primario */
+  border-left-color: var(--primary-color);
   margin-bottom: 15px;
   animation: spin 1s linear infinite;
 }
@@ -272,25 +273,24 @@ hr {
   100% { transform: rotate(360deg); }
 }
 
-@media (max-width: 768px) {
-  :host {
-    padding: 20px 15px 30px 15px; /* Ajustar padding inferior también */
-  }
+/* --------- RESPONSIVE ----------- */
 
+@media (max-width: 768px) {
   .page-section-header {
-    padding-top: 10px;
+    padding-top: 80px;
     margin-bottom: 1.5rem;
   }
+
   .page-title {
     font-size: 1.8rem;
   }
+
   .breadcrumb-item, .breadcrumb-item a {
     font-size: 0.85rem;
   }
 
   .profile-card {
-    padding: 30px 25px;
-    margin: 0 auto 20px auto; /* Asegurar que el margen superior es 0 */
+    padding: 30px 20px;
   }
 
   .global-alert {
@@ -298,12 +298,14 @@ hr {
     margin-bottom: 15px;
   }
 
-  .profile-header { /* Encabezado DENTRO de la tarjeta */
+  .profile-header {
     margin-bottom: 25px;
   }
-  .profile-title { /* Título DENTRO de la tarjeta */
+
+  .profile-title {
     font-size: 2rem;
   }
+
   .profile-subtitle {
     font-size: 0.95rem;
   }
@@ -312,15 +314,38 @@ hr {
     font-size: 1.1rem;
     margin-bottom: 15px;
   }
-  input[type="text"].form-control,
-  input[type="email"].form-control,
-  input[type="password"].form-control,
-  input[type="tel"].form-control {
-    padding: 12px 15px;
+
+  input.form-control {
     font-size: 0.95rem;
+    padding: 12px 15px;
   }
+
   .profile-button {
-    min-width: 100%; /* Botón ocupa todo el ancho en móvil */
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 20px 16px;
+    margin: 0 10px;
+  }
+
+  .profile-title {
+    font-size: 1.8rem;
+  }
+
+  .profile-subtitle {
+    font-size: 0.9rem;
+  }
+
+  input.form-control {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .profile-button {
     padding: 12px;
     font-size: 1rem;
   }

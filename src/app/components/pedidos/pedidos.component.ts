@@ -6,9 +6,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Pedido } from '../../model/pedido.model';
 import { PedidosService } from '../../services/pedidos.service';
 import { CarritoService } from '../../services/carrito.service';
-import { NotificationService } from '../../services/notification.service'; // <--- 1. IMPORTAR
-
-// ... (tus interfaces CarritoItem, DetallesPago, CrearPedidoData permanecen igual)
+import { NotificationService } from '../../services/notification.service'; 
 interface CarritoItem {
   id: number;
   producto: {
@@ -62,7 +60,7 @@ export class PedidosComponent implements OnInit {
   constructor(
     private pedidosService: PedidosService,
     private carritoService: CarritoService,
-    private notificationService: NotificationService // <--- 2. INYECTAR
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +75,7 @@ export class PedidosComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener los pedidos:', error.message || error);
-        this.notificationService.showError('Error al cargar el historial de pedidos.'); // <--- USAR NOTIFICACIÓN
+        this.notificationService.showError('Error al cargar el historial de pedidos.');
       }
     });
   }
@@ -92,7 +90,7 @@ export class PedidosComponent implements OnInit {
         console.error('Error al obtener el carrito:', error.message || error);
         this.carrito = [];
         this.actualizarTotalCarrito();
-        this.notificationService.showError('Error al cargar el carrito.'); // <--- USAR NOTIFICACIÓN
+        this.notificationService.showError('Error al cargar el carrito.'); 
       }
     });
   }
@@ -103,11 +101,6 @@ export class PedidosComponent implements OnInit {
 
   verDetalles(pedido: Pedido): void {
     this.pedidoSeleccionado = (this.pedidoSeleccionado && this.pedidoSeleccionado.id === pedido.id) ? null : pedido;
-    // No ocultar pedidoReciente aquí, para que el usuario pueda seguir viéndolo si lo desea.
-    // Si quieres que al ver detalles de otro pedido se oculte el "pedidoReciente" de la alerta, entonces:
-    // if (this.pedidoSeleccionado && this.pedidoSeleccionado.id !== this.pedidoReciente?.id) {
-    //   this.pedidoReciente = null;
-    // }
   }
 
   onPaymentMethodChange(): void {
@@ -155,26 +148,24 @@ export class PedidosComponent implements OnInit {
 
     this.pedidosService.realizarPedido(datosParaServicio).subscribe({
       next: (response) => {
-        // Usar el mensaje del backend si está disponible, sino uno genérico
+        
         const successMessage = response.message || '¡Pedido realizado con éxito! 🎉';
-        this.notificationService.showSuccess(successMessage); // <--- USAR NOTIFICACIÓN
+        this.notificationService.showSuccess(successMessage);
         
         this.pedidoReciente = response.pedido; 
-        this.pedidoSeleccionado = null; // Para que no se muestre un detalle de pedido anterior expandido
+        this.pedidoSeleccionado = null; 
         
-        // Limpiar carrito localmente (el backend también debería manejar la lógica del carrito)
+
         this.carrito = [];
         this.actualizarTotalCarrito();
-        // O llamar a this.carritoService.limpiarCarritoTrasPedido().subscribe(...) si es necesario
-
-        // Resetear formulario
+      
         this.metodoPago = '';
         this.direccionEnvio = '';
         this.detallesPago = {};
         
-        this.cargarPedidos(); // Recargar historial para mostrar el nuevo pedido
+        this.cargarPedidos();
 
-        // Scroll suave a la sección del pedido reciente (opcional)
+       
         setTimeout(() => {
           const recentOrderSection = document.querySelector('.alert-success');
           recentOrderSection?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -183,7 +174,7 @@ export class PedidosComponent implements OnInit {
       error: (error) => {
         console.error('Error al realizar el pedido ❌', error);
         const errorMessage = error.message || 'Error al procesar el pedido. Por favor, inténtalo de nuevo.';
-        this.notificationService.showError(errorMessage); // <--- USAR NOTIFICACIÓN
+        this.notificationService.showError(errorMessage); 
       }
     });
   }

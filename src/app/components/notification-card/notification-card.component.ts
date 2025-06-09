@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <--- ¡IMPORTANTE! AÑADIR ESTO
+import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { NotificationService, NotificationMessage } from '../../services/notification.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -8,9 +8,9 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   selector: 'app-notification-card',
   templateUrl: './notification-card.component.html',
   styleUrls: ['./notification-card.component.css'],
-  standalone: true, // Asegúrate de que esto esté aquí
+  standalone: true,
   imports: [
-    CommonModule // <--- ¡IMPORTANTE! AÑADIR CommonModule AQUÍ
+    CommonModule
   ],
   animations: [
     trigger('fadeInOut', [

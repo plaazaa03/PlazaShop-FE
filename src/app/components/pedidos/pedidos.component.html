@@ -1,19 +1,16 @@
 <div class="pedidos-page-container">
-
-  
-
   <div class="pedidos-layout">
     <div class="pedidos-main-column">
       <header class="pedidos-header">
-    <h1 class="page-title">Finaliza tu Compra</h1>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="/carrito">Carrito</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Productos</li>
-        </ol>
-      </nav>
-  </header>
+        <h1 class="page-title">Finaliza tu Compra</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="/carrito">Carrito</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Productos</li>
+          </ol>
+        </nav>
+      </header>
       <section class="checkout-card">
         <div class="checkout-card-header">
           <h2><i class="bi bi-cart3"></i> Resumen del Carrito</h2>
@@ -25,7 +22,8 @@
           </li>
           <li *ngFor="let item of carrito" class="checkout-list-item">
             <div class="item-info">
-              <img [src]="'http://127.0.0.1:8000/img/' + item.producto.imagen" alt="Foto de {{ item.producto.nombre }}" class="item-thumbnail" />
+              <img [src]="'http://127.0.0.1:8000/img/' + item.producto.imagen" alt="Foto de {{ item.producto.nombre }}"
+                class="item-thumbnail" />
               <div class="item-details">
                 <h6 class="item-name">{{ item.producto.nombre }}</h6>
                 <small class="item-meta">Cantidad: {{ item.cantidad }}</small>
@@ -42,7 +40,6 @@
         </div>
       </section>
 
-      <!-- Formulario de Pedido -->
       <section class="checkout-card">
         <div class="checkout-card-header">
           <h2><i class="bi bi-truck"></i> Información de Envío y Pago</h2>
@@ -50,13 +47,16 @@
         <div class="checkout-card-body">
           <form (ngSubmit)="realizarPedido()" #pedidoForm="ngForm" class="checkout-form">
             <div class="form-group">
-              <label for="direccionEnvio" class="form-label">Dirección de Envío <span class="required-asterisk">*</span></label>
-              <input type="text" id="direccionEnvio" name="direccionEnvio" [(ngModel)]="direccionEnvio" required placeholder="Ej: Calle Principal 123, Ciudad">
+              <label for="direccionEnvio" class="form-label">Dirección de Envío <span
+                  class="required-asterisk">*</span></label>
+              <input type="text" id="direccionEnvio" name="direccionEnvio" [(ngModel)]="direccionEnvio" required
+                placeholder="Ej: Calle Principal 123, Ciudad">
             </div>
 
             <div class="form-group">
               <label for="metodoPago" class="form-label">Método de Pago <span class="required-asterisk">*</span></label>
-              <select id="metodoPago" name="metodoPago" [(ngModel)]="metodoPago" (ngModelChange)="onPaymentMethodChange()" required>
+              <select id="metodoPago" name="metodoPago" [(ngModel)]="metodoPago"
+                (ngModelChange)="onPaymentMethodChange()" required>
                 <option value="" disabled selected>Selecciona un método...</option>
                 <option value="tarjeta">Tarjeta de Crédito/Débito</option>
                 <option value="paypal">PayPal</option>
@@ -64,17 +64,18 @@
               </select>
             </div>
 
-            <!-- Campos dinámicos para Tarjeta -->
             <div *ngIf="metodoPago === 'tarjeta'" class="payment-details-section fadeIn-animation">
               <h6 class="payment-details-title">Detalles de la Tarjeta</h6>
               <div class="form-group">
                 <label for="numeroTarjeta" class="form-label-small">Número de Tarjeta</label>
-                <input type="text" id="numeroTarjeta" name="numeroTarjeta" [(ngModel)]="detallesPago.numeroTarjeta" required placeholder="0000 0000 0000 0000">
+                <input type="text" id="numeroTarjeta" name="numeroTarjeta" [(ngModel)]="detallesPago.numeroTarjeta"
+                  required placeholder="0000 0000 0000 0000">
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label for="fechaCaducidad" class="form-label-small">Fecha Cad. (MM/AA)</label>
-                  <input type="text" id="fechaCaducidad" name="fechaCaducidad" [(ngModel)]="detallesPago.fechaCaducidad" required placeholder="MM/AA">
+                  <input type="text" id="fechaCaducidad" name="fechaCaducidad" [(ngModel)]="detallesPago.fechaCaducidad"
+                    required placeholder="MM/AA">
                 </div>
                 <div class="form-group">
                   <label for="cvv" class="form-label-small">CVV</label>
@@ -83,12 +84,12 @@
               </div>
             </div>
 
-            <!-- Campos dinámicos para PayPal -->
             <div *ngIf="metodoPago === 'paypal'" class="payment-details-section fadeIn-animation">
               <h6 class="payment-details-title">Detalles de PayPal</h6>
               <div class="form-group">
                 <label for="emailPaypal" class="form-label-small">Correo electrónico de PayPal</label>
-                <input type="email" id="emailPaypal" name="emailPaypal" [(ngModel)]="detallesPago.emailPaypal" required placeholder="tuemail@example.com">
+                <input type="email" id="emailPaypal" name="emailPaypal" [(ngModel)]="detallesPago.emailPaypal" required
+                  placeholder="tuemail@example.com">
                 <small class="form-help-text">Serás redirigido a PayPal para completar el pago.</small>
               </div>
             </div>
@@ -103,8 +104,10 @@
                 <small>Tu pedido se procesará una vez confirmada la recepción del pago.</small>
               </div>
             </div>
-            
-            <button type="submit" [disabled]="!pedidoForm.form.valid || !isPaymentDetailsFilled() || carrito.length === 0" class="btn-submit">
+
+            <button type="submit"
+              [disabled]="!pedidoForm.form.valid || !isPaymentDetailsFilled() || carrito.length === 0"
+              class="btn-submit">
               <i class="bi bi-lock-fill"></i>
               Finalizar Pedido y Pagar
             </button>
@@ -120,7 +123,8 @@
           <h4 class="alert-title">¡Pedido Realizado con Éxito!</h4>
           <p>ID de pedido: <strong>{{ pedidoReciente.id }}</strong></p>
           <p>Total: <strong>{{ pedidoReciente.total | currency:'EUR' }}</strong></p>
-          <p>Estado: <span class="status-badge" [ngClass]="getBadgeClassForCss(pedidoReciente.estado)">{{ pedidoReciente.estado | titlecase }}</span></p>
+          <p>Estado: <span class="status-badge" [ngClass]="getBadgeClassForCss(pedidoReciente.estado)">{{
+              pedidoReciente.estado | titlecase }}</span></p>
           <hr *ngIf="pedidoReciente.productos && pedidoReciente.productos.length > 0">
           <ul *ngIf="pedidoReciente.productos && pedidoReciente.productos.length > 0" class="recent-order-products">
             <li *ngFor="let producto of pedidoReciente.productos" class="recent-order-product-item">
@@ -135,7 +139,8 @@
           <h2><i class="bi bi-receipt-cutoff"></i> Historial de Pedidos</h2>
         </div>
         <div *ngIf="pedidos && pedidos.length > 0; else noPedidosHistorial" class="order-history-list">
-          <a *ngFor="let pedido of pedidos" (click)="verDetalles(pedido); $event.preventDefault()" href="#" class="order-history-item">
+          <a *ngFor="let pedido of pedidos" (click)="verDetalles(pedido); $event.preventDefault()" href="#"
+            class="order-history-item">
             <div class="order-summary">
               <h6 class="order-id">Pedido #{{ pedido.id }}</h6>
               <small class="order-date">{{ pedido.created_at | date:'shortDate' }}</small>
@@ -144,27 +149,30 @@
               <p class="order-date-full">{{ pedido.created_at | date:'mediumDate' }}</p>
               <p class="order-total">{{ pedido.total | currency:'EUR' }}</p>
             </div>
-             <div class="order-status-container">
-                <span class="status-badge" [ngClass]="getBadgeClassForCss(pedido.estado)">
-                  {{ pedido.estado | titlecase }}
-                </span>
+            <div class="order-status-container">
+              <span class="status-badge" [ngClass]="getBadgeClassForCss(pedido.estado)">
+                {{ pedido.estado | titlecase }}
+              </span>
             </div>
 
-            <div *ngIf="pedidoSeleccionado && pedidoSeleccionado.id === pedido.id" 
-                 [@collapseAnimation]="!!(pedidoSeleccionado && pedidoSeleccionado.id === pedido.id)" 
-                 class="order-details-expanded">
+            <div *ngIf="pedidoSeleccionado && pedidoSeleccionado.id === pedido.id"
+              [@collapseAnimation]="!!(pedidoSeleccionado && pedidoSeleccionado.id === pedido.id)"
+              class="order-details-expanded">
               <h6>Detalles del Pedido:</h6>
               <ul class="expanded-product-list">
                 <li *ngFor="let producto of pedidoSeleccionado.productos" class="expanded-product-item">
                   <div class="item-info">
-                     <img [src]="'http://127.0.0.1:8000/img/' + producto.imagen" alt="{{ producto.nombre }}" class="item-thumbnail-tiny" />
+                    <img [src]="'http://127.0.0.1:8000/img/' + producto.imagen" alt="{{ producto.nombre }}"
+                      class="item-thumbnail-tiny" />
                     <span class="item-name-truncated">{{ producto.nombre }} (x{{ producto.pivot.cantidad }})</span>
                   </div>
-                  <span class="item-price-details">{{ producto.pivot.precio_unitario * producto.pivot.cantidad | currency:'EUR' }}</span>
+                  <span class="item-price-details">{{ producto.pivot.precio_unitario * producto.pivot.cantidad |
+                    currency:'EUR' }}</span>
                 </li>
               </ul>
-               <p><strong>Dirección:</strong> {{ pedidoSeleccionado.direccion_envio || 'No especificada' }}</p>
-               <p><strong>Pago:</strong> {{ pedidoSeleccionado.metodo_pago ? (pedidoSeleccionado.metodo_pago | titlecase) : 'No especificado' }}</p>
+              <p><strong>Dirección:</strong> {{ pedidoSeleccionado.direccion_envio || 'No especificada' }}</p>
+              <p><strong>Pago:</strong> {{ pedidoSeleccionado.metodo_pago ? (pedidoSeleccionado.metodo_pago | titlecase)
+                : 'No especificado' }}</p>
             </div>
           </a>
         </div>

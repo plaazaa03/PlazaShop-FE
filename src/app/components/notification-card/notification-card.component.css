@@ -1,7 +1,7 @@
 .notification-card {
   position: fixed;
-  top: 20px; /* Ajusta según prefieras */
-  right: 20px; /* Ajusta según prefieras */
+  top: 20px;
+  right: 20px;
   min-width: 250px;
   max-width: 400px;
   padding: 15px 20px;
@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1050; /* Asegura que esté por encima de otros elementos */
+  z-index: 1050; 
   color: #fff;
   font-family: 'Roboto', 'Arial', sans-serif;
   font-size: 0.95rem;
@@ -24,7 +24,7 @@
 .notification-close {
   background: none;
   border: none;
-  color: inherit; /* Hereda el color del texto del contenedor */
+  color: inherit;
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -37,28 +37,27 @@
   opacity: 1;
 }
 
-/* Colores específicos para cada tipo de notificación */
 .notification-success {
-  background-color: #28a745; /* Verde */
+  background-color: #28a745;
   border-left: 5px solid #1e7e34;
 }
 
 .notification-error {
-  background-color: #d32f2f; /* Tu rojo principal */
+  background-color: #d32f2f;
   border-left: 5px solid #b71c1c;
 }
 
 .notification-info {
-  background-color: #17a2b8; /* Azul info */
+  background-color: #17a2b8;
   border-left: 5px solid #117a8b;
 }
 
 .notification-warning {
-  background-color: #ffc107; /* Amarillo warning */
-  color: #333; /* Texto oscuro para mejor contraste con amarillo */
+  background-color: #ffc107;
+  color: #333;
   border-left: 5px solid #d39e00;
 }
-/* Ajuste para el botón de cierre en warning para que sea visible */
+
 .notification-warning .notification-close {
   color: #333; 
 }

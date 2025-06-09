@@ -7,12 +7,6 @@ import { Producto } from '../../model/producto.model';
 import { CarritoUpdaterService } from '../../services/CarritoUpdater.service';
 import { NotificationService } from '../../services/notification.service';
 
-// Interfaz para los filtros disponibles (si las tuvieras, ahora no se usan)
-// interface FiltroOpcion {
-//   id: any;
-//   nombre: string;
-//   seleccionado?: boolean;
-// }
 
 @Component({
   selector: 'app-productos',
@@ -22,29 +16,18 @@ import { NotificationService } from '../../services/notification.service';
   imports: [CommonModule, FormsModule]
 })
 export class ProductosComponent implements OnInit {
-  // Almacenamiento de productos
   todosLosProductos: Producto[] = [];
   productosFiltrados: Producto[] = [];
   productosPaginados: Producto[] = [];
-
-  // Estado de carga y autenticación
   isAuthenticated = !!localStorage.getItem('token');
   isLoading: boolean = true;
 
-  // Filtros (solo precio por ahora, ya que no hay categoría/marca en el modelo)
-  // listaCategorias: FiltroOpcion[] = []; // No se usa
-  // listaMarcas: FiltroOpcion[] = [];   // No se usa
   filtrosAplicados = {
-    // categorias: [] as any[], // No se usa
-    // marcas: [] as any[],     // No se usa
     precioMin: null as number | null,
     precioMax: null as number | null
   };
 
-  // Ordenación
   opcionOrden: string = 'relevancia';
-
-  // Paginación
   paginaActual: number = 1;
   itemsPorPagina: number = 12;
   totalProductosFiltrados: number = 0;
@@ -68,15 +51,10 @@ export class ProductosComponent implements OnInit {
     this.productoService.obtenerProductos().subscribe({
       next: (data: Producto[]) => {
         this.todosLosProductos = data.map(p => {
-          // La propiedad cantidadSeleccionada ya está en tu modelo Producto
-          // así que no es necesario el (p as any) si la defines en el modelo.
-          // Si la añades aquí, está bien, pero asegúrate que no cause conflicto.
-          // Si tu backend NO envía 'cantidadSeleccionada', entonces esto es correcto:
           (p as any).cantidadSeleccionada = 1;
           return p;
         });
 
-        // this.extraerFiltrosDisponibles(); // No se necesita si no hay categoría/marca
         this.aplicarLogicaVista();
         this.isLoading = false;
       },
@@ -88,43 +66,31 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  // extraerFiltrosDisponibles(): void { // No se necesita si no hay categoría/marca en el modelo
-  //   // Lógica para extraer categorías y marcas iría aquí si existieran
-  //   // this.listaCategorias = ...
-  //   // this.listaMarcas = ...
-  // }
 
-  // --- Lógica de Filtros ---
-  // No hay onCategoriaChange ni onMarcaChange si no hay esos filtros
-
-  aplicarTodosLosFiltros(): void { // Este método se usará para el botón y los inputs de precio
+  aplicarTodosLosFiltros(): void { 
     this.paginaActual = 1;
     this.aplicarLogicaVista();
   }
 
   limpiarFiltros(): void {
     this.filtrosAplicados = {
-      // categorias: [], // No se usa
-      // marcas: [],     // No se usa
       precioMin: null,
       precioMax: null
     };
-    // this.listaCategorias.forEach(c => c.seleccionado = false); // No se usa
-    // this.listaMarcas.forEach(m => m.seleccionado = false);   // No se usa
-
+   
     this.opcionOrden = 'relevancia';
     this.paginaActual = 1;
     this.aplicarLogicaVista();
   }
 
 
-  // --- Lógica de Ordenación ---
+  
   ordenarProductos(): void {
     this.paginaActual = 1;
     this.aplicarLogicaVista();
   }
 
-  // --- Lógica de Paginación ---
+
   cambiarPagina(nuevaPagina: number): void {
     if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas && nuevaPagina !== this.paginaActual) {
       this.paginaActual = nuevaPagina;
@@ -153,38 +119,24 @@ export class ProductosComponent implements OnInit {
             finRango = this.totalPaginas - 1;
         }
 
-        if (inicioRango > 2) this.arrayPaginas.push(-1); // Ellipsis
+        if (inicioRango > 2) this.arrayPaginas.push(-1);
 
         for (let i = inicioRango; i <= finRango; i++) {
             if(i > 0 && i < this.totalPaginas) this.arrayPaginas.push(i);
         }
 
-        if (finRango < this.totalPaginas - 1) this.arrayPaginas.push(-1); // Ellipsis
-        if(this.totalPaginas > 1) this.arrayPaginas.push(this.totalPaginas); // Asegurar que no se duplique si solo hay una página
+        if (finRango < this.totalPaginas - 1) this.arrayPaginas.push(-1); 
+        if(this.totalPaginas > 1) this.arrayPaginas.push(this.totalPaginas); 
     }
-     // Eliminar duplicados en caso de que 1 o totalPaginas ya estén en el rango.
     this.arrayPaginas = [...new Set(this.arrayPaginas)];
   }
 
-
-  // --- Lógica Central para Actualizar la Vista ---
   private aplicarLogicaVista(reFiltrarYOrdenar: boolean = true): void {
     this.isLoading = true;
 
     let productosResultado = [...this.todosLosProductos];
 
     if (reFiltrarYOrdenar) {
-      // 1. Filtrar
-      // if (this.filtrosAplicados.categorias.length > 0) { // No se usa
-      //   productosResultado = productosResultado.filter(p =>
-      //     (p as any).categoria && this.filtrosAplicados.categorias.includes((p as any).categoria)
-      //   );
-      // }
-      // if (this.filtrosAplicados.marcas.length > 0) { // No se usa
-      //   productosResultado = productosResultado.filter(p =>
-      //     (p as any).marca && this.filtrosAplicados.marcas.includes((p as any).marca)
-      //   );
-      // }
       if (this.filtrosAplicados.precioMin !== null && this.filtrosAplicados.precioMin >= 0) {
         productosResultado = productosResultado.filter(p => p.precio >= this.filtrosAplicados.precioMin!);
       }
@@ -193,7 +145,6 @@ export class ProductosComponent implements OnInit {
       }
       this.productosFiltrados = [...productosResultado];
 
-      // 2. Ordenar
       switch (this.opcionOrden) {
         case 'precio_asc':
           this.productosFiltrados.sort((a, b) => a.precio - b.precio);
@@ -212,12 +163,11 @@ export class ProductosComponent implements OnInit {
           break;
         case 'relevancia':
         default:
-           this.productosFiltrados.sort((a,b) => (a.id || 0) - (b.id || 0)); // O como prefieras la relevancia
+           this.productosFiltrados.sort((a,b) => (a.id || 0) - (b.id || 0)); 
           break;
       }
     }
 
-    // 3. Paginar
     this.totalProductosFiltrados = this.productosFiltrados.length;
     this.totalPaginas = Math.ceil(this.totalProductosFiltrados / this.itemsPorPagina);
 
@@ -235,10 +185,8 @@ export class ProductosComponent implements OnInit {
     this.isLoading = false;
   }
 
-  // --- Lógica del Carrito (ya la tenías, con pequeñas mejoras) ---
+  
   agregarAlCarrito(producto: Producto): void {
-    // Asegurarse que cantidadSeleccionada es un número.
-    // Tu modelo ya lo tiene como number, pero el input puede dar string.
     const cantidadSeleccionada = Number(producto.cantidadSeleccionada);
 
 

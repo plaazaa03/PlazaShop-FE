@@ -1,6 +1,3 @@
-
-
-<!-- Encabezado de Página Reutilizable -->
 <header class="page-section-header">
   <h1 class="page-title">Gestionar Perfil</h1>
   <nav aria-label="breadcrumb">
@@ -10,16 +7,12 @@
     </ol>
   </nav>
 </header>
-<!-- Fin Encabezado de Página -->
-
-<!-- Alertas Globales (fuera de la tarjeta de perfil) -->
 <div *ngIf="successMessage" class="global-alert alert-success" role="alert">
   {{ successMessage }}
 </div>
 <div *ngIf="errorMessage" class="global-alert alert-danger" role="alert">
   {{ errorMessage }}
 </div>
-<!-- Tarjeta de Perfil -->
 <div class="profile-card" *ngIf="!isLoading; else loadingState">
   <div class="profile-header">
     <h2 class="profile-title">Mi Perfil</h2>
@@ -65,7 +58,6 @@
         <label for="password" class="form-label">Nueva Contraseña</label>
         <input type="password" id="password" formControlName="password" class="form-control" placeholder="••••••••">
         <small class="password-help-text">Mínimo 8 caracteres. Dejar en blanco si no deseas cambiarla.</small>
-        <!-- Mensaje de error para la longitud de la contraseña -->
         <div *ngIf="profileForm.get('password')?.dirty && profileForm.get('password')?.errors?.['minlength']" class="text-danger">
           La contraseña debe tener al menos 8 caracteres.
         </div>
@@ -89,7 +81,6 @@
   </form>
 </div>
 
-<!-- Estado de Carga -->
 <ng-template #loadingState>
   <div class="loading-indicator">
     <div class="spinner"></div>

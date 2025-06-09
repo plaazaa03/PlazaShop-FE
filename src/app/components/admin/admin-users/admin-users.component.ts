@@ -15,7 +15,7 @@ import { Router, RouterModule } from '@angular/router';
     TitleCasePipe
   ],
   templateUrl: './admin-users.component.html',
-  styleUrls: ['./admin-users.component.css'] // Tu CSS ya está proporcionado
+  styleUrls: ['./admin-users.component.css'] 
 })
 export class AdminUsersComponent implements OnInit {
   users: User[] = [];
@@ -44,11 +44,10 @@ export class AdminUsersComponent implements OnInit {
     this.userEditForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      telefono: [''], // Puedes añadir Validators.pattern si tienes un formato específico
+      telefono: [''], 
       direccion: [''],
       rol: ['cliente', Validators.required],
-      password: ['', [Validators.minLength(6)]] // Opcional, validador si se ingresa algo
-      // Considera añadir un campo confirmPassword si quieres esa validación
+      password: ['', [Validators.minLength(6)]] 
     });
   }
 
@@ -80,17 +79,16 @@ export class AdminUsersComponent implements OnInit {
     this.userEditForm.patchValue({
       name: this.editingUser.name,
       email: this.editingUser.email,
-      telefono: this.editingUser.telefono || '', // Valor por defecto si es undefined
-      direccion: this.editingUser.direccion || '', // Valor por defecto si es undefined
+      telefono: this.editingUser.telefono || '', 
+      direccion: this.editingUser.direccion || '',
       rol: this.editingUser.rol,
-      password: '' // Siempre limpiar el campo de contraseña al iniciar edición
+      password: ''
     });
   }
 
   cancelEdit(): void {
     this.isEditing = false;
     this.editingUser = null;
-    // Resetear el formulario con valores por defecto si es necesario
     this.userEditForm.reset({
       name: '',
       email: '',
@@ -127,7 +125,6 @@ export class AdminUsersComponent implements OnInit {
       rol: formValues.rol
     };
 
-    // Solo incluir la contraseña si el campo no está vacío
     if (formValues.password && formValues.password.trim() !== '') {
       updatedUserData.password = formValues.password;
     }
@@ -169,7 +166,6 @@ export class AdminUsersComponent implements OnInit {
     }
   }
 
-  // Helpers para acceder a los form controls en el template
   get editName() { return this.userEditForm.get('name'); }
   get editEmail() { return this.userEditForm.get('email'); }
   get editTelefono() { return this.userEditForm.get('telefono'); }

@@ -1,4 +1,3 @@
-/* Variables de color */
 :root {
   --primary: #ff6b00;
   --primary-hover: #e05e00;
@@ -15,7 +14,6 @@
   --danger: #f44336;
 }
 
-/* Reset y estilos base */
 html, body {
   margin: 0;
   padding: 0;
@@ -31,11 +29,9 @@ html, body {
 body {
   background-color: #f7f7f7;
   color: var(--text);
-  /* AJUSTA ESTE VALOR A LA ALTURA REAL DE TU HEADER */
-  padding-top: 130px; /* EJEMPLO - Mide la altura de tu .header */
+  padding-top: 130px;
 }
 
-/* Header principal */
 .header {
   background-color: var(--white);
   color: var(--text);
@@ -56,9 +52,8 @@ body {
   width: 100%;
 }
 
-/* Barra superior */
 .top-bar {
-  background-color:white;
+  background-color: white;
   padding: 8px 0;
   font-size: 0.85rem;
   border-bottom: 1px solid var(--gray);
@@ -93,7 +88,6 @@ body {
   font-size: 1rem;
 }
 
-/* Header principal (contenido) */
 .main-header {
   padding: 15px 0;
   background-color: white;
@@ -135,7 +129,6 @@ body {
   object-fit: contain;
 }
 
-
 .search-bar {
   flex: 1;
   max-width: 700px;
@@ -173,7 +166,6 @@ body {
 .search-btn:hover {
   background-color: var(--primary-hover);
 }
-
 
 .header-actions {
   display: flex;
@@ -240,7 +232,6 @@ body {
   justify-content: center;
 }
 
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -289,7 +280,6 @@ body {
   color: var(--primary);
 }
 
-
 .main-nav {
   background-color: var(--white);
   border-top: 1px solid var(--gray);
@@ -300,7 +290,6 @@ body {
   display: flex;
   list-style: none;
   gap: 5px;
-
 }
 
 .main-nav li {
@@ -331,7 +320,6 @@ body {
   color: var(--primary);
 }
 
-
 .dropdown:hover .mega-menu {
   display: block;
 }
@@ -348,7 +336,6 @@ body {
   padding: 20px;
   border-radius: 0 0 4px 4px;
 }
-
 
 @media (max-width: 1200px) {
   .main-header .container {

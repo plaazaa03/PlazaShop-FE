@@ -62,7 +62,7 @@
       <section class="contenido-principal-productos">
         <div class="controles-vista">
           <div class="info-resultados">
-            <!-- CAMBIO AQUÍ: usar totalProductosFiltrados -->
+            
             Mostrando {{ totalProductosFiltrados || 0 }} de {{ todosLosProductos.length || 0 }} productos
           </div>
           <div class="ordenar-por">
@@ -79,7 +79,7 @@
         </div>
 
         <div class="productos">
-          <!-- Añadido *ngIf="!isLoading" para evitar mostrar antes de cargar -->
+          
           <div class="producto-grid" *ngIf="!isLoading && productosPaginados && productosPaginados.length > 0; else noProductosEncontrados">
             <div class="producto-card" *ngFor="let p of productosPaginados">
               <img [src]="p.imagen" alt="{{ p.nombre }}" class="producto-img" />
@@ -103,13 +103,12 @@
             </div>
           </div>
           <ng-template #noProductosEncontrados>
-            <div *ngIf="!isLoading" class="no-productos-mensaje"> <!-- Añadido *ngIf="!isLoading" -->
+            <div *ngIf="!isLoading" class="no-productos-mensaje"> 
               <p>😔 No se encontraron productos que coincidan con tus filtros.</p>
               <p>Intenta ajustar tu búsqueda o <a href="#" (click)="limpiarFiltros(); $event.preventDefault()">limpiar los filtros</a>.</p>
             </div>
-             <div *ngIf="isLoading" class="loading-mensaje"> <!-- Mensaje de carga -->
+             <div *ngIf="isLoading" class="loading-mensaje">
                 <p>Cargando productos...</p>
-                <!-- Aquí podrías poner un spinner CSS -->
             </div>
           </ng-template>
         </div>

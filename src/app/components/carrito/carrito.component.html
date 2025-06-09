@@ -1,5 +1,4 @@
 <div class="carrito-page-wrapper">
-  <!-- Mostrar el carrito solo si el usuario está autenticado -->
   <div *ngIf="isAuthenticated; else noSesion">
     <div *ngIf="carrito.length > 0; else vacio" class="carrito-content-wrapper">
       <h1 class="carrito-page-title">Carrito de Compras</h1>
@@ -80,7 +79,7 @@
       </div>
     </div>
 
-    <!-- Carrito vacío -->
+
     <ng-template #vacio>
       <h1 class="carrito-page-title" style="margin-top: 50px;">Carrito de Compras</h1>
       <nav aria-label="breadcrumb">
@@ -100,7 +99,7 @@
     </ng-template>
   </div>
 
-  <!-- Si el usuario NO está autenticado -->
+
   <ng-template #noSesion>
     <div class="carrito-mensaje-alternativo">
       <i class="bi bi-person-lock icono-grande"></i>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';  // Asegúrate de importar CommonModule
-import { FormsModule } from '@angular/forms';  // Importa FormsModule para usar ngModel
+import { CommonModule } from '@angular/common';  
+import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { RouterModule } from '@angular/router';
@@ -11,8 +11,8 @@ import { RouterModule } from '@angular/router';
     RegisterComponent,
   ],
   imports: [
-    CommonModule,  // Necesario para usar *ngIf, *ngFor
-    FormsModule,   // Necesario para usar ngModel
+    CommonModule,  
+    FormsModule,   
     RouterModule,
   ],
 })

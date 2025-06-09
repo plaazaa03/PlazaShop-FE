@@ -7,13 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { CarritoUpdaterService } from '../../services/CarritoUpdater.service';
 import { NotificationService } from '../../services/notification.service';
 
-// 1. DEFINIR LA INTERFAZ CarritoItem (o importarla si ya existe)
-// Basado en tu propiedad `carrito` existente:
 interface CarritoItem {
   id: number;
   producto_id: number;
   cantidad: number;
-  producto: Producto; // Asegúrate que Producto tenga 'precio' y 'nombre'
+  producto: Producto;
 }
 
 @Component({
@@ -24,7 +22,6 @@ interface CarritoItem {
   imports: [CommonModule, FormsModule]
 })
 export class CarritoComponent implements OnInit {
-  // Usa la interfaz CarritoItem para tipar tu array de carrito
   carrito: CarritoItem[] = [];
   total: number = 0;
   isAuthenticated: boolean = false;
@@ -33,20 +30,17 @@ export class CarritoComponent implements OnInit {
     private carritoService: CarritoService,
     private carritoUpdaterService: CarritoUpdaterService,
     private router: Router,
-    private notificationService: NotificationService // <--- 2. INYECTAR NotificationService
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     this.isAuthenticated = !!token;
-    // console.log('this.isAuthenticated:', this.isAuthenticated);
-    // console.log('token:', token);
 
     if (this.isAuthenticated) {
       this.carritoService.obtenerCarrito().subscribe({
-        next: (data: CarritoItem[]) => { // Usar CarritoItem aquí también
+        next: (data: CarritoItem[]) => {
           this.carrito = data;
-          // console.log("Datos del carrito recibidos: ", data);
           this.actualizarTotal();
         },
         error: (err) => {
@@ -60,23 +54,18 @@ export class CarritoComponent implements OnInit {
       this.total = 0;
     }
 
-    this.carritoUpdaterService.getCarritoObservable().subscribe((nuevoCarrito: CarritoItem[]) => { // Usar CarritoItem
-      // console.log('Carrito actualizado desde observable:', nuevoCarrito);
+    this.carritoUpdaterService.getCarritoObservable().subscribe((nuevoCarrito: CarritoItem[]) => {
       this.carrito = nuevoCarrito;
       this.actualizarTotal();
     });
   }
 
   eliminar(id: number) {
-    // console.log('Eliminando producto con ID:', id);
     this.carritoService.eliminarDelCarrito(id).subscribe({
       next: () => {
         this.notificationService.showSuccess('Producto eliminado del carrito.');
-        // Actualizar el carrito localmente o volver a cargarlo
         this.carrito = this.carrito.filter(item => item.id !== id);
         this.actualizarTotal();
-        // Opcionalmente, notificar al CarritoUpdaterService si otros componentes lo necesitan
-        // this.carritoUpdaterService.actualizarCarrito(this.carrito);
       },
       error: (err) => {
         console.error('Error al eliminar del carrito:', err);
@@ -87,17 +76,12 @@ export class CarritoComponent implements OnInit {
 
   actualizarTotal() {
     this.total = this.carrito.reduce((acc, item) => {
-      // 1. Obtener el precio y la cantidad, asegurándonos de que sean números.
-      const precioProducto = parseFloat(String(item.producto.precio)); // Convertir a string y luego a float
-      const cantidadItem = parseInt(String(item.cantidad), 10);      // Convertir a string y luego a int
-
-      // console.log(`Item: ${item.producto.nombre}, PrecioParseado: ${precioProducto}, CantidadParseada: ${cantidadItem}`); // Para depuración
-
-      // 2. Verificar si la conversión fue exitosa y son números válidos.
+      const precioProducto = parseFloat(String(item.producto.precio));
+      const cantidadItem = parseInt(String(item.cantidad), 10);
       if (item && item.producto && !isNaN(precioProducto) && !isNaN(cantidadItem) && cantidadItem > 0) {
         return acc + (precioProducto * cantidadItem);
       }
-      return acc; // Si algo no es válido, no se suma al acumulador.
+      return acc;
     }, 0);
   }
 
@@ -123,7 +107,6 @@ export class CarritoComponent implements OnInit {
       item.cantidad--;
       this.actualizarCantidad(item);
     } else {
-      // Opcional: preguntar si desea eliminar el item si la cantidad llega a 0 o 1
       this.notificationService.showInfo('La cantidad mínima es 1. Para quitar el producto, usa el botón de eliminar.');
     }
   }
@@ -132,29 +115,10 @@ export class CarritoComponent implements OnInit {
     if (!item.cantidad || item.cantidad < 1) {
       item.cantidad = 1;
     }
-
-    // Llamar al servicio para actualizar la cantidad en el backend
-    // Asumiendo que tienes un método como actualizarItemEnCarrito en tu CarritoService
-    // this.carritoService.actualizarItemEnCarrito(item.id, item.cantidad).subscribe({
-    //   next: () => {
-    //     // this.notificationService.showSuccess('Cantidad actualizada.'); // Puede ser muy verboso
-    //     this.actualizarTotal();
-    //     this.carritoUpdaterService.actualizarCarrito(this.carrito); // Notificar cambios
-    //   },
-    //   error: (err) => {
-    //     this.notificationService.showError('Error al actualizar la cantidad.');
-    //     // Podrías revertir la cantidad localmente si falla la actualización en el backend
-    //     // o recargar el carrito para obtener el estado consistente.
-    //     this.cargarCarritoSiAutenticado(); // Ejemplo de recarga
-    //   }
-    // });
-
-    // Por ahora, solo actualizamos el total localmente si no tienes la lógica de backend
     this.actualizarTotal();
-    this.carritoUpdaterService.actualizarCarrito(this.carrito); // Notificar cambios localmente
+    this.carritoUpdaterService.actualizarCarrito(this.carrito);
   }
 
-  // Este método auxiliar es solo un ejemplo si quieres recargar el carrito tras un error
   private cargarCarritoSiAutenticado() {
     if (this.isAuthenticated) {
       this.carritoService.obtenerCarrito().subscribe({
@@ -172,9 +136,6 @@ export class CarritoComponent implements OnInit {
       item.cantidad = 1;
       this.notificationService.showWarning('La cantidad mínima es 1.');
     }
-    // No llamar a actualizarTotal aquí directamente si actualizarCantidad ya lo hace y se llama desde el (ngModelChange)
-    // Pero si el usuario solo teclea y no hay ngModelChange, se necesita.
-    // Es mejor que actualizarCantidad maneje la lógica de persistencia y actualización del total.
-    this.actualizarCantidad(item); // Reutilizar la lógica de actualización
+    this.actualizarCantidad(item);
   }
 }

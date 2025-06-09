@@ -1,14 +1,13 @@
-// Definición para los productos dentro de un pedido (puedes ajustar esto según tu modelo real)
 export interface ProductoEnPedido {
-  id: number; // o string
+  id: number;
   nombre: string;
-  imagen: string; // Para poder usar {{ producto.imagen }}
+  imagen: string;
   pivot: {
     cantidad: number;
-    precio_unitario: number; // Para poder usar {{ producto.pivot.precio_unitario }}
-    // ... otras propiedades de pivot si existen
+    precio_unitario: number; 
+   
   };
-  // ... otras propiedades del producto que necesites mostrar en los detalles del pedido
+  
 }
 
 export class Pedido {
@@ -16,12 +15,11 @@ export class Pedido {
   user_id: number;
   total: number;
   estado: string;
-  created_at: string; // O podrías usar Date y formatearla en la plantilla
-  productos: ProductoEnPedido[]; // Usar la interfaz definida arriba
+  created_at: string;
+  productos: ProductoEnPedido[];
 
-  // Propiedades que faltaban y causaban el error:
-  direccion_envio?: string; // Opcional (con ?), si no siempre está presente
-  metodo_pago?: string;    // Opcional (con ?), si no siempre está presente
+  direccion_envio?: string; 
+  metodo_pago?: string;
 
   constructor(
     id: number,
@@ -30,8 +28,8 @@ export class Pedido {
     estado: string,
     created_at: string,
     productos: ProductoEnPedido[],
-    direccion_envio?: string, // Añadir al constructor
-    metodo_pago?: string      // Añadir al constructor
+    direccion_envio?: string, 
+    metodo_pago?: string
   ) {
     this.id = id;
     this.user_id = user_id;
@@ -39,7 +37,7 @@ export class Pedido {
     this.estado = estado;
     this.created_at = created_at;
     this.productos = productos;
-    this.direccion_envio = direccion_envio; // Asignar en el constructor
-    this.metodo_pago = metodo_pago;       // Asignar en el constructor
+    this.direccion_envio = direccion_envio; 
+    this.metodo_pago = metodo_pago;
   }
 }

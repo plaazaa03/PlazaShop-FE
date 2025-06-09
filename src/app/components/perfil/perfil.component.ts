@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // Añade ReactiveFormsModule
+  imports: [CommonModule, ReactiveFormsModule], 
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
@@ -30,11 +30,10 @@ export class PerfilComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       direccion: [''],
       telefono: [''],
-      // Para cambiar contraseña (opcional)
-      current_password: [''], // Si quieres verificar la contraseña actual antes de cambiarla (requiere lógica en backend)
+      current_password: [''], 
       password: [''],
       password_confirmation: ['']
-    }, { validators: this.passwordMatchValidator }); // Validador personalizado para contraseñas
+    }, { validators: this.passwordMatchValidator });
 
     this.loadUserProfile();
   }
@@ -42,7 +41,6 @@ export class PerfilComponent implements OnInit {
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('password_confirmation')?.value;
-    // Solo valida si se ha ingresado una nueva contraseña
     if (password || confirmPassword) {
       return password === confirmPassword ? null : { mismatch: true };
     }
@@ -66,7 +64,7 @@ export class PerfilComponent implements OnInit {
         this.errorMessage = 'Error al cargar el perfil: ' + err.message;
         console.error(err);
         this.isLoading = false;
-        if (err.status === 401) { // O si el token es inválido
+        if (err.status === 401) { 
             this.router.navigate(['/login']);
         }
       }
@@ -85,12 +83,12 @@ export class PerfilComponent implements OnInit {
 
     const formData = { ...this.profileForm.value };
 
-    // Solo enviar contraseña si se ha ingresado una nueva
+   
     if (!formData.password) {
       delete formData.password;
       delete formData.password_confirmation;
     }
-    // Eliminar current_password si no lo usas en el backend para la actualización
+    
     delete formData.current_password;
 
 
@@ -98,15 +96,13 @@ export class PerfilComponent implements OnInit {
     this.userService.updateUser(this.currentUser.id, formData).subscribe({
       next: (response) => {
         this.successMessage = response.message;
-        this.currentUser = response.user; // Actualiza el usuario local con la respuesta
-        // Limpiar campos de contraseña del formulario si se cambiaron
+        this.currentUser = response.user;
         this.profileForm.patchValue({ password: '', password_confirmation: '' });
         this.isLoading = false;
-        // Opcionalmente, recargar datos o mostrar un mensaje
       },
       error: (err) => {
         this.errorMessage = 'Error al actualizar el perfil: ' + (err.error?.message || err.message);
-        if (err.error && err.error.errors) { // Mostrar errores de validación de Laravel
+        if (err.error && err.error.errors) {
             let validationErrors = '';
             for (const key in err.error.errors) {
                 validationErrors += `${err.error.errors[key].join(', ')}\n`;

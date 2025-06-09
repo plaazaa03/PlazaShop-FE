@@ -13,12 +13,10 @@ import { NotificationService } from '../../services/notification.service';
 export class HeaderComponent {
   constructor(private router: Router, private notificationService: NotificationService) {}
 
-  // Verificar si el usuario está logueado
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token'); 
   }
 
-  // Función para cerrar sesión
   logout(): void {
     this.notificationService.showSuccess('¡Has cerrado sesión exitosamente!',5000);
     localStorage.removeItem('token');

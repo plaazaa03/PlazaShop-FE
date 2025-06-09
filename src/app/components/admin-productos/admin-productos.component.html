@@ -9,7 +9,6 @@
         </nav>
     </header>
 
-    <!-- Formulario agregar producto -->
     <section class="form-section add-product-form modern-card">
         <h3><i class="bi bi-plus-square-dotted"></i> Agregar Nuevo Producto</h3>
         <form (ngSubmit)="agregarProducto()" #addForm="ngForm">
@@ -58,7 +57,6 @@
         <div class="productos-admin-grid">
             <div class="product-card-admin modern-card" *ngFor="let producto of productos"
                 [class.editing]="editandoProducto?.id === producto.id">
-                <!-- VISTA NORMAL DEL PRODUCTO -->
                 <ng-container *ngIf="editandoProducto?.id !== producto.id; else editarProductoTemplate">
                     <div class="product-image-wrapper">
                         <img [src]="producto.imagen | imageUrl" alt="{{ producto.nombre }}" class="product-img-admin" />
@@ -82,20 +80,10 @@
                     </div>
                 </ng-container>
 
-                <!-- PLANTILLA PARA EDITAR PRODUCTO -->
-                <!-- PLANTILLA PARA EDITAR PRODUCTO -->
                 <ng-template #editarProductoTemplate>
-                    <!-- El *ngIf="editandoProducto" aquí ya asegura que editandoProducto no es null,
-                         pero para satisfacer al compilador más estricto o si la lógica fuera más compleja,
-                         podemos ser más explícitos o usar el operador de aserción de no nulo.
-                         En este caso, como *ngIf ya lo cubre, podríamos usar '!' o simplemente
-                         asegurarnos que la configuración del compilador no sea excesivamente paranoica
-                         dentro de un *ngIf. Sin embargo, para ser explícitos y evitar el error: -->
                     <form (ngSubmit)="guardarEdicion()" #editForm="ngForm" class="product-edit-form">
                         <div *ngIf="editandoProducto" class="product-edit-mode">
-                            <!-- Este ngIf es la guarda principal -->
                             <div class="product-image-wrapper">
-                                <!-- Aquí podemos usar '!' porque el *ngIf="editandoProducto" nos da confianza -->
                                 <img [src]="editandoProducto!.imagen | imageUrl" alt="{{ editandoProducto!.nombre }}"
                                     class="product-img-admin" />
                             </div>
@@ -121,8 +109,6 @@
                                         [(ngModel)]="editandoProducto!.descripcion" placeholder="Descripción" rows="3"
                                         required></textarea>
                                 </div>
-                                <!-- Para el *ngIf de la imagen, ya está comprobando implícitamente que editandoProducto existe.
-                                     Para el acceso a editandoProducto.imagen dentro del ngIf, también podemos usar '!' -->
                                 <p class="current-image-info" *ngIf="editandoProducto!.imagen">
                                     <i class="bi bi-card-image"></i> Imagen: {{ editandoProducto!.imagen }} (No editable
                                     aquí)

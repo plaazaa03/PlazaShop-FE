@@ -2,35 +2,32 @@
   <!--<div class="top-bar">
     <div class="container">
       <div class="top-links">
-        <a href="/ofertas">🎯 Ofertas Flash</a>
-        <a href="/envio">🚚 Envío en 24h</a>
-        <a href="/servicio-tecnico">🔧 Servicio Técnico</a>
+        <a href="/ofertas">Ofertas Flash</a>
+        <a href="/envio"> Envío en 24h</a>
+        <a href="/servicio-tecnico"> Servicio Técnico</a>
       </div>
       <div class="user-links">
-        <a href="/ayuda">❓ Ayuda</a>
-        <a href="/tiendas">🏪 Nuestras Tiendas</a>
+        <a href="/ayuda">Ayuda</a>
+        <a href="/tiendas">Nuestras Tiendas</a>
       </div>
     </div>
   </div>-->
 
   <div class="main-header">
     <div class="container">
-      <!-- Logo -->
       <div class="logo">
         <a href="/" class="logo-link">
           <img src="img/logo-sinfondo.png" alt="Logo" class="logo-icon">
         </a>
       </div>
 
-      <!-- Barra de búsqueda -->
+      <!-- Barra de búsqueda 
       <div class="search-bar">
         <input type="text" placeholder="Buscar productos, marcas..." class="search-input">
         <button class="search-btn">🔍</button>
-      </div>
+      </div>-->
 
-      <!-- Acciones del usuario -->
       <div class="header-actions">
-        <!-- Cuenta -->
         <div *ngIf="isLoggedIn(); else loginLink" class="account-dropdown">
           <button class="account-btn">
             <img src="img/usuario-activo.png" alt="Usuario" class="user-icon">
@@ -79,7 +76,6 @@
           </a>
         </ng-template>
 
-        <!-- Carrito -->
         <a href="/carrito" class="cart-btn">
           <img src="img/carrito-de-compras.png" alt="Carrito" class="cart-icon">
           <span class="cart-text">Carrito</span>
@@ -88,8 +84,7 @@
     </div>
   </div>
 
-  <!-- Navegación principal
-  <nav class="main-nav">
+  <!-- <nav class="main-nav">
     <div class="container">
       <ul>
         <li class="dropdown">
